@@ -29,6 +29,7 @@ body {
   overflow-scrolling: touch;
   overflow: hidden;
   background: $global-background;
+  box-sizing: border-box;
 }
 
 .hide {

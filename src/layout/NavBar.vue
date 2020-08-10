@@ -1,5 +1,5 @@
 <template>
-  <div class="child-navbar">
+  <div class="navbar">
     <div class="navbar-left">
       <van-icon name="ellipsis" size="0.4rem" color="#2d3436" />
     </div>
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.child-navbar {
+.navbar {
   width: $container-width;
   height: 1rem;
   border-bottom: $border;

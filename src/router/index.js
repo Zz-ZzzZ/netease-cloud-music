@@ -12,7 +12,7 @@ const routes = [
       {
         path: "/",
         name: "发现",
-        component: () => import("@/pages/discover-page/child/Index")
+        component: () => import("@/pages/discover-page/child/index/Index")
       }
     ]
   }
