@@ -3,6 +3,7 @@
     <IndexSwipe />
     <IndexNavGrid />
     <IndexSongListRecommend />
+    <IndexSongSingleRecommend />
   </div>
 </template>
 
@@ -10,9 +11,15 @@
 import IndexSwipe from "@/pages/discover-page/child/index/IndexSwipe";
 import IndexNavGrid from "@/pages/discover-page/child/index/IndexNavGrid";
 import IndexSongListRecommend from "@/pages/discover-page/child/index/IndexSongListRecommend";
+import IndexSongSingleRecommend from "@/pages/discover-page/child/index/IndexSongSingleRecommend";
 export default {
   name: "Index",
-  components: { IndexSongListRecommend, IndexNavGrid, IndexSwipe }
+  components: {
+    IndexSongSingleRecommend,
+    IndexSongListRecommend,
+    IndexNavGrid,
+    IndexSwipe
+  }
 };
 </script>
 

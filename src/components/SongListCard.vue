@@ -3,18 +3,17 @@
     <div class="card-top">
       <div class="top-title">{{ title }}</div>
       <div class="top-more">
-        <BaseButton>
-          {{ text }}
-        </BaseButton>
+        <slot></slot>
       </div>
     </div>
 
     <div class="card-bottom">
       <div class="bottom-song" v-for="song in songList" :key="song.id">
         <img v-lazy="song.picUrl" class="song-img" />
-        <div class="bottom-name van-multi-ellipsis--l2">{{ song.name }}</div>
-        <div class="bottom-play-count">
-          {{ playCountFormat(song.playCount) }}
+        <div class="song-name van-multi-ellipsis--l2">{{ song.name }}</div>
+        <div class="song-play-count">
+          <BaseIcon icon-class="playCount" class="song-play-icon" />
+          <div>{{ playCountFormat(song.playCount) }}</div>
         </div>
       </div>
     </div>
@@ -24,8 +23,17 @@
 <script>
 import { playCountFormat } from "@/utils/utils";
 export default {
-  props: ["title", "text", "songList"],
-  name: "PlayListCard",
+  props: {
+    title: {
+      type: String,
+      default: ""
+    },
+    songList: {
+      type: Array,
+      default: () => []
+    }
+  },
+  name: "SongListCard",
   methods: {
     playCountFormat(playCount) {
       return playCountFormat(playCount);
@@ -37,16 +45,17 @@ export default {
 <style scoped lang="scss">
 .play-list-card {
   width: 100%;
-  overflow: hidden;
   height: 100%;
-  font-size: 0.23rem;
+  overflow: hidden;
+  margin: 0.3rem 0;
+  font-size: 0.22rem;
 
   .card-top {
     width: 100%;
     @include flex-box(row, space-between, center);
 
     .top-title {
-      font-size: 0.35rem;
+      font-size: 0.32rem;
       font-weight: 700;
       color: $title;
     }
@@ -72,17 +81,24 @@ export default {
         border-radius: $default-radius;
       }
 
-      .bottom-name {
+      .song-name {
         margin-top: 0.1rem;
         color: $title;
+        font-weight: 610;
       }
 
-      .bottom-play-count {
+      .song-play-icon {
+        width: 0.25rem;
+        height: 0.25rem;
+      }
+
+      .song-play-count {
         position: absolute;
         top: 0.05rem;
         right: 0.05rem;
         color: #ffffff;
         font-size: 0.2rem;
+        @include flex-box(row, center, center);
       }
     }
   }

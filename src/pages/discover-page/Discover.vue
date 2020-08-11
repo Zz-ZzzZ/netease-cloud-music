@@ -1,5 +1,7 @@
 <template>
-  <router-view />
+  <div class="discover">
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -8,4 +10,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.discover {
+  width: 100%;
+  height: calc(100% - 1rem);
+  overflow-y: auto;
+}
+</style>

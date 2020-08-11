@@ -1,15 +1,18 @@
 <template>
-  <PlayListCard
-    class="play-list-card"
+  <SongListCard
+    class="index-song-list"
     :song-list="songList"
-    title="歌单推荐"
-    text="查看更多"
-  />
+    title="发现好歌单"
+  >
+    <BaseButton>
+      查看更多
+    </BaseButton>
+  </SongListCard>
 </template>
 
 <script>
 import { getSongList } from "@/api/songList";
-import PlayListCard from "@/components/PlayListCard";
+import SongListCard from "@/components/SongListCard";
 
 export default {
   name: "IndexSongListRecommend",
@@ -18,7 +21,7 @@ export default {
       songList: []
     };
   },
-  components: { PlayListCard },
+  components: { SongListCard },
   async created() {
     let result = await getSongList({ limit: 10 });
     if (result.status === 200) this.songList = result.data.result;
@@ -27,7 +30,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.play-list-card {
+.index-song-list {
   width: 100%;
   height: 3.6rem;
 }
