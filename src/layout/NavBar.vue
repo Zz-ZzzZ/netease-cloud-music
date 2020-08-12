@@ -1,31 +1,34 @@
 <template>
-  <div class="navbar">
-    <div class="navbar-left">
-      <van-icon name="ellipsis" size="0.4rem" color="#2d3436" />
-    </div>
-    <div class="navbar-center">
-      <div
-        v-for="(item, index) in navbarList"
-        :key="item.path"
-        @touchstart="changeTab(index)"
-        :class="checkedIndex === index ? 'checked' : ''"
-        class="center-tabs"
-      >
-        {{ item.name }}
+  <div>
+    <div class="navbar" v-if="$route.meta.showBackBar === false">
+      <div class="navbar-left">
+        <van-icon name="ellipsis" size="0.4rem" color="#2d3436" />
+      </div>
+      <div class="navbar-center">
+        <div
+          v-for="(item, index) in navbarList"
+          :key="item.path"
+          @touchstart="changeTab(index)"
+          :class="checkedIndex === index ? 'checked' : ''"
+          class="center-tabs"
+        >
+          {{ item.name }}
+        </div>
+      </div>
+      <div class="navbar-right">
+        <van-icon name="search" size="0.4rem" color="#2d3436" />
       </div>
     </div>
-    <div class="navbar-right">
-      <van-icon name="search" size="0.4rem" color="#2d3436" />
-    </div>
+    <van-nav-bar
+      v-else
+      title="标题"
+      left-text="返回"
+      right-text="按钮"
+      left-arrow
+      @click-left="onClickLeft"
+      @click-right="onClickRight"
+    />
   </div>
-  <!--  <van-nav-bar-->
-  <!--          title="标题"-->
-  <!--          left-text="返回"-->
-  <!--          right-text="按钮"-->
-  <!--          left-arrow-->
-  <!--          @click-left="onClickLeft"-->
-  <!--          @click-right="onClickRight"-->
-  <!--  />-->
 </template>
 
 <script>
@@ -35,20 +38,20 @@ export default {
     return {
       navbarList: [
         {
-          name: "我的",
-          path: "/myself"
+          name: "我的"
+          // path: "/myself"
         },
         {
-          name: "发现",
-          path: "/myself"
+          name: "发现"
+          // path: "/myself"
         },
         {
-          name: "云村",
-          path: "/myself"
+          name: "云村"
+          // path: "/myself"
         },
         {
-          name: "视频",
-          path: "/myself"
+          name: "视频"
+          // path: "/myself"
         }
       ],
       checkedIndex: 1
@@ -57,7 +60,11 @@ export default {
   methods: {
     changeTab(index) {
       this.checkedIndex = index;
-    }
+    },
+    onClickLeft() {
+      this.$router.back();
+    },
+    onClickRight() {}
   }
 };
 </script>
@@ -90,5 +97,8 @@ export default {
       font-weight: 700;
     }
   }
+}
+/deep/.van-nav-bar {
+  height: 1rem;
 }
 </style>

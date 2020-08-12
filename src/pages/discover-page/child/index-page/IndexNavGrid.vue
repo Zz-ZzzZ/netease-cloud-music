@@ -1,7 +1,7 @@
 <template>
   <div class="nav-grid">
     <div v-for="(icon, index) in icons" :key="index" class="grid-box">
-      <BaseIcon :icon-class="icon.name" class="grid-icon" />
+      <BaseIcon :icon="icon.name" class="grid-icon" />
       <div class="grid-text">{{ icon.text }}</div>
     </div>
   </div>

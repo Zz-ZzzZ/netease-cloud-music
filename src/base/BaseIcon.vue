@@ -7,7 +7,7 @@
 <script>
 export default {
   props: {
-    iconClass: {
+    icon: {
       type: String,
       required: true
     }
@@ -15,7 +15,7 @@ export default {
   name: "BaseIcon",
   computed: {
     iconName() {
-      return `#icon${this.iconClass}`;
+      return `#icon${this.icon}`;
     }
   }
 };

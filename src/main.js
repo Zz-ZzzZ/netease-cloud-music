@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import initRem from "./utils/rem";
+import inobounce from "inobounce";
 import plugin from "./utils/plugins";
 import BaseIcon from "@/base/BaseIcon";
 import BaseButton from "@/base/BaseButton";
@@ -12,10 +13,14 @@ const vConsole = new vconsole();
 
 Vue.use(vConsole);
 Vue.use(initRem);
+Vue.use(inobounce);
 Vue.use(plugin);
 Vue.component(BaseIcon.name, BaseIcon);
 Vue.component(BaseButton.name, BaseButton);
 Vue.config.productionTip = false;
+
+inobounce.enable();
+
 new Vue({
   router,
   store,

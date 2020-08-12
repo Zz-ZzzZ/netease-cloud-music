@@ -12,7 +12,7 @@
         <img v-lazy="song.picUrl" class="song-img" />
         <div class="song-name van-multi-ellipsis--l2">{{ song.name }}</div>
         <div class="song-play-count">
-          <BaseIcon icon-class="playCount" class="song-play-icon" />
+          <BaseIcon icon="playCount" class="song-play-icon" />
           <div>{{ playCountFormat(song.playCount) }}</div>
         </div>
       </div>
@@ -46,7 +46,6 @@ export default {
 .play-list-card {
   width: 100%;
   height: 100%;
-  overflow: hidden;
   margin: 0.3rem 0;
   font-size: 0.22rem;
 

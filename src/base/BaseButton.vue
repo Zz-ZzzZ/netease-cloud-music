@@ -1,6 +1,6 @@
 <template>
   <div class="base-button" @touchstart="click">
-    <BaseIcon :icon-class="icon" v-if="showIcon" class="button-icon" />
+    <BaseIcon :icon="icon" v-if="showIcon" class="button-icon" />
     <div class="button-label">
       <slot></slot>
     </div>

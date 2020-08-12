@@ -27,14 +27,11 @@ body {
   /* IOS上下拉动滚动条时卡顿、慢 */
   -webkit-overflow-scrolling: touch;
   overflow-scrolling: touch;
-  overflow: hidden;
+  overflow: auto;
   background: $global-background;
   box-sizing: border-box;
 }
 
-.hide {
-  display: none;
-}
 
 /* 移动端 input,按钮等样式在安卓与ios上不同的解决方案 */
 input, select, button {

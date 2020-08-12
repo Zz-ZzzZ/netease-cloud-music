@@ -4,7 +4,7 @@
     class="index-song-single"
     title="发现新音乐"
   >
-    <BaseButton :show-icon="true" icon="playAll">
+    <BaseButton :show-icon="true" icon="play">
       播放全部
     </BaseButton>
   </SongSingleCard>
@@ -24,7 +24,7 @@ export default {
   async created() {
     let result = await getSongSingleList();
     if (result.status === 200) this.songSingleList = result.data.result;
-    console.log(this.songSingleList[0].song.artists[0].name);
+    console.log(this.songSingleList);
   }
 };
 </script>

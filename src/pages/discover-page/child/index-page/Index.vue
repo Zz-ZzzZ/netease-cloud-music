@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import IndexSwipe from "@/pages/discover-page/child/index/IndexSwipe";
-import IndexNavGrid from "@/pages/discover-page/child/index/IndexNavGrid";
-import IndexSongListRecommend from "@/pages/discover-page/child/index/IndexSongListRecommend";
-import IndexSongSingleRecommend from "@/pages/discover-page/child/index/IndexSongSingleRecommend";
+import IndexSwipe from "@/pages/discover-page/child/index-page/IndexSwipe";
+import IndexNavGrid from "@/pages/discover-page/child/index-page/IndexNavGrid";
+import IndexSongListRecommend from "@/pages/discover-page/child/index-page/IndexSongListRecommend";
+import IndexSongSingleRecommend from "@/pages/discover-page/child/index-page/IndexSongSingleRecommend";
 export default {
   name: "Index",
   components: {
