@@ -1,5 +1,5 @@
 <template>
-  <SongListCard
+  <TheSongListCard
     class="index-song-list"
     :song-list="songList"
     title="发现好歌单"
@@ -7,12 +7,12 @@
     <BaseButton>
       查看更多
     </BaseButton>
-  </SongListCard>
+  </TheSongListCard>
 </template>
 
 <script>
 import { getSongList } from "@/api/songList";
-import SongListCard from "@/components/SongListCard";
+import TheSongListCard from "@/components/TheSongListCard";
 
 export default {
   name: "IndexSongListRecommend",
@@ -21,7 +21,7 @@ export default {
       songList: []
     };
   },
-  components: { SongListCard },
+  components: { TheSongListCard },
   async created() {
     let result = await getSongList({ limit: 10 });
     if (result.status === 200) this.songList = result.data.result;

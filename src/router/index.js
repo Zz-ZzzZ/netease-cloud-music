@@ -22,7 +22,9 @@ const routes = [
         path: "song-list",
         name: "歌单详情",
         component: () =>
-          import("@/pages/discover-page/child/songList-page/SongList")
+          import(
+            "@/pages/discover-page/child/songList-detail-page/SongListDetail"
+          )
       }
     ]
   }

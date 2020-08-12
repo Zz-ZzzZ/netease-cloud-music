@@ -33,7 +33,7 @@ export default {
       default: () => []
     }
   },
-  name: "SongListCard",
+  name: "TheSongListCard",
   methods: {
     playCountFormat(playCount) {
       return playCountFormat(playCount);

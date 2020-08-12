@@ -47,7 +47,7 @@ export default {
       default: () => []
     }
   },
-  name: "SongSingleCard"
+  name: "TheSongSingleCard"
 };
 </script>
 

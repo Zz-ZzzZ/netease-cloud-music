@@ -1,5 +1,5 @@
 <template>
-  <SongSingleCard
+  <TheSongSingleCard
     :song-single-list="songSingleList"
     class="index-song-single"
     title="发现新音乐"
@@ -7,11 +7,11 @@
     <BaseButton :show-icon="true" icon="play">
       播放全部
     </BaseButton>
-  </SongSingleCard>
+  </TheSongSingleCard>
 </template>
 
 <script>
-import SongSingleCard from "@/components/SongSingleCard";
+import TheSongSingleCard from "@/components/TheSongSingleCard";
 import { getSongSingleList } from "@/api/songList";
 export default {
   name: "IndexSongSingleRecommend",
@@ -20,7 +20,7 @@ export default {
       songSingleList: []
     };
   },
-  components: { SongSingleCard },
+  components: { TheSongSingleCard },
   async created() {
     let result = await getSongSingleList();
     if (result.status === 200) this.songSingleList = result.data.result;
