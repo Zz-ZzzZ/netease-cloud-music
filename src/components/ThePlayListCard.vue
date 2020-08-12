@@ -1,5 +1,5 @@
 <template>
-  <div class="play-list-card">
+  <div class="song-list-card">
     <div class="card-top">
       <div class="top-title">{{ title }}</div>
       <div class="top-more">
@@ -8,12 +8,17 @@
     </div>
 
     <div class="card-bottom">
-      <div class="bottom-song" v-for="song in songList" :key="song.id">
-        <img v-lazy="song.picUrl" class="song-img" />
-        <div class="song-name van-multi-ellipsis--l2">{{ song.name }}</div>
+      <div
+        class="bottom-song"
+        v-for="item in playList"
+        :key="item.id"
+        @touchend="setPlayListId(item.id)"
+      >
+        <img v-lazy="item.picUrl" class="song-img" />
+        <div class="song-name van-multi-ellipsis--l2">{{ item.name }}</div>
         <div class="song-play-count">
           <BaseIcon icon="playCount" class="song-play-icon" />
-          <div>{{ playCountFormat(song.playCount) }}</div>
+          <div>{{ playCountFormat(item.playCount) }}</div>
         </div>
       </div>
     </div>
@@ -28,22 +33,25 @@ export default {
       type: String,
       default: ""
     },
-    songList: {
+    playList: {
       type: Array,
       default: () => []
     }
   },
-  name: "TheSongListCard",
+  name: "ThePlayListCard",
   methods: {
     playCountFormat(playCount) {
       return playCountFormat(playCount);
+    },
+    setPlayListId(id) {
+      this.$emit("touchstart", id);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.play-list-card {
+.song-list-card {
   width: 100%;
   height: 100%;
   margin: 0.3rem 0;

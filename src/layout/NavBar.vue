@@ -21,9 +21,7 @@
     </div>
     <van-nav-bar
       v-else
-      title="标题"
-      left-text="返回"
-      right-text="按钮"
+      :title="this.$route.name"
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"

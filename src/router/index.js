@@ -13,18 +13,16 @@ const routes = [
       {
         path: "/",
         name: "发现",
-        component: () => import("@/pages/discover-page/child/index-page/Index"),
+        component: () => import("@/pages/discover-page/child/index/Index"),
         meta: {
           showBackBar: false
         }
       },
       {
-        path: "song-list",
+        path: "play-list",
         name: "歌单详情",
         component: () =>
-          import(
-            "@/pages/discover-page/child/songList-detail-page/SongListDetail"
-          )
+          import("@/pages/discover-page/child/playlist-detail/PlayListDetail")
       }
     ]
   }

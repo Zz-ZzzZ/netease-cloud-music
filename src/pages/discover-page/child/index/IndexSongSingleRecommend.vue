@@ -12,7 +12,7 @@
 
 <script>
 import TheSongSingleCard from "@/components/TheSongSingleCard";
-import { getSongSingleList } from "@/api/songList";
+import { getSongSingleList } from "@/api/song";
 export default {
   name: "IndexSongSingleRecommend",
   data() {
@@ -24,7 +24,6 @@ export default {
   async created() {
     let result = await getSongSingleList();
     if (result.status === 200) this.songSingleList = result.data.result;
-    console.log(this.songSingleList);
   }
 };
 </script>
