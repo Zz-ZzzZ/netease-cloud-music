@@ -7,11 +7,20 @@
           <img v-lazy="playListDetail.coverImgUrl" />
         </div>
         <div class="playlist-info">
-          <p class="info-name">{{ playListDetail.name }}</p>
-          <p class="info-nickname">{{ playListDetail.creator.nickname }}</p>
-          <p class="info-description van-multi-ellipsis--l2">
-            {{ playListDetail.description }}
+          <p class="info-name van-multi-ellipsis--l2">
+            {{ playListDetail.name }}
           </p>
+          <div class="info-nickname">
+            <img v-lazy="playListDetail.creator.avatarUrl" />
+            <p>{{ playListDetail.creator.nickname }}</p>
+            <BaseIcon icon="arrow" class="info-arrow-icon" />
+          </div>
+          <div class="info-description">
+            <p class="van-multi-ellipsis--l2">
+              {{ playListDetail.description }}
+            </p>
+            <BaseIcon icon="arrow" class="info-arrow-icon" />
+          </div>
         </div>
       </div>
     </div>
@@ -34,7 +43,6 @@ export default {
 .play-list-detail-card {
   width: 100%;
   height: 100%;
-  font-size: 0.25rem;
   .card-top {
     width: 100%;
     height: 5rem;
@@ -50,11 +58,11 @@ export default {
       transform: scale(3);
     }
     .top-playlist {
-      width: $container-width;
+      width: 90%;
       height: 100%;
       position: absolute;
       top: 0;
-      left: 3%;
+      left: 5%;
       @include flex-box(row, flex-start, center);
       .playlist-cover {
         width: 2.5rem;
@@ -72,17 +80,32 @@ export default {
         padding-left: 0.2rem;
         @include flex-box(column, space-between);
         .info-name {
-          font-size: 0.35rem;
+          font-size: 0.32rem;
           color: #ffffff;
-          font-weight: 610;
+          font-weight: bold;
         }
         .info-nickname {
-          color: $white-smoke;
-          //margin-top: 0.2rem;
+          @include flex-box(row, flex-start, center);
+          p {
+            color: $white-smoke;
+            font-size: 0.26rem;
+            padding-left: 0.1rem;
+          }
+          img {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+          }
         }
         .info-description {
-          color: $divider;
-          //margin-top: 0.2rem;
+          width: 100%;
+          @include flex-box(row, flex-start, center);
+          p {
+            width: calc(100% - 0.5rem);
+            white-space: pre-line;
+            color: $divider;
+            font-size: 0.22rem;
+          }
         }
       }
     }

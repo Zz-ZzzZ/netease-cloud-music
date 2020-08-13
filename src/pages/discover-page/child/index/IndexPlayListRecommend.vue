@@ -3,7 +3,7 @@
     class="index-song-list"
     :play-list="playList"
     title="发现好歌单"
-    @touchstart="getPlayListId"
+    @click="getPlayListId"
   >
     <BaseButton>
       查看更多

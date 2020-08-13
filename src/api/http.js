@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Toast } from "vant";
 
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 20000;
 axios.defaults.baseURL = "/api";
 
 axios.interceptors.request.use(

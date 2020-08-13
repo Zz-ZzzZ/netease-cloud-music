@@ -8,17 +8,19 @@
     </div>
 
     <div class="card-bottom">
-      <div
-        class="bottom-song"
-        v-for="item in playList"
-        :key="item.id"
-        @touchend="setPlayListId(item.id)"
-      >
-        <img v-lazy="item.picUrl" class="song-img" />
-        <div class="song-name van-multi-ellipsis--l2">{{ item.name }}</div>
-        <div class="song-play-count">
-          <BaseIcon icon="playCount" class="song-play-icon" />
-          <div>{{ playCountFormat(item.playCount) }}</div>
+      <div class="bottom-scroll" ref="playListScroll">
+        <div
+          class="bottom-song"
+          v-for="item in playList"
+          :key="item.id"
+          @click="setPlayListId(item.id)"
+        >
+          <img v-lazy="item.picUrl" class="song-img" />
+          <div class="song-name van-multi-ellipsis--l2">{{ item.name }}</div>
+          <div class="song-play-count">
+            <BaseIcon icon="playCount" class="song-play-icon" />
+            <div>{{ playCountFormat(item.playCount) }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+import BScroll from "better-scroll";
 import { playCountFormat } from "@/utils/utils";
 export default {
   props: {
@@ -39,21 +42,38 @@ export default {
     }
   },
   name: "ThePlayListCard",
+  data() {
+    return {
+      scrollWidth: 0
+    };
+  },
   methods: {
     playCountFormat(playCount) {
       return playCountFormat(playCount);
     },
+    // eslint-disable-next-line no-unused-vars
     setPlayListId(id) {
-      this.$emit("touchstart", id);
+      this.$emit("click", id);
     }
+  },
+  updated() {
+    this.$refs.playListScroll.style.width = `${this.$refs.playListScroll.scrollWidth}px`;
+    // eslint-disable-next-line no-unused-vars
+    const scroll = new BScroll(".card-bottom", {
+      scrollX: true,
+      eventPassthrough: "vertical",
+      click: true,
+      bounce: {
+        left: false,
+        right: false
+      }
+    });
   }
 };
 </script>
 
 <style scoped lang="scss">
 .song-list-card {
-  width: 100%;
-  height: 100%;
   margin: 0.3rem 0;
   font-size: 0.22rem;
 
@@ -70,42 +90,43 @@ export default {
 
   .card-bottom {
     width: 100%;
-    overflow-x: scroll;
+    overflow: hidden;
     margin-top: 0.2rem;
-    @include flex-box(row);
+    .bottom-scroll {
+      @include flex-box(row);
+      .bottom-song {
+        width: 2.1rem;
+        height: 100%;
+        margin-right: 0.2rem;
+        flex: none;
+        position: relative;
+        @include flex-box(column);
 
-    .bottom-song {
-      margin-right: 0.2rem;
-      width: 2.1rem;
-      height: 100%;
-      flex: none;
-      position: relative;
-      @include flex-box(column);
+        .song-img {
+          display: block;
+          width: 100%;
+          border-radius: $default-radius;
+        }
 
-      .song-img {
-        display: block;
-        width: 100%;
-        border-radius: $default-radius;
-      }
+        .song-name {
+          margin-top: 0.1rem;
+          color: $title;
+          font-weight: 610;
+        }
 
-      .song-name {
-        margin-top: 0.1rem;
-        color: $title;
-        font-weight: 610;
-      }
+        .song-play-icon {
+          width: 0.25rem;
+          height: 0.25rem;
+        }
 
-      .song-play-icon {
-        width: 0.25rem;
-        height: 0.25rem;
-      }
-
-      .song-play-count {
-        position: absolute;
-        top: 0.05rem;
-        right: 0.05rem;
-        color: #ffffff;
-        font-size: 0.2rem;
-        @include flex-box(row, center, center);
+        .song-play-count {
+          position: absolute;
+          top: 0.05rem;
+          right: 0.05rem;
+          color: #ffffff;
+          font-size: 0.2rem;
+          @include flex-box(row, center, center);
+        }
       }
     }
   }

@@ -99,4 +99,7 @@ export default {
 /deep/.van-nav-bar {
   height: 1rem;
 }
+.van-hairline--bottom::after {
+  border-bottom-width: 0;
+}
 </style>

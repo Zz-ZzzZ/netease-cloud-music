@@ -7,35 +7,40 @@
       </div>
     </div>
 
-    <div class="card-bottom">
-      <div
-        class="bottom-song"
-        v-for="songItem in songSingleList"
-        :key="songItem.id"
-      >
-        <img v-lazy="songItem.picUrl" class="song-img" />
-        <div class="song-info">
-          <span class="info-name">{{ songItem.name }}</span>
-          <span class="info-divider">-</span>
-          <span
-            class="info-artist"
-            v-for="(artistItem, artistIndex) in songItem.song.artists"
-            :key="artistItem.id"
-          >
-            {{
-              songItem.song.artists.length - artistIndex === 1
-                ? artistItem.name
-                : `${artistItem.name}/`
-            }}
-          </span>
+    <div class="card-bottom1">
+      <div class="bottom-scroll" ref="songSingleScroll">
+        <div
+          class="bottom-song"
+          v-for="songItem in songSingleList"
+          :key="songItem.id"
+        >
+          <img v-lazy="songItem.picUrl" class="song-img" />
+          <div class="song-info">
+            <span class="info-name">{{ songItem.name }}</span>
+            <span class="info-divider">-</span>
+            <span
+              class="info-artist"
+              v-for="(artistItem, artistIndex) in songItem.song.artists"
+              :key="artistItem.id"
+            >
+              {{
+                songItem.song.artists.length - artistIndex === 1
+                  ? artistItem.name
+                  : `${artistItem.name}/`
+              }}
+            </span>
+          </div>
+          <BaseIcon icon="play-red" class="song-play-icon" />
         </div>
-        <BaseIcon icon="play-red" class="song-play-icon" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import BScroll from "better-scroll";
+
 export default {
   props: {
     title: {
@@ -47,20 +52,33 @@ export default {
       default: () => []
     }
   },
-  name: "TheSongSingleCard"
+  name: "TheSongSingleCard",
+  updated() {
+    this.$refs.songSingleScroll.style.width = `${this.$refs.songSingleScroll.scrollWidth}px`;
+    console.log(this.$refs.songSingleScroll.style.width);
+    console.log(this.$refs);
+    // eslint-disable-next-line no-unused-vars
+    const scroll = new BScroll(".card-bottom1", {
+      scrollX: true,
+      eventPassthrough: "vertical",
+      click: true,
+      bounce: {
+        left: false,
+        right: false
+      }
+    });
+  }
 };
 </script>
 
 <style scoped lang="scss">
 .song-single-card {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  margin: 0.3rem 0;
   font-size: 0.22rem;
+  //margin-bottom: 0.3rem;
 
   .card-top {
     width: 100%;
+    height: 0.5rem;
     @include flex-box(row, space-between, center);
 
     .top-title {
@@ -69,63 +87,63 @@ export default {
       color: $title;
     }
   }
-  .card-bottom {
+  .card-bottom1 {
     width: 100%;
-    height: 100%;
-    overflow-x: scroll;
-    margin-top: 0.2rem;
-    flex-wrap: wrap;
-    @include flex-box(column);
+    height: calc(100% - 0.5rem);
+    overflow: hidden;
+    padding-top: 0.2rem;
 
-    .bottom-song {
-      margin-right: 0.2rem;
-      margin-bottom: 0.2rem;
-      width: 100%;
-      height: 1.2rem;
-      flex: none;
+    .bottom-scroll {
+      height: 100%;
+      flex-wrap: wrap;
+      @include flex-box(column);
 
-      @include flex-box(row, flex-start, center);
+      .bottom-song {
+        margin-bottom: 0.2rem;
+        width: 7.05rem;
+        height: 1.2rem;
+        flex: none;
+        @include flex-box(row, flex-start, center);
 
-      .song-img {
-        display: block;
-        width: 1.2rem;
-        border-radius: $default-radius;
-      }
-
-      .song-info {
-        width: calc(100% - 1.4rem - 0.5rem);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 0.28rem;
-        line-height: 0.3rem;
-
-        .info-name {
-          margin-left: 0.2rem;
-          font-weight: 610;
-          color: $title;
-          vertical-align: middle;
+        .song-img {
+          display: block;
+          width: 1.2rem;
+          border-radius: $default-radius;
         }
 
-        .info-divider {
-          margin: 0 0.15rem;
-          //vertical-align: middle;
+        .song-info {
+          width: calc(100% - 1.2rem - 0.3rem);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 0.28rem;
+          line-height: 0.3rem;
+          padding-left: 0.2rem;
+
+          .info-name {
+            font-weight: 610;
+            color: $title;
+            vertical-align: middle;
+          }
+
+          .info-divider {
+            margin: 0 0.15rem;
+          }
+
+          .info-artist {
+            color: $content;
+            font-size: 0.23rem;
+          }
         }
 
-        .info-artist {
-          color: $content;
-          font-size: 0.23rem;
-          //margin-left: 0.05rem;
+        .song-play-icon {
+          width: 0.2rem;
+          height: 0.2rem;
+          margin-right: 0.1rem;
+          border: 1px solid $border;
+          border-radius: 50%;
+          padding: 0.1rem;
         }
-      }
-
-      .song-play-icon {
-        margin-left: 0.2rem;
-        width: 0.2rem;
-        height: 0.2rem;
-        border: 1px solid $border;
-        border-radius: 50%;
-        padding: 0.1rem;
       }
     }
   }
