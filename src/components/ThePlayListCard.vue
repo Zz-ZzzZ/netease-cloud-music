@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="card-bottom">
+    <div class="card-bottom play-list-scroll">
       <div class="bottom-scroll" ref="playListScroll">
         <div
           class="bottom-song"
@@ -51,7 +51,6 @@ export default {
     playCountFormat(playCount) {
       return playCountFormat(playCount);
     },
-    // eslint-disable-next-line no-unused-vars
     setPlayListId(id) {
       this.$emit("click", id);
     }
@@ -59,7 +58,7 @@ export default {
   updated() {
     this.$refs.playListScroll.style.width = `${this.$refs.playListScroll.scrollWidth}px`;
     // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(".card-bottom", {
+    const scroll = new BScroll(".play-list-scroll", {
       scrollX: true,
       eventPassthrough: "vertical",
       click: true,
@@ -92,8 +91,10 @@ export default {
     width: 100%;
     overflow: hidden;
     margin-top: 0.2rem;
+
     .bottom-scroll {
       @include flex-box(row);
+
       .bottom-song {
         width: 2.1rem;
         height: 100%;

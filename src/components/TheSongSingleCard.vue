@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="card-bottom1">
+    <div class="card-bottom song-single-scroll">
       <div class="bottom-scroll" ref="songSingleScroll">
         <div
           class="bottom-song"
@@ -29,6 +29,7 @@
                   : `${artistItem.name}/`
               }}
             </span>
+            <p class="info-album">专辑 - {{ songItem.song.album.name }}</p>
           </div>
           <BaseIcon icon="play-red" class="song-play-icon" />
         </div>
@@ -55,10 +56,8 @@ export default {
   name: "TheSongSingleCard",
   updated() {
     this.$refs.songSingleScroll.style.width = `${this.$refs.songSingleScroll.scrollWidth}px`;
-    console.log(this.$refs.songSingleScroll.style.width);
-    console.log(this.$refs);
     // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(".card-bottom1", {
+    const scroll = new BScroll(".song-single-scroll", {
       scrollX: true,
       eventPassthrough: "vertical",
       click: true,
@@ -74,7 +73,6 @@ export default {
 <style scoped lang="scss">
 .song-single-card {
   font-size: 0.22rem;
-  //margin-bottom: 0.3rem;
 
   .card-top {
     width: 100%;
@@ -87,7 +85,7 @@ export default {
       color: $title;
     }
   }
-  .card-bottom1 {
+  .card-bottom {
     width: 100%;
     height: calc(100% - 0.5rem);
     overflow: hidden;
@@ -132,7 +130,13 @@ export default {
 
           .info-artist {
             color: $content;
-            font-size: 0.23rem;
+            font-size: 0.24rem;
+          }
+
+          .info-album {
+            color: $content;
+            margin-top: 0.2rem;
+            font-size: 0.2rem;
           }
         }
 

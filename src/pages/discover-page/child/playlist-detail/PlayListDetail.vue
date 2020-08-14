@@ -1,6 +1,6 @@
 <!--歌单详情页-->
 <template>
-  <div>
+  <div class="play-list-detail">
     <PlayListDetailInfo />
   </div>
 </template>
@@ -13,4 +13,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.play-list-detail {
+  width: 100%;
+  height: 100%;
+}
+</style>

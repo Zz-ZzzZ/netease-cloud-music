@@ -37,10 +37,12 @@ export default {
   padding: 0.03rem 0.15rem;
   box-sizing: border-box;
   @include flex-box(row, center, center);
+
   .button-icon {
     width: 0.25rem;
     height: 0.25rem;
   }
+
   .button-label {
     color: $title;
     margin-left: 0.05rem;

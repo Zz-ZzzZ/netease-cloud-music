@@ -4,6 +4,9 @@ import { Toast } from "vant";
 axios.defaults.timeout = 20000;
 axios.defaults.baseURL = "/api";
 
+// 等待所有axios请求加载完毕后，隐藏loading
+let requestNum = 0;
+
 axios.interceptors.request.use(
   config => {
     config.headers = {
@@ -13,6 +16,7 @@ axios.interceptors.request.use(
       message: "加载中...",
       forbidClick: true
     });
+    requestNum++;
     return config;
   },
   error => {
@@ -22,8 +26,12 @@ axios.interceptors.request.use(
 );
 axios.interceptors.response.use(
   data => {
-    // 响应成功关闭loading
-    Toast.clear();
+    if (requestNum >= 0) {
+      requestNum--;
+    } else {
+      Toast.clear();
+      requestNum = 0;
+    }
     return data;
   },
   error => {

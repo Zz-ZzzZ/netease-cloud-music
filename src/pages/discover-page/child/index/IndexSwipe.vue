@@ -26,7 +26,7 @@ export default {
 <style scoped lang="scss">
 .van-swipe {
   width: 100%;
-  height: 3rem;
+  height: 2.5rem;
   border-radius: $default-radius;
 }
 .swipe-banner {
