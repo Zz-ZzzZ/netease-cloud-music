@@ -20,7 +20,7 @@ const routes = [
       },
       {
         path: "play-list",
-        name: "歌单详情",
+        name: "歌单",
         component: () =>
           import("@/pages/discover-page/child/playlist-detail/PlayListDetail")
       }

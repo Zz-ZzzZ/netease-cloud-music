@@ -45,18 +45,29 @@
       </div>
     </div>
     <div class="card-bottom play-list-detail-scroll">
-      <div class="bottom-song-count" ref="bottomSongCount">
-        <BaseIcon icon="play" class="play-icon" />
-        <p>播放全部</p>
-        <p>(共40首)</p>
+      <div class="bottom-song-count">
+        <div class="bottom-song-count-left">
+          <BaseIcon icon="play" class="play-icon" />
+          <p>播放全部</p>
+          <p>(共{{ playListDetail.trackCount }}首)</p>
+        </div>
+        <div class="bottom-song-count-right">
+          <p>+ 收藏({{ playListDetail.subscribedCount }})</p>
+        </div>
       </div>
       <div class="bottom-scroll">
-        <!--这里给一个0.84rem的高度是需要去掉全部播放那一栏的高度-->
-        <BaseSong
-          :song-list="songList"
-          ref="playListDetailScroll"
-          class="play-list-detail-scroll"
-        />
+        <div ref="playListDetailScroll" class="play-list-detail-scroll">
+          <BaseSong
+            v-for="(item, index) in songList"
+            :index="index + 1"
+            :name="item.name"
+            :maxbr="item.maxbr"
+            :ablum="item.al.name"
+            :author="item.ar"
+            :mv="item.mv"
+            :key="index"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -64,6 +75,7 @@
 
 <script>
 import BaseSong from "@/components/BaseSong";
+// eslint-disable-next-line no-unused-vars
 import BScroll from "better-scroll";
 export default {
   components: { BaseSong },
@@ -79,18 +91,17 @@ export default {
   },
   name: "ThePlayListDetailCard",
   updated() {
-    this.$refs.playListDetailScroll.$el.style.height = `${this.$refs.playListDetailScroll.$el.scrollHeight}px`;
+    this.$refs.playListDetailScroll.style.height = `${this.$refs.playListDetailScroll.scrollHeight}px`;
     // eslint-disable-next-line no-unused-vars
     const scroll = new BScroll(".bottom-scroll", {
       scrollY: true,
-      // eventPassthrough: "vertical",
+      eventPassthrough: "horizontal",
       click: true,
       bounce: {
         top: false,
         bottom: false
       }
     });
-    // scroll
   }
 };
 </script>
@@ -207,27 +218,45 @@ export default {
     top: -0.55rem;
     overflow: hidden;
     .bottom-song-count {
-      padding: 0.3rem 4% 0.1rem 4%;
+      padding: 0.2rem 0;
       width: 100%;
-      @include flex-box(row, flex-start, center);
+      height: 0.6rem;
+      @include flex-box(row, space-between, center);
 
-      .play-icon {
-        border: 1px solid $title;
-        border-radius: 50%;
-        padding: 0.1rem;
-        width: 0.2rem;
-        height: 0.2rem;
+      .bottom-song-count-left {
+        margin-left: 0.35rem;
+        @include flex-box(row, flex-start, center);
+
+        .play-icon {
+          border: 1px solid $title;
+          border-radius: 50%;
+          padding: 0.1rem;
+          width: 0.15rem;
+          height: 0.15rem;
+        }
+
+        p:nth-child(2) {
+          font-size: 0.28rem;
+          margin-left: 0.28rem;
+          margin-right: 0.1rem;
+          font-weight: bold;
+        }
+
+        p:nth-child(3) {
+          color: $content;
+        }
       }
-      p:nth-child(2) {
-        font-size: 0.3rem;
-        margin-left: 0.275rem;
-        margin-right: 0.1rem;
-        font-weight: bold;
-      }
-      p:nth-child(3) {
-        color: $content;
+
+      .bottom-song-count-right {
+        margin-right: 0.35rem;
+        //height: 0.7rem;
+        color: #ffffff;
+        padding: 0.13rem 0.15rem;
+        background: $red;
+        border-radius: 0.3rem;
       }
     }
+
     .bottom-scroll {
       width: 100%;
       height: 100%;
@@ -237,10 +266,11 @@ export default {
       top: 0;
       left: 0;
       @include flex-box(column, center, flex-start);
+
       // 这里加一个paddingBottom的原因是scroll只计算了整个滚动条的高度，
       // 没有计算滚动条上面全部播放的那一栏，因此要增加间距
       .play-list-detail-scroll {
-        padding-bottom: 0.84rem;
+        padding-bottom: 1rem;
         position: absolute;
         top: 0;
         left: 0;

@@ -102,4 +102,10 @@ export default {
 .van-hairline--bottom::after {
   border-bottom-width: 0;
 }
+/deep/.van-nav-bar .van-icon {
+  color: $red;
+}
+/deep/.van-nav-bar__title {
+  font-weight: bold;
+}
 </style>

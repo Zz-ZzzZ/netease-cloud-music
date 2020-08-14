@@ -33,8 +33,16 @@ export default {
       let songListResult = await getSongDetailByPlayListSongId(
         trackIds.toString()
       );
-      if (songListResult.status === 200 && songListResult.data.songs.length > 0)
+      // 把获得到的音质信息添加到 音乐信息里（获取最大音质）
+      if (
+        songListResult.status === 200 &&
+        songListResult.data.songs.length > 0
+      ) {
         this.songList = songListResult.data.songs;
+        songListResult.data.privileges.forEach((item, index) => {
+          this.songList[index]["maxbr"] = item.maxbr;
+        });
+      }
     }
     console.log(this.songList);
   }
