@@ -9,7 +9,6 @@
 import ThePlayListDetailCard from "@/components/ThePlayListDetailCard";
 import {
   getPlayListDetailById,
-  // eslint-disable-next-line no-unused-vars
   getSongDetailByPlayListSongId
 } from "@/api/song";
 export default {
@@ -44,7 +43,6 @@ export default {
         });
       }
     }
-    console.log(this.songList);
   }
 };
 </script>

@@ -75,7 +75,6 @@
 
 <script>
 import BaseSong from "@/components/BaseSong";
-// eslint-disable-next-line no-unused-vars
 import BScroll from "better-scroll";
 export default {
   components: { BaseSong },
