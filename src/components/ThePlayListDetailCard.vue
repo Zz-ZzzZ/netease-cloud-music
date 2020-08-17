@@ -1,7 +1,7 @@
 <template>
   <div class="play-list-detail-card">
     <div class="card-top" v-if="JSON.stringify(playListDetail) !== '{}'">
-      <img :src="playListDetail.coverImgUrl" class="top-bg" />
+      <img v-lazy="playListDetail.coverImgUrl" class="top-bg" />
       <div class="top-playlist">
         <div class="playlist-flex">
           <div class="playlist-cover">
@@ -55,8 +55,8 @@
           <p>+ 收藏({{ playListDetail.subscribedCount }})</p>
         </div>
       </div>
-      <div class="bottom-scroll">
-        <div ref="playListDetailScroll" class="play-list-detail-scroll">
+      <div class="bottom-scroll" ref="playListDetailScroll">
+        <div class="play-list-detail-scroll">
           <BaseSong
             v-for="(item, index) in songList"
             :index="index + 1"
@@ -66,18 +66,26 @@
             :author="item.ar"
             :mv="item.mv"
             :key="index"
+            @touchstart="touchMore(item)"
           />
         </div>
       </div>
     </div>
+    <BasePopup
+      :action-sheet-show="actionSheetShow"
+      @close="close"
+      :song-object="authorInfo"
+    />
   </div>
 </template>
 
 <script>
 import BaseSong from "@/components/BaseSong";
 import BScroll from "better-scroll";
+import BasePopup from "@/components/BasePopup";
 export default {
-  components: { BaseSong },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { BasePopup, BaseSong },
   props: {
     playListDetail: {
       type: Object,
@@ -89,10 +97,26 @@ export default {
     }
   },
   name: "ThePlayListDetailCard",
-  updated() {
-    this.$refs.playListDetailScroll.style.height = `${this.$refs.playListDetailScroll.scrollHeight}px`;
+  data() {
+    return {
+      actionSheetShow: false,
+      authorInfo: {}
+    };
+  },
+  methods: {
+    touchMore(item) {
+      this.authorInfo = item;
+      this.actionSheetShow = true;
+    },
+    close() {
+      this.authorInfo = {};
+      this.actionSheetShow = false;
+    }
+  },
+  mounted() {
+    console.log(this.$refs);
     // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(".bottom-scroll", {
+    const scroll = new BScroll(this.$refs.playListDetailScroll, {
       scrollY: true,
       eventPassthrough: "horizontal",
       click: true,

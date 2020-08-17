@@ -19,10 +19,12 @@ export default {
   name: "IndexPlayListRecommend",
   data() {
     return {
-      playList: []
+      playList: [],
+      show: false
     };
   },
   methods: {
+    // eslint-disable-next-line no-unused-vars
     getPlayListId(id) {
       this.$router.push({ path: "/play-list", query: { id } });
     }

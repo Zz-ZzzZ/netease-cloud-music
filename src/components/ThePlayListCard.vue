@@ -7,21 +7,17 @@
       </div>
     </div>
 
-    <div class="card-bottom play-list-scroll">
-      <div class="bottom-scroll" ref="playListScroll">
-        <div
-          class="bottom-song"
-          v-for="item in playList"
+    <div class="card-bottom play-list-scroll" ref="playListScroll">
+      <div class="bottom-scroll">
+        <BasePlayList
+          v-for="(item, index) in playList"
+          :pic-url="item.picUrl"
+          :play-count="item.playCount"
+          :name="item.name"
           :key="item.id"
           @click="setPlayListId(item.id)"
-        >
-          <img v-lazy="item.picUrl" class="song-img" />
-          <div class="song-name van-multi-ellipsis--l2">{{ item.name }}</div>
-          <div class="song-play-count">
-            <BaseIcon icon="playCount" class="song-play-icon" />
-            <div>{{ playCountFormat(item.playCount) }}</div>
-          </div>
-        </div>
+          :class="playList.length - index !== 1 ? 'play-list-margin' : ''"
+        />
       </div>
     </div>
   </div>
@@ -30,7 +26,9 @@
 <script>
 import BScroll from "better-scroll";
 import { playCountFormat } from "@/utils/utils";
+import BasePlayList from "@/components/BasePlayList";
 export default {
+  components: { BasePlayList },
   props: {
     title: {
       type: String,
@@ -55,10 +53,10 @@ export default {
       this.$emit("click", id);
     }
   },
-  updated() {
-    this.$refs.playListScroll.style.width = `${this.$refs.playListScroll.scrollWidth}px`;
+  mounted() {
+    console.log(this.$refs);
     // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(".play-list-scroll", {
+    const scroll = new BScroll(this.$refs.playListScroll, {
       scrollX: true,
       eventPassthrough: "vertical",
       click: true,
@@ -89,45 +87,20 @@ export default {
 
   .card-bottom {
     width: 100%;
+    height: 2.8rem;
     overflow: hidden;
+    position: relative;
+    top: 0;
+    left: 0;
     margin-top: 0.2rem;
 
     .bottom-scroll {
+      position: absolute;
+      top: 0;
+      left: 0;
       @include flex-box(row);
-
-      .bottom-song {
-        width: 2.1rem;
-        height: 100%;
+      .play-list-margin {
         margin-right: 0.2rem;
-        flex: none;
-        position: relative;
-        @include flex-box(column);
-
-        .song-img {
-          display: block;
-          width: 100%;
-          border-radius: $default-radius;
-        }
-
-        .song-name {
-          margin-top: 0.1rem;
-          color: $title;
-          font-weight: 610;
-        }
-
-        .song-play-icon {
-          width: 0.25rem;
-          height: 0.25rem;
-        }
-
-        .song-play-count {
-          position: absolute;
-          top: 0.05rem;
-          right: 0.05rem;
-          color: #ffffff;
-          font-size: 0.2rem;
-          @include flex-box(row, center, center);
-        }
       }
     }
   }

@@ -5,7 +5,9 @@ import {
   SwipeItem,
   NavBar,
   Icon,
-  Lazyload
+  Lazyload,
+  Popup,
+  Cell
 } from "vant";
 export default {
   install(Vue) {
@@ -16,5 +18,7 @@ export default {
     Vue.use(NavBar);
     Vue.use(Icon);
     Vue.use(Lazyload);
+    Vue.use(Popup);
+    Vue.use(Cell);
   }
 };

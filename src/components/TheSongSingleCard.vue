@@ -7,8 +7,8 @@
       </div>
     </div>
 
-    <div class="card-bottom song-single-scroll">
-      <div class="bottom-scroll" ref="songSingleScroll">
+    <div class="card-bottom song-single-scroll" ref="songSingleScroll">
+      <div class="bottom-scroll">
         <div
           class="bottom-song"
           v-for="songItem in songSingleList"
@@ -54,12 +54,11 @@ export default {
     }
   },
   name: "TheSongSingleCard",
-  updated() {
-    this.$refs.songSingleScroll.style.width = `${this.$refs.songSingleScroll.scrollWidth}px`;
+  mounted() {
     // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(".song-single-scroll", {
-      scrollX: true,
-      eventPassthrough: "vertical",
+    const scroll = new BScroll(this.$refs.songSingleScroll, {
+      scrollY: true,
+      // eventPassthrough: "vertical",
       click: true,
       bounce: {
         left: false,
@@ -88,14 +87,19 @@ export default {
   .card-bottom {
     width: 100%;
     height: calc(100% - 0.5rem);
+    margin-top: 0.2rem;
+    position: relative;
+    top: 0;
+    left: 0;
     overflow: hidden;
-    padding-top: 0.2rem;
 
     .bottom-scroll {
-      height: 100%;
+      //height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
       flex-wrap: wrap;
       @include flex-box(column);
-
       .bottom-song {
         margin-bottom: 0.2rem;
         width: 7.05rem;

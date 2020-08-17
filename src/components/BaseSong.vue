@@ -16,7 +16,7 @@
     <div class="song-mv">
       <BaseIcon icon="shipin" v-if="mv !== 0" />
     </div>
-    <div class="song-more">
+    <div class="song-more" @touchstart="touchMore">
       <BaseIcon icon="gengduo" />
     </div>
   </div>
@@ -25,7 +25,12 @@
 <script>
 export default {
   props: ["index", "name", "maxbr", "ablum", "author", "mv"],
-  name: "BaseSong"
+  name: "BaseSong",
+  methods: {
+    touchMore() {
+      this.$emit("touchstart");
+    }
+  }
 };
 </script>
 
@@ -56,6 +61,7 @@ export default {
       margin-top: 0.05rem;
       color: $content;
       font-size: 0.21rem;
+      line-height: 0.21rem;
       @include flex-box(row, flex-start, center);
 
       p:first-child {
