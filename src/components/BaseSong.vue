@@ -4,13 +4,13 @@
     <div class="song-info van-ellipsis">
       <p class="info-name">{{ name }}</p>
       <div class="info-author">
-        <p v-show="maxbr > 320000">SQ</p>
-        <p v-for="(ar, index) in author" :key="ar.id">
-          {{ author.length - index === 1 ? ar.name : `${ar.name}/` }}
-        </p>
-        <p>
+        <span v-if="maxbr > 320000" class="sq-tag">SQ</span>
+        <span v-for="(ar, index) in author" :key="ar.id">
+          {{ author.length - index === 1 ? ar.name : `${ar.name} / ` }}
+        </span>
+        <span>
           {{ ` - ${ablum}` }}
-        </p>
+        </span>
       </div>
     </div>
     <div class="song-mv">
@@ -60,16 +60,15 @@ export default {
     .info-author {
       margin-top: 0.05rem;
       color: $content;
-      font-size: 0.21rem;
-      line-height: 0.21rem;
-      @include flex-box(row, flex-start, center);
+      line-height: 0.4rem;
+      vertical-align: middle;
+      @include text-one-ellipsis;
 
-      p:first-child {
+      .sq-tag {
         color: $red;
         border: 0.75px solid $red;
-        font-size: 0.15rem;
         border-radius: 0.05rem;
-        padding: 0.01rem 0.1rem;
+        padding: 0 0.1rem;
         font-weight: bold;
         margin-right: 0.1rem;
       }

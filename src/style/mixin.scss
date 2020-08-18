@@ -8,3 +8,16 @@
   align-items: $align;
   -webkit-align-items: $align;
 }
+@mixin text-more-ellipsis($line:2){
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}
+
+@mixin text-one-ellipsis(){
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

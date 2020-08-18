@@ -8,13 +8,15 @@
     </div>
 
     <div class="card-bottom song-single-scroll" ref="songSingleScroll">
-      <div class="bottom-scroll">
+      <div class="bottom-scroll" id="bottom-scroll">
         <div
           class="bottom-song"
           v-for="songItem in songSingleList"
           :key="songItem.id"
         >
-          <img v-lazy="songItem.picUrl" class="song-img" />
+          <div class="song-img">
+            <img v-lazy="songItem.picUrl" class="song-img" />
+          </div>
           <div class="song-info">
             <span class="info-name">{{ songItem.name }}</span>
             <span class="info-divider">-</span>
@@ -61,8 +63,8 @@ export default {
       // eventPassthrough: "vertical",
       click: true,
       bounce: {
-        left: false,
-        right: false
+        top: false,
+        bottom: false
       }
     });
   }
@@ -95,10 +97,11 @@ export default {
 
     .bottom-scroll {
       //height: 100%;
+      //width: auto;
       position: absolute;
       top: 0;
       left: 0;
-      flex-wrap: wrap;
+      //flex-wrap: wrap;
       @include flex-box(column);
       .bottom-song {
         margin-bottom: 0.2rem;
@@ -108,9 +111,15 @@ export default {
         @include flex-box(row, flex-start, center);
 
         .song-img {
-          display: block;
           width: 1.2rem;
-          border-radius: $default-radius;
+          height: 1.2rem;
+
+          img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: $default-radius;
+          }
         }
 
         .song-info {

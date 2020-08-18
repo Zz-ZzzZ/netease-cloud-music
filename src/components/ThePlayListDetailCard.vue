@@ -2,20 +2,24 @@
   <div class="play-list-detail-card">
     <div class="card-top" v-if="JSON.stringify(playListDetail) !== '{}'">
       <img v-lazy="playListDetail.coverImgUrl" class="top-bg" />
+
       <div class="top-playlist">
         <div class="playlist-flex">
           <div class="playlist-cover">
             <img v-lazy="playListDetail.coverImgUrl" />
           </div>
+
           <div class="playlist-info">
             <p class="info-name van-multi-ellipsis--l2">
               {{ playListDetail.name }}
             </p>
+
             <div class="info-nickname">
               <img v-lazy="playListDetail.creator.avatarUrl" />
               <p>{{ playListDetail.creator.nickname }}</p>
               <BaseIcon icon="arrow" class="info-arrow-icon" />
             </div>
+
             <div class="info-description">
               <p class="van-multi-ellipsis--l2">
                 {{ playListDetail.description }}
@@ -71,10 +75,16 @@
         </div>
       </div>
     </div>
-    <BasePopup
+    <TheMoreButtonPopup
       :action-sheet-show="actionSheetShow"
-      @close="close"
       :song-object="authorInfo"
+      @close="closeMore"
+      @touchstart="setSingerId(authorInfo.ar)"
+    />
+    <TheSelectSingerPopup
+      :singer-list="authorInfo.ar"
+      :select-singer-show="selectSingerShow"
+      @close="closeSelectSinger"
     />
   </div>
 </template>
@@ -82,10 +92,10 @@
 <script>
 import BaseSong from "@/components/BaseSong";
 import BScroll from "better-scroll";
-import BasePopup from "@/components/BasePopup";
+import TheMoreButtonPopup from "@/components/TheMoreButtonPopup";
+import TheSelectSingerPopup from "@/components/TheSelectSingerPopup";
 export default {
-  // eslint-disable-next-line vue/no-unused-components
-  components: { BasePopup, BaseSong },
+  components: { TheSelectSingerPopup, TheMoreButtonPopup, BaseSong },
   props: {
     playListDetail: {
       type: Object,
@@ -100,6 +110,7 @@ export default {
   data() {
     return {
       actionSheetShow: false,
+      selectSingerShow: false,
       authorInfo: {}
     };
   },
@@ -108,9 +119,17 @@ export default {
       this.authorInfo = item;
       this.actionSheetShow = true;
     },
-    close() {
-      this.authorInfo = {};
+    closeMore() {
       this.actionSheetShow = false;
+    },
+    closeSelectSinger() {
+      this.selectSingerShow = false;
+    },
+    setSingerId(id) {
+      if (id.length > 1) {
+        this.actionSheetShow = false;
+        this.selectSingerShow = true;
+      }
     }
   },
   mounted() {

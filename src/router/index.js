@@ -23,6 +23,12 @@ const routes = [
         name: "歌单",
         component: () =>
           import("@/pages/discover-page/child/playlist-detail/PlayListDetail")
+      },
+      {
+        path: "singer",
+        name: "歌手详情",
+        component: () =>
+          import("@/pages/discover-page/child/singer-detail/SingerDetail")
       }
     ]
   }
