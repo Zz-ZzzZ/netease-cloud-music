@@ -56,7 +56,7 @@
           <p>(共{{ playListDetail.trackCount }}首)</p>
         </div>
         <div class="bottom-song-count-right">
-          <p>+ 收藏({{ playListDetail.subscribedCount }})</p>
+          <p>+ 收藏({{ playCountFormat(playListDetail.subscribedCount) }})</p>
         </div>
       </div>
       <div class="bottom-scroll" ref="playListDetailScroll">
@@ -79,7 +79,7 @@
       :action-sheet-show="actionSheetShow"
       :song-object="authorInfo"
       @close="closeMore"
-      @touchstart="setSingerId(authorInfo.ar)"
+      @touchstart="setSingerIdOne(authorInfo.ar)"
     />
     <TheSelectSingerPopup
       :singer-list="authorInfo.ar"
@@ -94,6 +94,8 @@ import BaseSong from "@/components/BaseSong";
 import BScroll from "better-scroll";
 import TheMoreButtonPopup from "@/components/TheMoreButtonPopup";
 import TheSelectSingerPopup from "@/components/TheSelectSingerPopup";
+import { playCountFormat } from "@/utils/utils";
+
 export default {
   components: { TheSelectSingerPopup, TheMoreButtonPopup, BaseSong },
   props: {
@@ -115,25 +117,33 @@ export default {
     };
   },
   methods: {
+    // BaseSong的更多操作按钮
     touchMore(item) {
       this.authorInfo = item;
       this.actionSheetShow = true;
     },
+    // 关闭更多操作弹窗时
     closeMore() {
       this.actionSheetShow = false;
     },
+    // 关闭选择更多弹窗时
     closeSelectSinger() {
       this.selectSingerShow = false;
     },
-    setSingerId(id) {
-      if (id.length > 1) {
+    // 当只有一位歌手的时候，直接跳转至歌手详情，不止一位的时候先选择要看哪个
+    setSingerIdOne(item) {
+      if (item.length > 1) {
         this.actionSheetShow = false;
         this.selectSingerShow = true;
+      } else {
+        this.$router.push({ path: "/singer", query: { id: item[0].id } });
       }
+    },
+    playCountFormat(count) {
+      return playCountFormat(count);
     }
   },
   mounted() {
-    console.log(this.$refs);
     // eslint-disable-next-line no-unused-vars
     const scroll = new BScroll(this.$refs.playListDetailScroll, {
       scrollY: true,

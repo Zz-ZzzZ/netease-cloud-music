@@ -10,8 +10,12 @@
   >
     <div class="container-main">
       <h2>请选择需要查看的歌手</h2>
-      <div class="singer-info" v-for="item in singerList" :key="item.id">
-        <!--        <img v-lazy="item.picUrl" />-->
+      <div
+        class="singer-info"
+        v-for="item in singerList"
+        :key="item.id"
+        @touchstart="setSingerId(item.id)"
+      >
         <p>{{ item.name }}</p>
       </div>
     </div>
@@ -28,7 +32,8 @@ export default {
     selectSingerShow: {
       type: Boolean,
       default: false
-    }
+    },
+    setSingerId() {}
   },
   name: "TheSelectSingerPopup",
   data() {

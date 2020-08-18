@@ -26,7 +26,7 @@ const routes = [
       },
       {
         path: "singer",
-        name: "歌手详情",
+        name: "",
         component: () =>
           import("@/pages/discover-page/child/singer-detail/SingerDetail")
       }

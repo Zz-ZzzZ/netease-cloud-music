@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <SingerDetailInfo />
-  </div>
+  <SingerDetailInfo />
 </template>
 
 <script>

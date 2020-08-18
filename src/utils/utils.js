@@ -1,3 +1,8 @@
+/**
+ * 播放次数格式化函数
+ * @param playCount
+ * @returns {string}
+ */
 export function playCountFormat(playCount) {
   switch (true) {
     case playCount > 10000 && playCount < 100000000:

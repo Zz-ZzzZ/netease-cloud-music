@@ -7,7 +7,8 @@ import {
   Icon,
   Lazyload,
   Popup,
-  Cell
+  Cell,
+  Skeleton
 } from "vant";
 export default {
   install(Vue) {
@@ -20,5 +21,6 @@ export default {
     Vue.use(Lazyload);
     Vue.use(Popup);
     Vue.use(Cell);
+    Vue.use(Skeleton);
   }
 };
