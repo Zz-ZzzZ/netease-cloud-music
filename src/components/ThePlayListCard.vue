@@ -54,7 +54,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$refs);
     // eslint-disable-next-line no-unused-vars
     const scroll = new BScroll(this.$refs.playListScroll, {
       scrollX: true,

@@ -10,6 +10,6 @@ export function playCountFormat(playCount) {
     case playCount > 100000000:
       return `${(playCount / 100000000).toFixed(1)}亿`;
     default:
-      return `${playCount}次`;
+      return `${playCount}`;
   }
 }

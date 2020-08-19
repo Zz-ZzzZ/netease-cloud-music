@@ -8,7 +8,8 @@ import {
   Lazyload,
   Popup,
   Cell,
-  Skeleton
+  Tab,
+  Tabs
 } from "vant";
 export default {
   install(Vue) {
@@ -21,6 +22,7 @@ export default {
     Vue.use(Lazyload);
     Vue.use(Popup);
     Vue.use(Cell);
-    Vue.use(Skeleton);
+    Vue.use(Tab);
+    Vue.use(Tabs);
   }
 };
