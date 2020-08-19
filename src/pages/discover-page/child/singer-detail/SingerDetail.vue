@@ -35,8 +35,12 @@
     </div>
     <div class="detail-bottom">
       <van-tabs v-model="active">
-        <van-tab title="主页">内容 1</van-tab>
-        <van-tab title="歌曲">内容 2</van-tab>
+        <van-tab title="主页">
+          <SingerDetailTabsIndex :desc="singerDetail.artist.briefDesc" />
+        </van-tab>
+        <van-tab title="歌曲">
+          <SingerDetailTabsSong :song-list="singerDetail.hotSongs" />
+        </van-tab>
         <van-tab title="专辑">内容 3</van-tab>
         <van-tab title="视频">内容 4</van-tab>
       </van-tabs>
@@ -48,13 +52,17 @@
 import { playCountFormat } from "@/utils/utils";
 import { getSingerDescById } from "@/api/singer";
 import { getUserInfoById } from "@/api/user";
+import SingerDetailTabsIndex from "@/pages/discover-page/child/singer-detail/SingerDetailTabsIndex";
+import SingerDetailTabsSong from "@/pages/discover-page/child/singer-detail/SingerDetailTabsSong";
+import { getSongDetailByPlayListSongId } from "@/api/song";
 
 export default {
   name: "SingerDetailInfo",
+  components: { SingerDetailTabsSong, SingerDetailTabsIndex },
   data() {
     return {
       singerDetail: {},
-      active: 1
+      active: 0
     };
   },
   methods: {
@@ -65,7 +73,13 @@ export default {
   async created() {
     let id = this.$route.query.id;
     let singerResult = await getSingerDescById(id);
+    let trackIds = [];
+    // 获取歌手信息
     if (singerResult.status === 200) {
+      singerResult.data.hotSongs.forEach(item => {
+        trackIds.push(item.id);
+      });
+      // 根据歌手有无在网易云有个人账号
       if (singerResult.data.artist.accountId) {
         let userResult = await getUserInfoById(
           singerResult.data.artist.accountId
@@ -75,7 +89,17 @@ export default {
           this.singerDetail.profile = userResult.data.profile;
         }
       } else {
+        // 没有就只查询歌手的个人信息
         this.singerDetail = singerResult.data;
+      }
+      // 根据歌手的热门歌曲查询该歌曲有无SQ音质
+      let songListResult = await getSongDetailByPlayListSongId(
+        trackIds.toString()
+      );
+      if (songListResult.status === 200) {
+        songListResult.data.privileges.forEach((item, index) => {
+          this.singerDetail.hotSongs[index]["maxbr"] = item.maxbr;
+        });
       }
     }
   }
@@ -86,7 +110,6 @@ export default {
 .singer-detail {
   width: 100%;
   height: 100%;
-  font-size: 0.25rem;
 
   .detail-top {
     width: 100%;
@@ -105,6 +128,7 @@ export default {
       position: absolute;
       top: 3.5rem;
       left: 5%;
+      font-size: 0.25rem;
 
       .info-name {
         font-size: 0.4rem;
@@ -154,7 +178,8 @@ export default {
     top: -0.55rem;
     overflow: hidden;
     /deep/.van-tabs {
-      width: $container-width;
+      width: 94%;
+      height: 100%;
       margin: 0 auto;
     }
     /deep/.van-tab--active {
@@ -164,8 +189,11 @@ export default {
     /deep/.van-tabs__line {
       background-color: $red;
     }
+    /deep/.van-tabs__content {
+      height: calc(100% - 44px);
+    }
     /deep/.van-tab__pane {
-      margin: 0.2rem 0;
+      height: 100%;
     }
   }
 }

@@ -1,48 +1,50 @@
 <template>
   <div class="play-list-detail">
-    <div class="detail-top" v-if="JSON.stringify(playListDetail) !== '{}'">
-      <img v-lazy="playListDetail.coverImgUrl" class="top-bg" />
-      <div class="top-playlist">
-        <div class="playlist-flex">
-          <div class="playlist-cover">
-            <img v-lazy="playListDetail.coverImgUrl" />
-          </div>
-
-          <div class="playlist-info">
-            <p class="info-name van-multi-ellipsis--l2">
-              {{ playListDetail.name }}
-            </p>
-
-            <div class="info-nickname">
-              <img v-lazy="playListDetail.creator.avatarUrl" />
-              <p>{{ playListDetail.creator.nickname }}</p>
-              <BaseIcon icon="arrow" class="info-arrow-icon" />
+    <div class="detail-top">
+      <div class="top-box" v-if="JSON.stringify(playListDetail) !== '{}'">
+        <img v-lazy="playListDetail.coverImgUrl" class="top-bg" />
+        <div class="top-playlist">
+          <div class="playlist-flex">
+            <div class="playlist-cover">
+              <img v-lazy="playListDetail.coverImgUrl" />
             </div>
 
-            <div class="info-description">
-              <p class="van-multi-ellipsis--l2">
-                {{ playListDetail.description }}
+            <div class="playlist-info">
+              <p class="info-name van-multi-ellipsis--l2">
+                {{ playListDetail.name }}
               </p>
-              <BaseIcon icon="arrow" class="info-arrow-icon" />
+
+              <div class="info-nickname">
+                <img v-lazy="playListDetail.creator.avatarUrl" />
+                <p>{{ playListDetail.creator.nickname }}</p>
+                <BaseIcon icon="arrow" class="info-arrow-icon" />
+              </div>
+
+              <div class="info-description">
+                <p class="van-multi-ellipsis--l2">
+                  {{ playListDetail.description }}
+                </p>
+                <BaseIcon icon="arrow" class="info-arrow-icon" />
+              </div>
             </div>
           </div>
-        </div>
-        <div class="playlist-more-action">
-          <div>
-            <BaseIcon icon="jianyi" />
-            <p>{{ playListDetail.commentCount }}</p>
-          </div>
-          <div>
-            <BaseIcon icon="fenxiang" />
-            <p>{{ playListDetail.shareCount }}</p>
-          </div>
-          <div>
-            <BaseIcon icon="xiazai" />
-            <p>下载</p>
-          </div>
-          <div>
-            <BaseIcon icon="xuanze" />
-            <p>多选</p>
+          <div class="playlist-more-action">
+            <div>
+              <BaseIcon icon="jianyi" />
+              <p>{{ playListDetail.commentCount }}</p>
+            </div>
+            <div>
+              <BaseIcon icon="fenxiang" />
+              <p>{{ playListDetail.shareCount }}</p>
+            </div>
+            <div>
+              <BaseIcon icon="xiazai" />
+              <p>下载</p>
+            </div>
+            <div>
+              <BaseIcon icon="xuanze" />
+              <p>多选</p>
+            </div>
           </div>
         </div>
       </div>
@@ -184,98 +186,101 @@ export default {
   height: 100%;
 
   .detail-top {
-    width: 100%;
     height: 5rem;
-    position: relative;
-    overflow: hidden;
-    background: #747d8c;
 
-    .top-bg {
-      width: 100%;
+    .top-box {
       height: 100%;
-      -webkit-filter: blur(20px);
-      -moz-filter: blur(20px);
-      -ms-filter: blur(20px);
-      filter: blur(50px);
-      transform: scale(3);
-    }
+      position: relative;
+      overflow: hidden;
+      background: #747d8c;
 
-    .top-playlist {
-      width: 90%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 5%;
-      @include flex-box(column, center, center);
-
-      .playlist-flex {
+      .top-bg {
         width: 100%;
-        @include flex-box(row, flex-start, center);
-
-        .playlist-cover {
-          width: 2.5rem;
-          height: 2.5rem;
-
-          img {
-            width: 100%;
-            height: 100%;
-            border-radius: $default-radius;
-            display: block;
-          }
-        }
-
-        .playlist-info {
-          width: calc(100% - 2.7rem);
-          height: 2.5rem;
-          padding-left: 0.2rem;
-          @include flex-box(column, space-between);
-
-          .info-name {
-            font-size: 0.32rem;
-            color: #ffffff;
-            font-weight: bold;
-          }
-
-          .info-nickname {
-            @include flex-box(row, flex-start, center);
-
-            p {
-              color: $white-smoke;
-              font-size: 0.24rem;
-              padding-left: 0.1rem;
-            }
-
-            img {
-              width: 0.5rem;
-              height: 0.5rem;
-              border-radius: 50%;
-            }
-          }
-          .info-description {
-            width: 100%;
-            @include flex-box(row, flex-start, center);
-
-            p {
-              width: calc(100% - 0.5rem);
-              white-space: pre-line;
-              color: $divider;
-              font-size: 0.22rem;
-            }
-          }
-        }
+        height: 100%;
+        -webkit-filter: blur(20px);
+        -moz-filter: blur(20px);
+        -ms-filter: blur(20px);
+        filter: blur(50px);
+        transform: scale(3);
       }
 
-      .playlist-more-action {
-        width: 100%;
-        margin: 0.3rem 0;
-        @include flex-box(row, space-around, center);
-        font-size: 0.21rem;
-        color: #ffffff;
-        text-align: center;
+      .top-playlist {
+        width: 90%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 5%;
+        @include flex-box(column, center, center);
 
-        p {
-          margin-top: 0.1rem;
-          line-height: 0.21rem;
+        .playlist-flex {
+          width: 100%;
+          @include flex-box(row, flex-start, center);
+
+          .playlist-cover {
+            width: 2.5rem;
+            height: 2.5rem;
+
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: $default-radius;
+              display: block;
+            }
+          }
+
+          .playlist-info {
+            width: calc(100% - 2.7rem);
+            height: 2.5rem;
+            padding-left: 0.2rem;
+            @include flex-box(column, space-between);
+
+            .info-name {
+              font-size: 0.32rem;
+              color: #ffffff;
+              font-weight: bold;
+            }
+
+            .info-nickname {
+              @include flex-box(row, flex-start, center);
+
+              p {
+                color: $white-smoke;
+                font-size: 0.24rem;
+                padding-left: 0.1rem;
+              }
+
+              img {
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+              }
+            }
+            .info-description {
+              width: 100%;
+              @include flex-box(row, flex-start, center);
+
+              p {
+                width: calc(100% - 0.5rem);
+                white-space: pre-line;
+                color: $divider;
+                font-size: 0.22rem;
+              }
+            }
+          }
+        }
+
+        .playlist-more-action {
+          width: 100%;
+          margin: 0.3rem 0;
+          @include flex-box(row, space-around, center);
+          font-size: 0.21rem;
+          color: #ffffff;
+          text-align: center;
+
+          p {
+            margin-top: 0.1rem;
+            line-height: 0.21rem;
+          }
         }
       }
     }

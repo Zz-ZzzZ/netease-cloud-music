@@ -16,7 +16,6 @@ axios.interceptors.request.use(
       message: "加载中...",
       forbidClick: true
     });
-    console.log("开始" + requestNum);
     requestNum++;
     return config;
   },
@@ -29,9 +28,7 @@ axios.interceptors.response.use(
   data => {
     if (requestNum > 0) {
       requestNum--;
-      if (requestNum === 0) {
-        Toast.clear();
-      }
+      if (requestNum === 0) Toast.clear();
     }
     return data;
   },
