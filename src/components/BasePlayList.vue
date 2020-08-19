@@ -43,7 +43,7 @@ export default {
     margin-top: 0.1rem;
     color: $title;
     font-weight: 610;
-    line-height: 0.35rem;
+    line-height: 0.33rem;
   }
 
   .playlist-play-icon {

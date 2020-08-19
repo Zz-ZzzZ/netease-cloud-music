@@ -39,10 +39,15 @@
           <SingerDetailTabsIndex :desc="singerDetail.artist.briefDesc" />
         </van-tab>
         <van-tab title="歌曲">
-          <SingerDetailTabsSong :song-list="singerDetail.hotSongs" />
+          <SingerDetailTabsSong
+            :song-list="singerDetail.hotSongs"
+            :more="singerDetail.more"
+          />
         </van-tab>
-        <van-tab title="专辑">内容 3</van-tab>
-        <van-tab title="视频">内容 4</van-tab>
+        <van-tab :title="`专辑 ${singerDetail.artist.albumSize}`"
+          >内容 3</van-tab
+        >
+        <van-tab :title="`视频 ${singerDetail.artist.mvSize}`">内容 4</van-tab>
       </van-tabs>
     </div>
   </div>
@@ -124,10 +129,10 @@ export default {
     }
 
     .singer-info {
-      width: 90%;
+      width: $container-width;
       position: absolute;
       top: 3.5rem;
-      left: 5%;
+      left: 3%;
       font-size: 0.25rem;
 
       .info-name {
@@ -178,7 +183,7 @@ export default {
     top: -0.55rem;
     overflow: hidden;
     /deep/.van-tabs {
-      width: 94%;
+      width: $container-width;
       height: 100%;
       margin: 0 auto;
     }

@@ -2,7 +2,7 @@
   <div class="base-song">
     <div class="song-index">{{ index }}</div>
     <div class="song-info van-ellipsis">
-      <p class="info-name">{{ name }}</p>
+      <p class="info-name van-ellipsis">{{ name }}</p>
       <div class="info-author">
         <span v-if="maxbr > 320000" class="sq-tag">SQ</span>
         <span v-for="(ar, index) in author" :key="ar.id">

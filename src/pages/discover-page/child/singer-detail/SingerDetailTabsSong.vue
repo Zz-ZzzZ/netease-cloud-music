@@ -11,6 +11,10 @@
         :author="item.ar"
         :mv="item.mv"
       />
+      <div class="all-song" v-if="more">
+        <span>全部歌曲</span>
+        <BaseIcon icon="arrow-gray" />
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +27,10 @@ export default {
     songList: {
       type: Array,
       default: () => []
+    },
+    more: {
+      type: Boolean,
+      default: false
     }
   },
   name: "SingerDetailTabsSong",
@@ -54,6 +62,14 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
+    .all-song {
+      margin-top: 0.1rem;
+      margin-bottom: 0.2rem;
+      color: $content;
+      font-size: 0.3rem;
+      line-height: 0.3rem;
+      @include flex-box(row, center, center);
+    }
   }
 }
 </style>

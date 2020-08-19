@@ -44,6 +44,7 @@ export default {
     p {
       color: $content;
       line-height: 0.5rem;
+      font-size: 0.25rem;
     }
   }
 }
