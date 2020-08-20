@@ -1,5 +1,6 @@
 module.exports = {
-  // ...
+  productionSourceMap: false,
+  // global scss
   css: {
     loaderOptions: {
       sass: {

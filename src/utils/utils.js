@@ -13,3 +13,23 @@ export function playCountFormat(playCount) {
       return `${playCount}`;
   }
 }
+
+/**
+ * 根据时间戳返回年月日
+ * @param date
+ * @returns {string}
+ */
+export function dateFormat(date) {
+  const dateFormat = new Date(date);
+  let year = dateFormat.getFullYear();
+  let month =
+    dateFormat.getMonth() + 1 < 10
+      ? `0${dateFormat.getMonth() + 1}`
+      : dateFormat.getMonth() + 1;
+  let day =
+    dateFormat.getDate() + 1 < 10
+      ? `0${dateFormat.getDate() + 1}`
+      : dateFormat.getDate() + 1;
+
+  return `${year}-${month}-${day}`;
+}

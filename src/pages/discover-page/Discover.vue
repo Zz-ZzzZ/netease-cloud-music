@@ -16,6 +16,9 @@ export default {
 .discover {
   width: 100%;
   height: calc(100% - 1rem);
+  position: absolute;
+  top: 1rem;
+  left: 0;
   overflow-y: auto;
   overflow-x: hidden;
   .view-enter {

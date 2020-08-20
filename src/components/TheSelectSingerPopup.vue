@@ -10,13 +10,8 @@
   >
     <div class="container-main">
       <h2>请选择需要查看的歌手</h2>
-      <div
-        class="singer-info"
-        v-for="item in singerList"
-        :key="item.id"
-        @touchstart="setSingerId(item.id)"
-      >
-        <p>{{ item.name }}</p>
+      <div class="singer-info" v-for="item in singerList" :key="item.id">
+        <p @touchstart="setSingerId(item.id)">{{ item.name }}</p>
       </div>
     </div>
   </van-popup>
@@ -32,8 +27,7 @@ export default {
     selectSingerShow: {
       type: Boolean,
       default: false
-    },
-    setSingerId() {}
+    }
   },
   name: "TheSelectSingerPopup",
   data() {
@@ -44,6 +38,9 @@ export default {
   methods: {
     closeSelectSinger() {
       this.$emit("close");
+    },
+    setSingerId(id) {
+      this.$emit("touchstart", id);
     }
   },
   watch: {

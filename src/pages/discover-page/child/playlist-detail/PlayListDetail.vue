@@ -86,6 +86,7 @@
       :singer-list="authorInfo.ar"
       :select-singer-show="selectSingerShow"
       @close="closeSelectSinger"
+      @touchstart="setSingerId"
     />
   </div>
 </template>
@@ -136,6 +137,9 @@ export default {
       } else {
         this.$router.push({ path: "/singer", query: { id: item[0].id } });
       }
+    },
+    setSingerId(id) {
+      this.$router.push({ path: "/singer", query: { id } });
     },
     playCountFormat(count) {
       return playCountFormat(count);

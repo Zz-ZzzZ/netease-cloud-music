@@ -52,7 +52,7 @@ export default {
     width: 4.8rem;
 
     .info-name {
-      font-size: 0.3rem;
+      font-size: 0.27rem;
       color: $title;
       font-weight: bold;
     }

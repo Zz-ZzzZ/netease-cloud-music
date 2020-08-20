@@ -1,7 +1,10 @@
 <template>
   <div class="singer-detail" v-if="JSON.stringify(singerDetail) !== '{}'">
     <div class="detail-top">
-      <img v-lazy="singerDetail.artist.picUrl" />
+      <div class="top-bg">
+        <img v-lazy="singerDetail.artist.picUrl" />
+        <div class="bg-mask"></div>
+      </div>
       <div class="singer-info">
         <span class="info-name">{{ singerDetail.artist.name }}</span>
         <span class="info-name" v-if="singerDetail.artist.trans"
@@ -34,7 +37,7 @@
       </div>
     </div>
     <div class="detail-bottom">
-      <van-tabs v-model="active">
+      <van-tabs v-model="active" animated>
         <van-tab title="主页">
           <SingerDetailTabsIndex :desc="singerDetail.artist.briefDesc" />
         </van-tab>
@@ -44,10 +47,15 @@
             :more="singerDetail.more"
           />
         </van-tab>
-        <van-tab :title="`专辑 ${singerDetail.artist.albumSize}`"
-          >内容 3</van-tab
-        >
-        <van-tab :title="`视频 ${singerDetail.artist.mvSize}`">内容 4</van-tab>
+        <van-tab :title="`专辑 ${singerDetail.artist.albumSize}`">
+          <SingerDetailTabsAlbum
+            :album-list="albumList.hotAlbums"
+            :more="albumList.more"
+          />
+        </van-tab>
+        <van-tab :title="`视频 ${singerDetail.artist.mvSize}`">
+          <SingerDetailTabsMv :mv-list="mvList.mvs" />
+        </van-tab>
       </van-tabs>
     </div>
   </div>
@@ -57,17 +65,28 @@
 import { playCountFormat } from "@/utils/utils";
 import { getSingerDescById } from "@/api/singer";
 import { getUserInfoById } from "@/api/user";
+import { getSongDetailByPlayListSongId } from "@/api/song";
+import { getSingerAlbumById } from "@/api/album";
+import { getSingerMvById } from "@/api/mv";
 import SingerDetailTabsIndex from "@/pages/discover-page/child/singer-detail/SingerDetailTabsIndex";
 import SingerDetailTabsSong from "@/pages/discover-page/child/singer-detail/SingerDetailTabsSong";
-import { getSongDetailByPlayListSongId } from "@/api/song";
+import SingerDetailTabsAlbum from "@/pages/discover-page/child/singer-detail/SingerDetailTabsAlbum";
+import SingerDetailTabsMv from "@/pages/discover-page/child/singer-detail/SingerDetailTabsMv";
 
 export default {
   name: "SingerDetailInfo",
-  components: { SingerDetailTabsSong, SingerDetailTabsIndex },
+  components: {
+    SingerDetailTabsMv,
+    SingerDetailTabsAlbum,
+    SingerDetailTabsSong,
+    SingerDetailTabsIndex
+  },
   data() {
     return {
       singerDetail: {},
-      active: 0
+      active: 3,
+      albumList: [],
+      mvList: []
     };
   },
   methods: {
@@ -106,6 +125,12 @@ export default {
           this.singerDetail.hotSongs[index]["maxbr"] = item.maxbr;
         });
       }
+      // 获取歌手专辑信息
+      let albumListResult = await getSingerAlbumById(id);
+      if (albumListResult.status === 200) this.albumList = albumListResult.data;
+
+      let mvListResult = await getSingerMvById(id);
+      if (mvListResult.status === 200) this.mvList = mvListResult.data;
     }
   }
 };
@@ -123,9 +148,20 @@ export default {
     top: 0;
     left: 0;
 
-    img {
-      width: 100%;
-      height: 100%;
+    .top-bg {
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .bg-mask {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.2);
+      }
     }
 
     .singer-info {

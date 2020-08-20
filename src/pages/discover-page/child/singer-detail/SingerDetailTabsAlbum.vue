@@ -1,14 +1,25 @@
 <template>
-  <div class="tabs-mv" ref="mvScroll">
-    <div class="mv-scroll">
-      <div class="mv-item" v-for="item in mvList" :key="item.id">
+  <div class="tabs-album" ref="albumScroll">
+    <div class="album-scroll">
+      <div v-for="item in albumList" :key="item.id" class="album-item">
         <div class="item-img">
-          <img v-lazy="item.imgurl" />
+          <img v-lazy="item.blurPicUrl" />
         </div>
         <div class="item-text">
-          <div class="mv-name">{{ item.name }}</div>
-          <div class="mv-date">{{ item.publishTime }}</div>
+          <div class="album-name">{{ item.name }}</div>
+          <div class="album-date">
+            <span>
+              {{ dateFormat(item.publishTime) }}
+            </span>
+            <span>
+              {{ `${item.size}首` }}
+            </span>
+          </div>
         </div>
+      </div>
+      <div class="all-album" v-if="more">
+        <span>全部专辑</span>
+        <BaseIcon icon="arrow-gray" />
       </div>
     </div>
   </div>
@@ -16,18 +27,28 @@
 
 <script>
 import BScroll from "better-scroll";
+import { dateFormat } from "@/utils/utils";
 
 export default {
   props: {
-    mvList: {
+    albumList: {
       type: Array,
       default: () => []
+    },
+    more: {
+      type: Boolean,
+      default: false
     }
   },
-  name: "SingerDetailTabsMv",
+  name: "SingerDetailTabsAlbum",
+  methods: {
+    dateFormat(date) {
+      return dateFormat(date);
+    }
+  },
   mounted() {
     // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(this.$refs.mvScroll, {
+    const scroll = new BScroll(this.$refs.albumScroll, {
       scrollY: true,
       eventPassthrough: "horizontal",
       click: true,
@@ -41,25 +62,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tabs-mv {
+.tabs-album {
   width: 100%;
   height: 100%;
   overflow: hidden;
 
-  .mv-scroll {
+  .album-scroll {
     padding-top: 0.2rem;
 
-    .mv-item {
-      overflow: hidden;
-      flex-wrap: nowrap;
-      flex: none;
+    .album-item {
       padding-bottom: 0.2rem;
-      height: 1.5rem;
+      height: 1.1rem;
       @include flex-box(row, flex-start, center);
 
       .item-img {
-        width: 2.5rem;
-        height: 1.5rem;
+        width: 1.1rem;
+        height: 1.1rem;
 
         img {
           width: 100%;
@@ -69,17 +87,24 @@ export default {
       }
 
       .item-text {
-        width: calc(100% - 2.8rem);
+        width: calc(100% - 1.4rem);
+        height: 100%;
         margin-left: 0.3rem;
-        .mv-name {
+        @include flex-box(column, center, flex-start);
+
+        .album-name {
           font-size: 0.27rem;
           font-weight: bold;
           margin-bottom: 0.1rem;
           @include text-one-ellipsis;
         }
 
-        .mv-date {
+        .album-date {
           color: $content;
+
+          :first-child {
+            margin-right: 0.1rem;
+          }
         }
       }
     }
