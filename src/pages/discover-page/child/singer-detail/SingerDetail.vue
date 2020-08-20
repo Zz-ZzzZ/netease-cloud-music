@@ -84,7 +84,7 @@ export default {
   data() {
     return {
       singerDetail: {},
-      active: 3,
+      active: 0,
       albumList: [],
       mvList: []
     };
@@ -129,6 +129,7 @@ export default {
       let albumListResult = await getSingerAlbumById(id);
       if (albumListResult.status === 200) this.albumList = albumListResult.data;
 
+      // 获取歌手mv信息
       let mvListResult = await getSingerMvById(id);
       if (mvListResult.status === 200) this.mvList = mvListResult.data;
     }

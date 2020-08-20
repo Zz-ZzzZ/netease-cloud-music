@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-mv" ref="mvScroll">
+  <div class="tabs-mv" ref="mvScroll" v-if="mvList.length > 0">
     <div class="mv-scroll">
       <div class="mv-item" v-for="item in mvList" :key="item.id">
         <div class="item-img">
@@ -12,6 +12,7 @@
       </div>
     </div>
   </div>
+  <div v-else class="no-mv">暂无视频</div>
 </template>
 
 <script>
@@ -92,5 +93,12 @@ export default {
       @include flex-box(row, center, center);
     }
   }
+}
+
+.no-mv {
+  margin-top: 0.2rem;
+  font-size: 0.3rem;
+  color: $content;
+  text-align: center;
 }
 </style>

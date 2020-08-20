@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-album" ref="albumScroll">
+  <div class="tabs-album" ref="albumScroll" v-if="albumList.length > 0">
     <div class="album-scroll">
       <div v-for="item in albumList" :key="item.id" class="album-item">
         <div class="item-img">
@@ -23,6 +23,7 @@
       </div>
     </div>
   </div>
+  <div v-else class="no-album">暂无专辑</div>
 </template>
 
 <script>
@@ -117,5 +118,12 @@ export default {
       @include flex-box(row, center, center);
     }
   }
+}
+
+.no-album {
+  margin-top: 0.2rem;
+  font-size: 0.3rem;
+  color: $content;
+  text-align: center;
 }
 </style>
