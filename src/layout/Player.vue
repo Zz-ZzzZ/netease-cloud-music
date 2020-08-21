@@ -21,6 +21,12 @@
       </div>
       <audio :src="url" ref="audio" autoplay />
     </div>
+    <div
+      class="mini-player-empty"
+      v-if="!a && JSON.stringify(songInfo) === '{}'"
+    >
+      请选择音乐播放
+    </div>
   </div>
 </template>
 
@@ -114,7 +120,8 @@ export default {
     flex: 1;
     margin-left: 0.2rem;
     .info-name {
-      font-size: 0.25rem;
+      color: $title;
+      font-size: 0.27rem;
       font-weight: bold;
       @include text-one-ellipsis;
     }
@@ -125,7 +132,19 @@ export default {
     }
   }
   .mini-play-status {
-    margin-right: 0.07rem;
+    margin-right: 0.05rem;
   }
+}
+.mini-player-empty {
+  position: absolute;
+  bottom: 0;
+  left: 3%;
+  width: $container-width;
+  height: 1rem;
+  background: #ffffff;
+  border-top: 1px solid $divider;
+  @include flex-box(row, center, center);
+  color: $content;
+  font-size: 0.3rem;
 }
 </style>

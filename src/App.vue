@@ -32,7 +32,7 @@ export default {
 }
 .view-enter-active,
 .view-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 1.5s ease;
 }
 .view-enter-to,
 .view-leave {
