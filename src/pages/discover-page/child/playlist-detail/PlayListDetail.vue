@@ -93,7 +93,6 @@
 
 <script>
 import BaseSong from "@/components/BaseSong";
-import BScroll from "better-scroll";
 import TheMoreButtonPopup from "@/components/TheMoreButtonPopup";
 import TheSelectSingerPopup from "@/components/TheSelectSingerPopup";
 import { playCountFormat } from "@/utils/utils";
@@ -101,6 +100,7 @@ import {
   getPlayListDetailById,
   getSongDetailByPlayListSongId
 } from "@/api/song";
+import { initScrollY } from "@/utils/scroll";
 
 export default {
   // eslint-disable-next-line vue/no-unused-components
@@ -170,16 +170,7 @@ export default {
     }
   },
   mounted() {
-    // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(this.$refs.playListDetailScroll, {
-      scrollY: true,
-      eventPassthrough: "horizontal",
-      click: true,
-      bounce: {
-        top: false,
-        bottom: false
-      }
-    });
+    initScrollY(this.$refs.playListDetailScroll);
   }
 };
 </script>

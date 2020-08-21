@@ -19,8 +19,6 @@ Vue.component(BaseIcon.name, BaseIcon);
 Vue.component(BaseButton.name, BaseButton);
 Vue.config.productionTip = false;
 
-// inobounce.enable();
-
 new Vue({
   router,
   store,

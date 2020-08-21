@@ -21,7 +21,7 @@
 
 <script>
 import BaseSong from "@/components/BaseSong";
-import BScroll from "better-scroll";
+import { initScrollY } from "@/utils/scroll";
 export default {
   props: {
     songList: {
@@ -35,16 +35,7 @@ export default {
   },
   name: "SingerDetailTabsSong",
   mounted() {
-    // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(this.$refs.songScroll, {
-      scrollY: true,
-      eventPassthrough: "horizontal",
-      click: true,
-      bounce: {
-        top: false,
-        bottom: false
-      }
-    });
+    initScrollY(this.$refs.songScroll);
   },
   components: { BaseSong }
 };
@@ -55,16 +46,9 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  position: relative;
-  top: 0;
-  left: 0;
+
   .scroll-container {
-    position: absolute;
-    top: 0;
-    left: 0;
     .all-song {
-      margin-top: 0.1rem;
-      margin-bottom: 0.2rem;
       color: $content;
       font-size: 0.3rem;
       line-height: 0.3rem;

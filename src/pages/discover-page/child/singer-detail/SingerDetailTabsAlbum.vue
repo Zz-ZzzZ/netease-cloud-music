@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import BScroll from "better-scroll";
 import { dateFormat } from "@/utils/utils";
+import { initScrollY } from "@/utils/scroll";
 
 export default {
   props: {
@@ -48,16 +48,7 @@ export default {
     }
   },
   mounted() {
-    // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(this.$refs.albumScroll, {
-      scrollY: true,
-      eventPassthrough: "horizontal",
-      click: true,
-      bounce: {
-        top: false,
-        bottom: false
-      }
-    });
+    initScrollY(this.$refs.albumScroll);
   }
 };
 </script>
@@ -110,8 +101,6 @@ export default {
       }
     }
     .all-album {
-      margin-top: 0.1rem;
-      margin-bottom: 0.2rem;
       color: $content;
       font-size: 0.3rem;
       line-height: 0.3rem;

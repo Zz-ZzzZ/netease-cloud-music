@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import BScroll from "better-scroll";
+import { initScrollY } from "@/utils/scroll";
 
 export default {
   props: {
@@ -27,16 +27,7 @@ export default {
   },
   name: "SingerDetailTabsMv",
   mounted() {
-    // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(this.$refs.mvScroll, {
-      scrollY: true,
-      eventPassthrough: "horizontal",
-      click: true,
-      bounce: {
-        top: false,
-        bottom: false
-      }
-    });
+    initScrollY(this.$refs.mvScroll);
   }
 };
 </script>
@@ -59,7 +50,7 @@ export default {
       @include flex-box(row, flex-start, center);
 
       .item-img {
-        width: 2.5rem;
+        width: 2.3rem;
         height: 1.5rem;
 
         img {

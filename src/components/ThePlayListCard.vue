@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import BScroll from "better-scroll";
 import { playCountFormat } from "@/utils/utils";
 import BasePlayList from "@/components/BasePlayList";
+import { initScrollX } from "@/utils/scroll";
 export default {
   components: { BasePlayList },
   props: {
@@ -54,16 +54,7 @@ export default {
     }
   },
   mounted() {
-    // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(this.$refs.playListScroll, {
-      scrollX: true,
-      eventPassthrough: "vertical",
-      click: true,
-      bounce: {
-        left: false,
-        right: false
-      }
-    });
+    initScrollX(this.$refs.playListScroll);
   }
 };
 </script>

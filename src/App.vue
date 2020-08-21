@@ -2,7 +2,7 @@
   <div id="app">
     <NavBar />
     <transition name="view">
-      <router-view />
+      <router-view class="router-view" />
     </transition>
     <Player />
   </div>
@@ -17,18 +17,24 @@ export default {
 </script>
 <style lang="scss">
 @import "style/base";
-.view-enter {
-  opacity: 0;
-  transform: translateX(100%);
+.router-view {
+  width: 100%;
+  height: calc(100% - 2rem);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
-
-.view-leave-to {
-  opacity: 0;
-  transform: translateX(100%);
-  position: absolute;
-}
-.view-enter-active,
-.view-leave-active {
-  transition: all 0.5s ease;
-}
+//.view-enter {
+//  opacity: 0;
+//  transform: translateX(100%);
+//}
+//
+//.view-leave-to {
+//  opacity: 0;
+//  transform: translateX(100%);
+//  position: absolute;
+//}
+//.view-enter-active,
+//.view-leave-active {
+//  transition: all 0.5s ease;
+//}
 </style>

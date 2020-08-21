@@ -12,9 +12,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.discover {
-  width: 100%;
-  height: calc(100% - 1rem);
-}
-</style>
+<style scoped lang="scss"></style>

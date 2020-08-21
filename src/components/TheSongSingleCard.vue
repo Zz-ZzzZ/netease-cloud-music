@@ -13,6 +13,7 @@
           class="bottom-song"
           v-for="songItem in songSingleList"
           :key="songItem.id"
+          @click="setSongInfo(songItem)"
         >
           <div class="song-img">
             <img v-lazy="songItem.picUrl" class="song-img" />
@@ -41,8 +42,7 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import BScroll from "better-scroll";
+import { initScrollY } from "@/utils/scroll";
 
 export default {
   props: {
@@ -56,17 +56,14 @@ export default {
     }
   },
   name: "TheSongSingleCard",
-  mounted() {
+  methods: {
     // eslint-disable-next-line no-unused-vars
-    const scroll = new BScroll(this.$refs.songSingleScroll, {
-      scrollY: true,
-      // eventPassthrough: "vertical",
-      click: true,
-      bounce: {
-        top: false,
-        bottom: false
-      }
-    });
+    setSongInfo(item) {
+      this.$store.dispatch("songInfo/setSongInfo", item);
+    }
+  },
+  mounted() {
+    initScrollY(this.$refs.songSingleScroll);
   }
 };
 </script>
