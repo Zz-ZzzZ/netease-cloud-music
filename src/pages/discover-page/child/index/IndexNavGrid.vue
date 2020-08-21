@@ -14,23 +14,23 @@ export default {
     return {
       icons: [
         {
-          name: "rili",
+          name: "date",
           text: "每日推荐"
         },
         {
-          name: "gedan",
+          name: "play-list",
           text: "歌单"
         },
         {
-          name: "paihangbang1",
+          name: "rank",
           text: "排行榜"
         },
         {
-          name: "diantai",
+          name: "radio",
           text: "电台"
         },
         {
-          name: "zhibo",
+          name: "live",
           text: "直播"
         }
       ]

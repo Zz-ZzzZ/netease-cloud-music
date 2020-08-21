@@ -65,7 +65,7 @@
 import { playCountFormat } from "@/utils/utils";
 import { getSingerDescById } from "@/api/singer";
 import { getUserInfoById } from "@/api/user";
-import { getSongDetailByPlayListSongId } from "@/api/song";
+import { getSongDetailById } from "@/api/song";
 import { getSingerAlbumById } from "@/api/album";
 import { getSingerMvById } from "@/api/mv";
 import SingerDetailTabsIndex from "@/pages/discover-page/child/singer-detail/SingerDetailTabsIndex";
@@ -117,9 +117,7 @@ export default {
         this.singerDetail = singerResult.data;
       }
       // 根据歌手的热门歌曲查询该歌曲有无SQ音质
-      let songListResult = await getSongDetailByPlayListSongId(
-        trackIds.toString()
-      );
+      let songListResult = await getSongDetailById(trackIds.toString());
       if (songListResult.status === 200) {
         songListResult.data.privileges.forEach((item, index) => {
           this.singerDetail.hotSongs[index]["maxbr"] = item.maxbr;

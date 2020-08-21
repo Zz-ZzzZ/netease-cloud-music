@@ -3,7 +3,7 @@
     <img v-lazy="picUrl" class="playlist-img" />
     <div class="playlist-name van-multi-ellipsis--l2">{{ name }}</div>
     <div class="playlist-play-count">
-      <BaseIcon icon="playCount" class="playlist-play-icon" />
+      <BaseIcon icon="play-count" class="playlist-play-icon" />
       <div>{{ playCountFormat(playCount) }}</div>
     </div>
   </div>

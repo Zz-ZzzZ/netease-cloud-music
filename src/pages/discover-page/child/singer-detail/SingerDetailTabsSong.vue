@@ -9,6 +9,7 @@
         :maxbr="item.maxbr"
         :ablum="item.al.name"
         :author="item.ar"
+        :id="item.id"
         :mv="item.mv"
       />
       <div class="all-song" v-if="more">

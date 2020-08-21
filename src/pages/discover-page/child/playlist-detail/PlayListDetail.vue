@@ -17,32 +17,32 @@
               <div class="info-nickname">
                 <img v-lazy="playListDetail.creator.avatarUrl" />
                 <p>{{ playListDetail.creator.nickname }}</p>
-                <BaseIcon icon="arrow" class="info-arrow-icon" />
+                <BaseIcon icon="arrow-white" class="info-arrow-icon" />
               </div>
 
               <div class="info-description">
                 <p class="van-multi-ellipsis--l2">
                   {{ playListDetail.description }}
                 </p>
-                <BaseIcon icon="arrow" class="info-arrow-icon" />
+                <BaseIcon icon="arrow-white" class="info-arrow-icon" />
               </div>
             </div>
           </div>
           <div class="playlist-more-action">
             <div>
-              <BaseIcon icon="jianyi" />
+              <BaseIcon icon="comment" />
               <p>{{ playListDetail.commentCount }}</p>
             </div>
             <div>
-              <BaseIcon icon="fenxiang" />
+              <BaseIcon icon="share" />
               <p>{{ playListDetail.shareCount }}</p>
             </div>
             <div>
-              <BaseIcon icon="xiazai" />
+              <BaseIcon icon="download" />
               <p>下载</p>
             </div>
             <div>
-              <BaseIcon icon="xuanze" />
+              <BaseIcon icon="select" />
               <p>多选</p>
             </div>
           </div>
@@ -52,7 +52,7 @@
     <div class="detail-bottom play-list-detail-scroll">
       <div class="bottom-song-count">
         <div class="bottom-song-count-left">
-          <BaseIcon icon="play" class="play-icon" />
+          <BaseIcon icon="play-black" class="play-icon" />
           <p>播放全部</p>
           <p>(共{{ playListDetail.trackCount }}首)</p>
         </div>
@@ -71,7 +71,8 @@
             :author="item.ar"
             :mv="item.mv"
             :key="index"
-            @touchstart="touchMore(item)"
+            :id="item.id"
+            @more="touchMore(item)"
           />
         </div>
       </div>
@@ -96,14 +97,12 @@ import BaseSong from "@/components/BaseSong";
 import TheMoreButtonPopup from "@/components/TheMoreButtonPopup";
 import TheSelectSingerPopup from "@/components/TheSelectSingerPopup";
 import { playCountFormat } from "@/utils/utils";
-import {
-  getPlayListDetailById,
-  getSongDetailByPlayListSongId
-} from "@/api/song";
+import { getPlayListDetailById, getSongDetailById } from "@/api/song";
 import { initScrollY } from "@/utils/scroll";
+// import { playSong } from "@/utils/mixins";
 
 export default {
-  // eslint-disable-next-line vue/no-unused-components
+  // mixins: [playSong],
   components: { TheSelectSingerPopup, TheMoreButtonPopup, BaseSong },
   name: "PlayListDetailInfo",
   data() {
@@ -138,6 +137,10 @@ export default {
         this.$router.push({ path: "/singer", query: { id: item[0].id } });
       }
     },
+    playSong(id) {
+      console.log(id);
+      this.$store.dispatch("songId/setSongId", id);
+    },
     setSingerId(id) {
       this.$router.push({ path: "/singer", query: { id } });
     },
@@ -154,9 +157,7 @@ export default {
       playlistResult.data.playlist.trackIds.forEach(item => {
         trackIds.push(item.id);
       });
-      let songListResult = await getSongDetailByPlayListSongId(
-        trackIds.toString()
-      );
+      let songListResult = await getSongDetailById(trackIds.toString());
       // 把获得到的音质信息添加到 音乐信息里（获取最大音质）
       if (
         songListResult.status === 200 &&

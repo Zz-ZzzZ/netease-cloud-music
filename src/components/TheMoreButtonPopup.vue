@@ -26,17 +26,17 @@
       </div>
 
       <div class="popup-item">
-        <BaseIcon icon="xiayishou" />
+        <BaseIcon icon="add-next" />
         <p class="item-label">下一首播放</p>
       </div>
 
       <div class="popup-item">
-        <BaseIcon icon="tianjia" />
+        <BaseIcon icon="add" />
         <p class="item-label">添加到歌单</p>
       </div>
 
       <div class="popup-item" @touchstart="setSingerId">
-        <BaseIcon icon="geshou" />
+        <BaseIcon icon="singer" />
         <p class="item-label">歌手 :</p>
         <div class="item-value">
           <span v-for="(item, index) in songObject.ar" :key="item.id">
@@ -48,7 +48,7 @@
       </div>
 
       <div class="popup-item">
-        <BaseIcon icon="zhuanji" />
+        <BaseIcon icon="album" />
         <p class="item-label">专辑 :</p>
         <p class="item-value">{{ songObject.al.name }}</p>
       </div>

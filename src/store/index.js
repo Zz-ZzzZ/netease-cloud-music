@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import songInfo from "@/store/songInfo";
+import songId from "@/store/songId";
 
 Vue.use(Vuex);
 
@@ -9,6 +9,6 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    songInfo
+    songId
   }
 });

@@ -1,7 +1,7 @@
 <template>
   <div class="base-song">
     <div class="song-index">{{ index }}</div>
-    <div class="song-info van-ellipsis">
+    <div class="song-info van-ellipsis" @click="playSong(id)">
       <p class="info-name van-ellipsis">{{ name }}</p>
       <div class="info-author">
         <span v-if="maxbr > 320000" class="sq-tag">SQ</span>
@@ -14,21 +14,27 @@
       </div>
     </div>
     <div class="song-mv">
-      <BaseIcon icon="shipin" v-if="mv !== 0" />
+      <BaseIcon icon="video" v-if="mv !== 0" />
     </div>
     <div class="song-more" @touchstart="touchMore">
-      <BaseIcon icon="gengduo" />
+      <BaseIcon icon="more" />
     </div>
   </div>
 </template>
 
 <script>
+// import { playSong } from "@/utils/mixins";
+
 export default {
-  props: ["index", "name", "maxbr", "ablum", "author", "mv"],
+  // mixins: [playSong],
+  props: ["index", "name", "maxbr", "ablum", "author", "mv", "id"],
   name: "BaseSong",
   methods: {
     touchMore() {
-      this.$emit("touchstart");
+      this.$emit("more");
+    },
+    playSong(id) {
+      this.$store.dispatch("songId/setSongId", id);
     }
   }
 };

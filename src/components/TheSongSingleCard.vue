@@ -13,7 +13,7 @@
           class="bottom-song"
           v-for="songItem in songSingleList"
           :key="songItem.id"
-          @click="setSongInfo(songItem)"
+          @click="playSong(songItem.id)"
         >
           <div class="song-img">
             <img v-lazy="songItem.picUrl" class="song-img" />
@@ -57,9 +57,8 @@ export default {
   },
   name: "TheSongSingleCard",
   methods: {
-    // eslint-disable-next-line no-unused-vars
-    setSongInfo(item) {
-      this.$store.dispatch("songInfo/setSongInfo", item);
+    playSong(id) {
+      this.$store.dispatch("songId/setSongId", id);
     }
   },
   mounted() {
@@ -93,13 +92,11 @@ export default {
     overflow: hidden;
 
     .bottom-scroll {
-      //height: 100%;
-      //width: auto;
       position: absolute;
       top: 0;
       left: 0;
-      //flex-wrap: wrap;
       @include flex-box(column);
+
       .bottom-song {
         margin-bottom: 0.2rem;
         width: 7.05rem;
@@ -120,7 +117,7 @@ export default {
         }
 
         .song-info {
-          width: calc(100% - 1.2rem - 0.3rem);
+          width: calc(100% - 1.2rem - 0.4rem);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -144,9 +141,11 @@ export default {
           }
 
           .info-album {
+            width: 100%;
             color: $content;
             margin-top: 0.2rem;
             font-size: 0.2rem;
+            @include text-one-ellipsis;
           }
         }
 

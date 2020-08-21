@@ -23,18 +23,20 @@ export default {
   overflow-y: scroll;
   overflow-x: hidden;
 }
-//.view-enter {
-//  opacity: 0;
-//  transform: translateX(100%);
-//}
-//
-//.view-leave-to {
-//  opacity: 0;
-//  transform: translateX(100%);
-//  position: absolute;
-//}
-//.view-enter-active,
-//.view-leave-active {
-//  transition: all 0.5s ease;
-//}
+.view-enter {
+  visibility: hidden;
+  opacity: 0;
+}
+.view-leave-to {
+  display: none;
+}
+.view-enter-active,
+.view-leave-active {
+  transition: opacity 0.5s ease;
+}
+.view-enter-to,
+.view-leave {
+  visibility: visible;
+  opacity: 1;
+}
 </style>
