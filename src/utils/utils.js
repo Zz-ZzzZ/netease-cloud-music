@@ -33,3 +33,16 @@ export function dateFormat(date) {
 
   return `${year}-${month}-${day}`;
 }
+
+export function secondToMs(second) {
+  let result = parseInt(second);
+  let m =
+    Math.floor((result / 60) % 60) < 10
+      ? "0" + Math.floor((result / 60) % 60)
+      : Math.floor((result / 60) % 60);
+  let s =
+    Math.floor(result % 60) < 10
+      ? "0" + Math.floor(result % 60)
+      : Math.floor(result % 60);
+  return `${m}:${s}`;
+}

@@ -228,6 +228,7 @@ export default {
     }
     /deep/.van-tabs__line {
       background-color: $red;
+      z-index: 0;
     }
     /deep/.van-tabs__content {
       height: calc(100% - 44px);

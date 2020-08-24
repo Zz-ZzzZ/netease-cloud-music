@@ -50,7 +50,7 @@ export default {
       @include flex-box(row, flex-start, center);
 
       .item-img {
-        width: 2.3rem;
+        width: 2.5rem;
         height: 1.5rem;
 
         img {
@@ -66,7 +66,7 @@ export default {
         .mv-name {
           font-size: 0.27rem;
           font-weight: bold;
-          margin-bottom: 0.1rem;
+          margin-bottom: 0.2rem;
           @include text-one-ellipsis;
         }
 
@@ -75,6 +75,7 @@ export default {
         }
       }
     }
+
     .all-album {
       margin-top: 0.1rem;
       margin-bottom: 0.2rem;

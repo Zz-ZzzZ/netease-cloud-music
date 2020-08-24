@@ -9,7 +9,8 @@ import {
   Popup,
   Cell,
   Tab,
-  Tabs
+  Tabs,
+  Slider
 } from "vant";
 export default {
   install(Vue) {
@@ -24,5 +25,6 @@ export default {
     Vue.use(Cell);
     Vue.use(Tab);
     Vue.use(Tabs);
+    Vue.use(Slider);
   }
 };

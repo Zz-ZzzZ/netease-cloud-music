@@ -53,6 +53,8 @@ export default {
       color: $content;
       font-size: 0.3rem;
       line-height: 0.3rem;
+      padding-bottom: 0.1rem;
+
       @include flex-box(row, center, center);
     }
   }
