@@ -1,28 +1,25 @@
 <template>
-  <div>
+  <div class="player">
     <div
-      class="player"
+      class="large-player"
+      :class="!miniPlayer ? 'up-translate' : ''"
       v-if="JSON.stringify(songInfo) !== '{}'"
-      v-show="player"
+      v-show="!miniPlayer"
     >
       <div class="player-bg">
         <img v-lazy="songInfo.al.picUrl" />
         <div class="bg-mask"></div>
       </div>
-      <div class="player-song">
-        <div class="song-name">{{ songInfo.name }}</div>
-        <div class="singer">
-          <span v-for="(item, index) in songInfo.ar" :key="item.id">
-            {{ songInfo.ar.length - index === 1 ? item.name : `${item.name}/` }}
-          </span>
-        </div>
-      </div>
-      <div class="player-img">
-        <img
-          v-lazy="songInfo.al.picUrl"
-          :class="status ? 'play-status' : 'pause-status'"
-        />
-      </div>
+      <PlayerHeader
+        :song-name="songInfo.name"
+        :song-ar="songInfo.ar"
+        @closePlayer="closePlayer"
+      />
+      <PlayerCenter
+        :pic-url="songInfo.al.picUrl"
+        :status="status"
+        class="player-center"
+      />
       <div class="player-progress">
         <span>{{ startTime }}</span>
         <van-slider
@@ -40,12 +37,12 @@
     <div
       class="mini-player"
       v-if="JSON.stringify(songInfo) !== '{}'"
-      v-show="!player"
+      v-show="miniPlayer"
     >
       <div class="mini-img">
         <img v-lazy="songInfo.al.picUrl" />
       </div>
-      <div class="mini-info" @touchstart="player = true">
+      <div class="mini-info" @touchstart="miniPlayer = false">
         <div class="info-name">{{ songInfo.name }}</div>
         <div class="info-singer">
           <span v-for="(item, index) in songInfo.ar" :key="item.id">
@@ -60,7 +57,7 @@
     </div>
     <div
       class="mini-player-empty"
-      v-if="!player && JSON.stringify(songInfo) === '{}'"
+      v-if="miniPlayer && JSON.stringify(songInfo) === '{}'"
     >
       请选择音乐播放
     </div>
@@ -70,7 +67,6 @@
       autoplay
       @durationchange="durationChange"
       @timeupdate="timeUpdate"
-      @canplay="status = true"
       @play="status = true"
       @pause="status = false"
     />
@@ -81,11 +77,14 @@
 import { checkSongStatus, getSongDetailById, getSongUrlById } from "@/api/song";
 import { Toast } from "vant";
 import { secondToMs } from "@/utils/utils";
+import PlayerHeader from "@/pages/player-page/PlayerHeader";
+import PlayerCenter from "@/pages/player-page/PlayerCenter";
 export default {
   name: "Player",
+  components: { PlayerCenter, PlayerHeader },
   data() {
     return {
-      player: false,
+      miniPlayer: true,
       status: false,
       url: "",
       songInfo: {},
@@ -125,6 +124,11 @@ export default {
     },
     durationChange(e) {
       this.duration = Math.floor(e.target.duration);
+    },
+    closePlayer() {
+      // setTimeout(() => {
+      this.miniPlayer = true;
+      // }, 1000);
     }
   },
   computed: {
@@ -153,22 +157,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.player {
+.large-player {
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
   overflow: hidden;
-  background: #ffffff;
-  transform: translateY(100%);
-  animation: player-translate 0.3s linear forwards;
-  -webkit-animation: player-translate 0.3s linear forwards;
-  @include flex-box(column, center, center);
+  background: $content;
+  opacity: 0;
+  animation: player-opacity 0.3s linear forwards;
 
-  @keyframes player-translate {
+  @keyframes player-opacity {
     to {
-      transform: translateY(0);
+      opacity: 1;
     }
   }
 
@@ -181,9 +183,8 @@ export default {
     -webkit-filter: blur(20px);
     -moz-filter: blur(20px);
     -ms-filter: blur(20px);
-    filter: blur(50px);
+    filter: blur(40px);
     transform: scale(3);
-    z-index: -1;
 
     img {
       width: 100%;
@@ -196,61 +197,16 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.4);
     }
   }
 
-  .player-song {
-    width: 85%;
-    margin-bottom: 1.2rem;
-
-    .song-name,
-    .singer {
-      width: 100%;
-      text-align: center;
-      @include text-one-ellipsis;
-    }
-
-    .song-name {
-      color: #ffffff;
-      font-size: 0.35rem;
-      font-weight: bold;
-    }
-
-    .singer {
-      margin-top: 0.2rem;
-      color: $white-smoke;
-      font-size: 0.25rem;
-    }
-  }
-
-  .player-img {
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 100%;
-    border: 0.8rem solid #000000;
-
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 100%;
-      animation: img-rotate 20s linear infinite;
-      -webkit-animation: img-rotate 20s linear infinite;
-    }
-
-    .play-status {
-      animation-play-state: running;
-    }
-
-    .pause-status {
-      animation-play-state: paused;
-    }
-
-    @keyframes img-rotate {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+  .player-center {
+    width: 100%;
+    height: calc(100% - 1rem - 3rem);
+    position: relative;
+    top: 0;
+    left: 0;
   }
 
   .player-progress {
@@ -273,6 +229,10 @@ export default {
     height: 1.2rem;
     margin-top: 1.2rem;
   }
+}
+
+.up-translate {
+  //opacity: 1;
 }
 
 .mini-player {
