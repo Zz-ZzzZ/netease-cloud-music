@@ -33,6 +33,7 @@ export default {
 
   p {
     font-size: 0.3rem;
+    line-height: 0.35rem;
     font-weight: bold;
     color: #ffffff;
     @include text-one-ellipsis;

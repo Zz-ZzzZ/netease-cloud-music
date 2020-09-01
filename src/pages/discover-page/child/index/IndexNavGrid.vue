@@ -54,7 +54,6 @@ export default {
       width: 0.6rem;
       height: 0.6rem;
       margin-bottom: 0.1rem;
-      color: #ffffff;
       background: linear-gradient(to right, #ff5a4e, #ff1f12);
       padding: 0.1rem;
       border-radius: 50%;

@@ -24,7 +24,6 @@ export default {
   overflow-x: hidden;
 }
 .view-enter {
-  visibility: hidden;
   opacity: 0;
 }
 .view-leave-to {
@@ -32,11 +31,10 @@ export default {
 }
 .view-enter-active,
 .view-leave-active {
-  transition: opacity 1.5s ease;
+  transition: opacity 1.5s;
 }
 .view-enter-to,
 .view-leave {
-  visibility: visible;
   opacity: 1;
 }
 </style>

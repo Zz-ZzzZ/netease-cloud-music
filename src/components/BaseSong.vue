@@ -17,7 +17,7 @@
       <BaseIcon icon="video" v-if="mv !== 0" />
     </div>
     <div class="song-more" @touchstart="touchMore">
-      <BaseIcon icon="more" />
+      <BaseIcon icon="more-gray" />
     </div>
   </div>
 </template>

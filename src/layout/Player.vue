@@ -1,10 +1,8 @@
 <template>
-  <div class="player">
+  <div class="player" v-if="JSON.stringify(songInfo) !== '{}'">
     <div
       class="large-player"
-      :class="!miniPlayer ? 'up-translate' : ''"
-      v-if="JSON.stringify(songInfo) !== '{}'"
-      v-show="!miniPlayer"
+      :class="!miniPlayer ? 'up-translate' : 'down-translate'"
     >
       <div class="player-bg">
         <img v-lazy="songInfo.al.picUrl" />
@@ -20,25 +18,14 @@
         :status="status"
         class="player-center"
       />
-      <div class="player-progress">
-        <span>{{ startTime }}</span>
-        <van-slider
-          v-model="progress"
-          inactive-color="#d7dde4"
-          active-color="#ffffff"
-          button-size="8px"
-          bar-height="4px"
-          class="progress"
-        ></van-slider>
-        <span>{{ endTime }}</span>
-      </div>
-      <div class="player-button"></div>
+      <PlayerFooter
+        :start-time="startTime"
+        :end-time="endTime"
+        :progress="progress"
+        :status="status"
+      />
     </div>
-    <div
-      class="mini-player"
-      v-if="JSON.stringify(songInfo) !== '{}'"
-      v-show="miniPlayer"
-    >
+    <div class="mini-player">
       <div class="mini-img">
         <img v-lazy="songInfo.al.picUrl" />
       </div>
@@ -51,15 +38,17 @@
         </div>
       </div>
       <div class="mini-play-status" @touchstart="changeStatus">
-        <BaseIcon icon="playstatus-play" class="icon-play" v-show="!status" />
-        <BaseIcon icon="playstatus-pause" class="icon-play" v-show="status" />
+        <BaseIcon
+          icon="playstatus-play-red"
+          class="icon-play"
+          v-show="!status"
+        />
+        <BaseIcon
+          icon="playstatus-pause-red"
+          class="icon-play"
+          v-show="status"
+        />
       </div>
-    </div>
-    <div
-      class="mini-player-empty"
-      v-if="miniPlayer && JSON.stringify(songInfo) === '{}'"
-    >
-      请选择音乐播放
     </div>
     <audio
       :src="url"
@@ -71,6 +60,9 @@
       @pause="status = false"
     />
   </div>
+  <div class="mini-player-empty" v-else-if="JSON.stringify(songInfo) === '{}'">
+    请选择音乐播放
+  </div>
 </template>
 
 <script>
@@ -79,9 +71,10 @@ import { Toast } from "vant";
 import { secondToMs } from "@/utils/utils";
 import PlayerHeader from "@/pages/player-page/PlayerHeader";
 import PlayerCenter from "@/pages/player-page/PlayerCenter";
+import PlayerFooter from "@/pages/player-page/PlayerFooter";
 export default {
   name: "Player",
-  components: { PlayerCenter, PlayerHeader },
+  components: { PlayerFooter, PlayerCenter, PlayerHeader },
   data() {
     return {
       miniPlayer: true,
@@ -157,128 +150,104 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.large-player {
+.player {
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: 1rem;
   overflow: hidden;
-  background: $content;
-  opacity: 0;
-  animation: player-opacity 0.3s linear forwards;
+  background: #ffffff;
 
-  @keyframes player-opacity {
-    to {
-      opacity: 1;
-    }
-  }
-
-  .player-bg {
+  .large-player {
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    -webkit-filter: blur(20px);
-    -moz-filter: blur(20px);
-    -ms-filter: blur(20px);
-    filter: blur(40px);
-    transform: scale(3);
+    overflow: hidden;
+    background: $content;
+    transform: translateY(100%);
+    transition: transform 0.3s linear;
 
-    img {
-      width: 100%;
-      height: 100%;
-    }
-
-    .bg-mask {
-      width: 100%;
-      height: 100%;
+    .player-bg {
       position: absolute;
       top: 0;
       left: 0;
-      background: rgba(0, 0, 0, 0.4);
-    }
-  }
-
-  .player-center {
-    width: 100%;
-    height: calc(100% - 1rem - 3rem);
-    position: relative;
-    top: 0;
-    left: 0;
-  }
-
-  .player-progress {
-    width: 85%;
-    margin-top: 1.2rem;
-    @include flex-box(row, flex-start, center);
-
-    span {
-      color: $white-smoke;
-    }
-
-    .progress {
-      margin-left: 0.2rem;
-      margin-right: 0.2rem;
-    }
-  }
-
-  .player-button {
-    width: 80%;
-    height: 1.2rem;
-    margin-top: 1.2rem;
-  }
-}
-
-.up-translate {
-  //opacity: 1;
-}
-
-.mini-player {
-  position: absolute;
-  bottom: 0;
-  left: 3%;
-  width: $container-width;
-  height: 1rem;
-  background: #ffffff;
-  border-top: 1px solid $divider;
-  @include flex-box(row, flex-start, center);
-
-  .mini-img {
-    width: 0.8rem;
-    height: 0.8rem;
-
-    img {
       width: 100%;
       height: 100%;
-      border-radius: 50%;
+      -webkit-filter: blur(20px);
+      -moz-filter: blur(20px);
+      -ms-filter: blur(20px);
+      filter: blur(40px);
+      transform: scale(3);
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .bg-mask {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    .player-button {
+      width: 80%;
+      height: 1.2rem;
+      margin-top: 1.2rem;
     }
   }
 
-  .mini-info {
-    width: calc(100% - 1.6rem);
-    margin-left: 0.2rem;
-
-    .info-name {
-      color: $title;
-      font-size: 0.27rem;
-      font-weight: bold;
-      @include text-one-ellipsis;
-    }
-
-    .info-singer {
-      margin-top: 0.05rem;
-      color: $content;
-      @include text-one-ellipsis;
-    }
+  .up-translate {
+    //opacity: 1;
+    transform: translateY(0%);
   }
 
-  .mini-play-status {
-    margin-right: 0.05rem;
+  .mini-player {
+    width: $container-width;
+    height: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    border-top: 1px solid $divider;
+    @include flex-box(row, flex-start, center);
+
+    .mini-img {
+      width: 0.8rem;
+      height: 0.8rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+
+    .mini-info {
+      width: calc(100% - 1.6rem);
+      margin-left: 0.2rem;
+
+      .info-name {
+        color: $title;
+        font-size: 0.27rem;
+        font-weight: bold;
+        @include text-one-ellipsis;
+      }
+
+      .info-singer {
+        margin-top: 0.05rem;
+        color: $content;
+        @include text-one-ellipsis;
+      }
+    }
+
+    .mini-play-status {
+      margin-right: 0.05rem;
+    }
   }
 }
-
 .mini-player-empty {
   width: $container-width;
   position: absolute;
