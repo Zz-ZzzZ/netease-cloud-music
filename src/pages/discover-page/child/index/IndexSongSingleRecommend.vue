@@ -4,7 +4,7 @@
     class="index-song-single"
     title="发现新音乐"
   >
-    <BaseButton :show-icon="true" icon="play">
+    <BaseButton :show-icon="true" icon="play-black">
       播放全部
     </BaseButton>
   </TheSongSingleCard>

@@ -1,55 +1,24 @@
 <template>
   <div class="player" v-if="JSON.stringify(songInfo) !== '{}'">
-    <div
-      class="large-player"
-      :class="!showMiniPlayer ? 'up-translate' : 'down-translate'"
-    >
-      <div class="player-bg">
-        <img v-lazy="songInfo.al.picUrl" />
-        <div class="bg-mask"></div>
-      </div>
-      <PlayerHeader
-        :song-name="songInfo.name"
-        :song-ar="songInfo.ar"
-        @closePlayer="showMiniPlayer = true"
-      />
-      <PlayerCenter
-        :pic-url="songInfo.al.picUrl"
-        :status="status"
-        class="player-center"
-      />
-      <PlayerFooter
-        :start-time="startTime"
-        :end-time="endTime"
-        :progress="progress"
-        :status="status"
-      />
-    </div>
-    <div class="mini-player">
-      <div class="mini-img">
-        <img v-lazy="songInfo.al.picUrl" />
-      </div>
-      <div class="mini-info" @touchstart="showMiniPlayer = false">
-        <div class="info-name">{{ songInfo.name }}</div>
-        <div class="info-singer">
-          <span v-for="(item, index) in songInfo.ar" :key="item.id">
-            {{ songInfo.ar.length - index === 1 ? item.name : `${item.name}/` }}
-          </span>
-        </div>
-      </div>
-      <div class="mini-play-status" @touchstart="changeStatus">
-        <BaseIcon
-          icon="playstatus-play-red"
-          class="icon-play"
-          v-show="!status"
-        />
-        <BaseIcon
-          icon="playstatus-pause-red"
-          class="icon-play"
-          v-show="status"
-        />
-      </div>
-    </div>
+    <LargePlayer
+      :show-mini-player="showMiniPlayer"
+      :pic-url="songInfo.al.picUrl"
+      :song-name="songInfo.name"
+      :song-ar="songInfo.ar"
+      :status="status"
+      :start-time="startTime"
+      :end-time="endTime"
+      :progress="progress"
+      @closePlayer="showMiniPlayer = true"
+    />
+    <MiniPlayer
+      :pic-url="songInfo.al.picUrl"
+      :status="status"
+      :name="songInfo.name"
+      :song-info="songInfo.ar"
+      @changeShowVideo="showMiniPlayer = false"
+      @changeStatus="changeStatus"
+    />
     <audio
       :src="url"
       ref="audio"
@@ -69,17 +38,15 @@
 import { checkSongStatus, getSongDetailById, getSongUrlById } from "@/api/song";
 import { Toast } from "vant";
 import { secondToMs } from "@/utils/utils";
-import PlayerHeader from "@/pages/player-page/PlayerHeader";
-import PlayerCenter from "@/pages/player-page/PlayerCenter";
-import PlayerFooter from "@/pages/player-page/PlayerFooter";
+import LargePlayer from "@/pages/player-page/LargePlayer";
+import MiniPlayer from "@/pages/player-page/MiniPlayer";
 export default {
   name: "Player",
-  components: { PlayerFooter, PlayerCenter, PlayerHeader },
+  components: { MiniPlayer, LargePlayer },
   data() {
     return {
       showMiniPlayer: true,
       url: "",
-      playStatus: Boolean,
       songInfo: {},
       progress: 0,
       duration: 0,
@@ -119,9 +86,6 @@ export default {
     durationChange(e) {
       this.duration = Math.floor(e.target.duration);
     },
-    closePlayer() {
-      this.showMiniPlayer = true;
-    },
     play() {
       this.$store.commit("playStatus/setStatus", true);
     },
@@ -133,13 +97,9 @@ export default {
     songId() {
       return this.$store.getters["songId/getSongId"].songId;
     },
-    status: {
-      get() {
-        return this.$store.getters["playStatus/getStatus"].status;
-      },
-      set(status) {
-        this.playStatus = status;
-      }
+
+    status() {
+      return this.$store.getters["playStatus/getStatus"].status;
     },
     endTime() {
       return secondToMs(this.duration);
@@ -168,98 +128,6 @@ export default {
   height: 1rem;
   overflow: hidden;
   background: #ffffff;
-
-  .large-player {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    background: $content;
-    transform: translateY(100%);
-    transition: transform 0.3s linear;
-
-    .player-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      -webkit-filter: blur(20px);
-      -moz-filter: blur(20px);
-      -ms-filter: blur(20px);
-      filter: blur(40px);
-      transform: scale(3);
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
-
-      .bg-mask {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: rgba(0, 0, 0, 0.4);
-      }
-    }
-
-    .player-button {
-      width: 80%;
-      height: 1.2rem;
-      margin-top: 1.2rem;
-    }
-  }
-
-  .up-translate {
-    //opacity: 1;
-    transform: translateY(0%);
-  }
-
-  .mini-player {
-    width: $container-width;
-    height: 100%;
-    margin: 0 auto;
-    background: #ffffff;
-    border-top: 1px solid $divider;
-    @include flex-box(row, flex-start, center);
-
-    .mini-img {
-      width: 0.8rem;
-      height: 0.8rem;
-
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
-    }
-
-    .mini-info {
-      width: calc(100% - 1.6rem);
-      margin-left: 0.2rem;
-
-      .info-name {
-        color: $title;
-        font-size: 0.27rem;
-        font-weight: bold;
-        @include text-one-ellipsis;
-      }
-
-      .info-singer {
-        margin-top: 0.05rem;
-        color: $content;
-        @include text-one-ellipsis;
-      }
-    }
-
-    .mini-play-status {
-      margin-right: 0.05rem;
-    }
-  }
 }
 .mini-player-empty {
   width: $container-width;

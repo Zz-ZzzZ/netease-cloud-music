@@ -9,10 +9,10 @@
       <span>{{ startTime }}</span>
       <van-slider
         v-model="getProgress"
-        inactive-color="#d7dde4"
-        active-color="#ffffff"
-        button-size="8px"
-        bar-height="4px"
+        inactive-color="#9295a1"
+        active-color="#e1e1e1"
+        button-size="6px"
+        bar-height="3px"
         class="progress"
       ></van-slider>
       <span>{{ endTime }}</span>
@@ -109,6 +109,7 @@ export default {
     @include flex-box(row, flex-start, center);
 
     span {
+      font-size: 0.21rem;
       color: $white-smoke;
     }
 
