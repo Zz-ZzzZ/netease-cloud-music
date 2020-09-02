@@ -53,6 +53,8 @@ export default {
     width: 5.7rem;
     height: 5.7rem;
     margin-top: 1.8rem;
+    border: 0.1rem solid rgba(200, 200, 200, 0.2);
+    border-radius: 100%;
 
     img {
       width: 3.7rem;

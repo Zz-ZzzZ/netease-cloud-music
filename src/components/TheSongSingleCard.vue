@@ -11,9 +11,9 @@
       <div class="bottom-scroll" id="bottom-scroll">
         <div
           class="bottom-song"
-          v-for="songItem in songSingleList"
+          v-for="(songItem, index) in songSingleList"
           :key="songItem.id"
-          @click="playSong(songItem.id)"
+          @click="playSong(songSingleList, index)"
         >
           <div class="song-img">
             <img v-lazy="songItem.picUrl" class="song-img" />
@@ -57,8 +57,11 @@ export default {
   },
   name: "TheSongSingleCard",
   methods: {
-    playSong(id) {
-      this.$store.dispatch("songId/setSongId", id);
+    playSong(playList, index) {
+      this.$store.commit("playList/setPlayList", {
+        playList,
+        nowPlayIndex: index
+      });
     }
   },
   mounted() {
@@ -85,7 +88,6 @@ export default {
   .card-bottom {
     width: 100%;
     height: calc(100% - 0.5rem);
-    margin-top: 0.2rem;
     position: relative;
     top: 0;
     left: 0;
@@ -95,6 +97,7 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
+      padding-top: 0.2rem;
       @include flex-box(column);
 
       .bottom-song {

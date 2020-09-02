@@ -24,9 +24,8 @@ export default {
     };
   },
   methods: {
-    // eslint-disable-next-line no-unused-vars
     getPlayListId(id) {
-      this.$router.push({ path: "/play-list", query: { id } });
+      this.$router.push({ path: `/play-list/${id}` });
     }
   },
   components: { ThePlayListCard },

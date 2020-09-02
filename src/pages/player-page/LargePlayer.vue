@@ -18,6 +18,7 @@
       :end-time="endTime"
       :progress="progress"
       :status="status"
+      @changeProgress="changeProgress"
     />
   </div>
 </template>
@@ -41,6 +42,9 @@ export default {
   methods: {
     closePlayer() {
       this.$emit("closePlayer");
+    },
+    changeProgress(e) {
+      this.$emit("changeProgress", e);
     }
   },
   components: { LargePlayerFooter, LargePlayerCenter, LargePlayerHeader }

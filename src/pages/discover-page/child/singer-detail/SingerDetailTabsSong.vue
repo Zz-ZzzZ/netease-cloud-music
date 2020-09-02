@@ -2,7 +2,7 @@
   <div class="tabs-song" ref="songScroll">
     <div class="scroll-container">
       <BaseSong
-        v-for="(item, index) in songList"
+        v-for="(item, index) in playList"
         :key="item.id"
         :index="index + 1"
         :name="item.name"
@@ -11,6 +11,7 @@
         :author="item.ar"
         :id="item.id"
         :mv="item.mv"
+        @playSong="playSong(playList, index)"
       />
       <div class="all-song" v-if="more">
         <span>全部歌曲</span>
@@ -25,7 +26,7 @@ import BaseSong from "@/components/BaseSong";
 import { initScrollY } from "@/utils/scroll";
 export default {
   props: {
-    songList: {
+    playList: {
       type: Array,
       default: () => []
     },
@@ -35,6 +36,14 @@ export default {
     }
   },
   name: "SingerDetailTabsSong",
+  methods: {
+    playSong(playList, index) {
+      this.$store.commit("playList/setPlayList", {
+        playList,
+        nowPlayIndex: index
+      });
+    }
+  },
   mounted() {
     initScrollY(this.$refs.songScroll);
   },

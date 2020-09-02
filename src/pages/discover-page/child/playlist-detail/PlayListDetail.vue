@@ -63,7 +63,7 @@
       <div class="bottom-scroll" ref="playListDetailScroll">
         <div class="play-list-detail-scroll">
           <BaseSong
-            v-for="(item, index) in songList"
+            v-for="(item, index) in playList"
             :index="index + 1"
             :name="item.name"
             :maxbr="item.maxbr"
@@ -73,6 +73,7 @@
             :key="index"
             :id="item.id"
             @more="touchMore(item)"
+            @playSong="playSong(playList, index)"
           />
         </div>
       </div>
@@ -99,10 +100,8 @@ import TheSelectSingerPopup from "@/components/TheSelectSingerPopup";
 import { playCountFormat } from "@/utils/utils";
 import { getPlayListDetailById, getSongDetailById } from "@/api/song";
 import { initScrollY } from "@/utils/scroll";
-// import { playSong } from "@/utils/mixins";
 
 export default {
-  // mixins: [playSong],
   components: { TheSelectSingerPopup, TheMoreButtonPopup, BaseSong },
   name: "PlayListDetailInfo",
   data() {
@@ -111,7 +110,7 @@ export default {
       selectSingerShow: false,
       authorInfo: {},
       playListDetail: {},
-      songList: []
+      playList: []
     };
   },
   methods: {
@@ -137,9 +136,11 @@ export default {
         this.$router.push({ path: "/singer", query: { id: item[0].id } });
       }
     },
-    playSong(id) {
-      console.log(id);
-      this.$store.dispatch("songId/setSongId", id);
+    playSong(playList, index) {
+      this.$store.commit("playList/setPlayList", {
+        playList,
+        nowPlayIndex: index
+      });
     },
     setSingerId(id) {
       this.$router.push({ path: "/singer", query: { id } });
@@ -149,23 +150,22 @@ export default {
     }
   },
   async created() {
-    let id = this.$route.query.id;
+    let id = this.$route.params.id;
     let playlistResult = await getPlayListDetailById(id);
     let trackIds = [];
     if (playlistResult.status === 200) {
       this.playListDetail = playlistResult.data.playlist;
-      playlistResult.data.playlist.trackIds.forEach(item => {
-        trackIds.push(item.id);
-      });
-      let songListResult = await getSongDetailById(trackIds.toString());
+      trackIds = playlistResult.data.playlist.trackIds.map(item => item.id);
+
+      let playListResult = await getSongDetailById(trackIds.toString());
       // 把获得到的音质信息添加到 音乐信息里（获取最大音质）
       if (
-        songListResult.status === 200 &&
-        songListResult.data.songs.length > 0
+        playListResult.status === 200 &&
+        playListResult.data.songs.length > 0
       ) {
-        this.songList = songListResult.data.songs;
-        songListResult.data.privileges.forEach((item, index) => {
-          this.songList[index]["maxbr"] = item.maxbr;
+        this.playList = playListResult.data.songs;
+        playListResult.data.privileges.forEach((item, index) => {
+          this.playList[index]["maxbr"] = item.maxbr;
         });
       }
     }

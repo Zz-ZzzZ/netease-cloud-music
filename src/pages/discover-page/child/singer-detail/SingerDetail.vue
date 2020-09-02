@@ -43,7 +43,7 @@
         </van-tab>
         <van-tab title="歌曲">
           <SingerDetailTabsSong
-            :song-list="singerDetail.hotSongs"
+            :play-list="singerDetail.hotSongs"
             :more="singerDetail.more"
           />
         </van-tab>

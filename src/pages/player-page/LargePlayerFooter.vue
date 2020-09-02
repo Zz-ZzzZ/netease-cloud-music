@@ -14,6 +14,7 @@
         button-size="6px"
         bar-height="3px"
         class="progress"
+        @change="change"
       ></van-slider>
       <span>{{ endTime }}</span>
     </div>
@@ -21,7 +22,7 @@
       <div class="icon-item">
         <BaseIcon icon="random-play" />
       </div>
-      <div class="icon-item">
+      <div class="icon-item" @touchstart="prevSong">
         <BaseIcon icon="prev-song" />
       </div>
       <div class="icon-item" @touchstart="changeStatus">
@@ -30,7 +31,7 @@
           class="icon"
         />
       </div>
-      <div class="icon-item">
+      <div class="icon-item" @touchstart="nextSong">
         <BaseIcon icon="next-song" />
       </div>
       <div class="icon-item">
@@ -64,7 +65,8 @@ export default {
         }
       ],
       iconListFooter: [],
-      getProgress: this.progress
+      getProgress: this.progress,
+      index: this.nowPlayIndex
     };
   },
   methods: {
@@ -72,6 +74,23 @@ export default {
       this.status
         ? this.$store.commit("playStatus/setStatus", false)
         : this.$store.commit("playStatus/setStatus", true);
+    },
+    change(e) {
+      this.$emit("changeProgress", e);
+    },
+    prevSong() {
+      this.$emit("prevSong");
+    },
+    nextSong() {
+      let index = this.nowPlayIndex;
+      this.$store.commit("playList/setNewPlayIndex", {
+        nowPlayIndex: index + 1
+      });
+    }
+  },
+  computed: {
+    nowPlayIndex() {
+      return this.$store.getters["playList/getPlayList"].nowPlayIndex;
     }
   },
   watch: {

@@ -10,6 +10,7 @@
       :end-time="endTime"
       :progress="progress"
       @closePlayer="showMiniPlayer = true"
+      @changeProgress="changeProgress"
     />
     <MiniPlayer
       :pic-url="songInfo.al.picUrl"
@@ -25,8 +26,6 @@
       autoplay
       @durationchange="durationChange"
       @timeupdate="timeUpdate"
-      @play="play"
-      @pause="pause"
     />
   </div>
   <div class="mini-player-empty" v-else-if="JSON.stringify(songInfo) === '{}'">
@@ -69,8 +68,8 @@ export default {
           this.$store.commit("playStatus/setStatus", true);
         }
       } else {
-        Toast.fail(statusResult.data.message);
         this.$store.commit("playStatus/setStatus", false);
+        Toast.fail(statusResult.data.message);
       }
     },
     // 更改播放状态 播放/暂停
@@ -86,18 +85,14 @@ export default {
     durationChange(e) {
       this.duration = Math.floor(e.target.duration);
     },
-    play() {
-      this.$store.commit("playStatus/setStatus", true);
-    },
-    pause() {
-      this.$store.commit("playStatus/setStatus", false);
+    changeProgress(e) {
+      this.$refs.audio.currentTime = e * (this.duration / 100);
     }
   },
   computed: {
-    songId() {
-      return this.$store.getters["songId/getSongId"].songId;
+    playList() {
+      return this.$store.getters["playList/getPlayList"];
     },
-
     status() {
       return this.$store.getters["playStatus/getStatus"].status;
     },
@@ -109,9 +104,10 @@ export default {
     }
   },
   watch: {
-    songId: {
-      handler(id) {
-        this.getSongUrlById(id);
+    playList: {
+      handler(val) {
+        let { playList, nowPlayIndex } = val;
+        this.getSongUrlById(playList[nowPlayIndex]);
       },
       deep: true
     },

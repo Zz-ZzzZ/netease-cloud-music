@@ -31,6 +31,7 @@ export default {
 <style scoped>
 .index-song-single {
   width: 100%;
-  height: 4.7rem;
+  /*height: 4.7rem;*/
+  flex: 1;
 }
 </style>

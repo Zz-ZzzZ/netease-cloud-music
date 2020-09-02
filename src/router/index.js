@@ -19,7 +19,7 @@ const routes = [
         }
       },
       {
-        path: "play-list",
+        path: "play-list/:id",
         name: "歌单",
         component: () =>
           import("@/pages/discover-page/child/playlist-detail/PlayListDetail")
@@ -36,10 +36,6 @@ const routes = [
 
 const router = new VueRouter({
   routes
-});
-
-router.beforeEach((to, from, next) => {
-  next();
 });
 
 export default router;
