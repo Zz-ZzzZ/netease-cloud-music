@@ -36,23 +36,23 @@ export default {
   }
 
   .player-bar {
-    width: 2rem;
+    width: 1.8rem;
     position: absolute;
     top: 0.3rem;
-    left: calc(50% - 0.15rem);
+    left: calc(50% - 0.14rem);
     transform: rotate(0);
     transform-origin: 0 0;
     transition: transform 0.5s;
   }
 
   .pause-status {
-    transform: rotate(-15deg);
+    transform: rotate(-20deg);
   }
 
   .player-img {
     width: 5.7rem;
     height: 5.7rem;
-    margin-top: 2.1rem;
+    margin-top: 1.8rem;
 
     img {
       width: 3.7rem;
@@ -61,6 +61,7 @@ export default {
       background: #000000;
       background: linear-gradient(-45deg, #333540, #070708, #333540);
       padding: 1rem;
+      transform: rotate(0);
       animation: img-rotate 20s linear infinite;
       -webkit-animation: img-rotate 20s linear infinite;
       animation-play-state: paused;

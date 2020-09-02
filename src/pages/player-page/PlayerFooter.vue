@@ -24,7 +24,7 @@
       <div class="icon-item">
         <BaseIcon icon="prev-song" />
       </div>
-      <div class="icon-item">
+      <div class="icon-item" @touchstart="changeStatus">
         <BaseIcon
           :icon="status ? 'playstatus-pause-white' : 'playstatus-play-white'"
           class="icon"
@@ -67,6 +67,13 @@ export default {
       getProgress: this.progress
     };
   },
+  methods: {
+    changeStatus() {
+      this.status
+        ? this.$store.commit("playStatus/setStatus", false)
+        : this.$store.commit("playStatus/setStatus", true);
+    }
+  },
   watch: {
     progress(val) {
       this.getProgress = val;
@@ -79,8 +86,9 @@ export default {
 .player-bottom {
   width: 100%;
   height: 3.5rem;
-  position: absolute;
-  bottom: 0;
+  position: relative;
+
+  top: 0;
   left: 0;
   @include flex-box(column, flex-start, center);
 

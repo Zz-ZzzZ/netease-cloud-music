@@ -2,7 +2,7 @@
   <div class="player" v-if="JSON.stringify(songInfo) !== '{}'">
     <div
       class="large-player"
-      :class="!miniPlayer ? 'up-translate' : 'down-translate'"
+      :class="!showMiniPlayer ? 'up-translate' : 'down-translate'"
     >
       <div class="player-bg">
         <img v-lazy="songInfo.al.picUrl" />
@@ -11,7 +11,7 @@
       <PlayerHeader
         :song-name="songInfo.name"
         :song-ar="songInfo.ar"
-        @closePlayer="closePlayer"
+        @closePlayer="showMiniPlayer = true"
       />
       <PlayerCenter
         :pic-url="songInfo.al.picUrl"
@@ -29,7 +29,7 @@
       <div class="mini-img">
         <img v-lazy="songInfo.al.picUrl" />
       </div>
-      <div class="mini-info" @touchstart="miniPlayer = false">
+      <div class="mini-info" @touchstart="showMiniPlayer = false">
         <div class="info-name">{{ songInfo.name }}</div>
         <div class="info-singer">
           <span v-for="(item, index) in songInfo.ar" :key="item.id">
@@ -56,8 +56,8 @@
       autoplay
       @durationchange="durationChange"
       @timeupdate="timeUpdate"
-      @play="status = true"
-      @pause="status = false"
+      @play="play"
+      @pause="pause"
     />
   </div>
   <div class="mini-player-empty" v-else-if="JSON.stringify(songInfo) === '{}'">
@@ -77,9 +77,9 @@ export default {
   components: { PlayerFooter, PlayerCenter, PlayerHeader },
   data() {
     return {
-      miniPlayer: true,
-      status: false,
+      showMiniPlayer: true,
       url: "",
+      playStatus: Boolean,
       songInfo: {},
       progress: 0,
       duration: 0,
@@ -99,17 +99,18 @@ export default {
         let songUrlResult = await getSongUrlById(id);
         if (songUrlResult.status === 200) {
           this.url = songUrlResult.data.data[0].url;
-          this.status = true;
+          this.$store.commit("playStatus/setStatus", true);
         }
       } else {
         Toast.fail(statusResult.data.message);
-        this.status = false;
+        this.$store.commit("playStatus/setStatus", false);
       }
     },
     // 更改播放状态 播放/暂停
     changeStatus() {
-      this.status = !this.status;
-      // !this.status ? this.$refs.audio.pause() : this.$refs.audio.play();
+      this.status
+        ? this.$store.commit("playStatus/setStatus", false)
+        : this.$store.commit("playStatus/setStatus", true);
     },
     timeUpdate(e) {
       this.nowTime = Math.floor(e.target.currentTime);
@@ -119,14 +120,26 @@ export default {
       this.duration = Math.floor(e.target.duration);
     },
     closePlayer() {
-      // setTimeout(() => {
-      this.miniPlayer = true;
-      // }, 1000);
+      this.showMiniPlayer = true;
+    },
+    play() {
+      this.$store.commit("playStatus/setStatus", true);
+    },
+    pause() {
+      this.$store.commit("playStatus/setStatus", false);
     }
   },
   computed: {
     songId() {
       return this.$store.getters["songId/getSongId"].songId;
+    },
+    status: {
+      get() {
+        return this.$store.getters["playStatus/getStatus"].status;
+      },
+      set(status) {
+        this.playStatus = status;
+      }
     },
     endTime() {
       return secondToMs(this.duration);
@@ -142,8 +155,8 @@ export default {
       },
       deep: true
     },
-    status() {
-      !this.status ? this.$refs.audio.pause() : this.$refs.audio.play();
+    status(status) {
+      !status ? this.$refs.audio.pause() : this.$refs.audio.play();
     }
   }
 };
