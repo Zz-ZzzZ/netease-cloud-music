@@ -19,8 +19,8 @@
       <span>{{ endTime }}</span>
     </div>
     <div class="button-footer">
-      <div class="icon-item">
-        <BaseIcon icon="random-play" />
+      <div class="icon-item" @touchstart="changeMode">
+        <BaseIcon :icon="playMode" />
       </div>
       <div class="icon-item" @touchstart="prevSong">
         <BaseIcon icon="prev-song" />
@@ -42,6 +42,9 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+import { Toast } from "vant";
+import { random } from "@/utils/utils";
 export default {
   props: ["startTime", "endTime", "progress", "status"],
   name: "PlayerFooter",
@@ -64,38 +67,76 @@ export default {
           src: "more-white"
         }
       ],
-      iconListFooter: [],
       getProgress: this.progress,
-      index: this.nowPlayIndex
+      playMode: "playlist-circulation"
     };
   },
   methods: {
+    ...mapMutations("playList", [
+      "setNextPlayIndex",
+      "setPrevPlayIndex",
+      "setNowPlayIndex"
+    ]),
+    ...mapMutations("playStatus", ["setStatus", "setMode"]),
     changeStatus() {
-      this.status
-        ? this.$store.commit("playStatus/setStatus", false)
-        : this.$store.commit("playStatus/setStatus", true);
+      this.status ? this.setStatus(false) : this.setStatus(true);
     },
     change(e) {
       this.$emit("changeProgress", e);
     },
+    changeMode() {
+      this.mode === 2 ? this.setMode(0) : this.setMode(this.mode + 1);
+    },
     prevSong() {
-      this.$emit("prevSong");
+      switch (this.mode) {
+        case 0:
+          this.setPrevPlayIndex(this.nowPlayIndex);
+          break;
+        case 1:
+          this.$parent.$parent.$refs.audio.load();
+          break;
+        case 2:
+          this.setNowPlayIndex(random.getRandom(this.playList));
+          break;
+      }
     },
     nextSong() {
-      let index = this.nowPlayIndex;
-      this.$store.commit("playList/setNewPlayIndex", {
-        nowPlayIndex: index + 1
-      });
+      switch (this.mode) {
+        case 0:
+          this.setNextPlayIndex(this.nowPlayIndex);
+          break;
+        case 1:
+          this.$parent.$parent.$refs.audio.load();
+          break;
+        case 2:
+          this.setNowPlayIndex(random.getRandom(this.playList));
+          break;
+      }
     }
   },
   computed: {
-    nowPlayIndex() {
-      return this.$store.getters["playList/getPlayList"].nowPlayIndex;
-    }
+    ...mapState("playList", ["nowPlayIndex", "playList"]),
+    ...mapState("playStatus", ["mode"])
   },
   watch: {
     progress(val) {
       this.getProgress = val;
+    },
+    mode(val) {
+      switch (val) {
+        case 0:
+          this.playMode = "playlist-circulation";
+          Toast("列表循环");
+          break;
+        case 1:
+          this.playMode = "single-circulation";
+          Toast("单曲循环");
+          break;
+        case 2:
+          this.playMode = "random-play";
+          Toast("随机播放");
+          break;
+      }
     }
   }
 };

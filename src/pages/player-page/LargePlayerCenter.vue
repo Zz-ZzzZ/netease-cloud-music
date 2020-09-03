@@ -1,7 +1,12 @@
 <template>
   <div class="player-center">
     <div class="player-img">
-      <img v-lazy="picUrl" :class="status ? 'play-status' : 'pause-status'" />
+      <img src="@/assets/image/disc_default.png" />
+      <img
+        v-lazy="picUrl"
+        :class="status ? 'play-status' : 'pause-status'"
+        class="desc"
+      />
     </div>
     <img
       src="@/assets/image/play-bar.png"
@@ -50,19 +55,25 @@ export default {
   }
 
   .player-img {
-    width: 5.7rem;
-    height: 5.7rem;
+    width: 5.2rem;
+    height: 5.2rem;
     margin-top: 1.8rem;
-    border: 0.1rem solid rgba(200, 200, 200, 0.2);
+    border: 0.15rem solid rgba(200, 200, 200, 0.2);
     border-radius: 100%;
+    position: relative;
+
+    .desc {
+      position: absolute;
+      top: 17.5%;
+      left: 17.5%;
+      width: 65%;
+      height: 65%;
+    }
 
     img {
-      width: 3.7rem;
-      height: 3.7rem;
+      width: 5.2rem;
+      height: 5.2rem;
       border-radius: 100%;
-      background: #000000;
-      background: linear-gradient(-45deg, #333540, #070708, #333540);
-      padding: 1rem;
       transform: rotate(0);
       animation: img-rotate 20s linear infinite;
       -webkit-animation: img-rotate 20s linear infinite;

@@ -34,6 +34,11 @@ export function dateFormat(date) {
   return `${year}-${month}-${day}`;
 }
 
+/**
+ * 根据时间戳返回分秒
+ * @param second
+ * @returns {string}
+ */
 export function secondToMs(second) {
   let result = parseInt(second);
   let m =
@@ -46,3 +51,18 @@ export function secondToMs(second) {
       : Math.floor(result % 60);
   return `${m}:${s}`;
 }
+
+export const random = {
+  random: 0,
+  lastRandom: -1,
+  getRandom(playList) {
+    this.random = Math.floor(Math.random() * (playList.length - 1));
+    // 相等则表示需要重新调用方法直到不相等为止
+    if (this.random === this.lastRandom) {
+      return this.getRandom(playList);
+    } else {
+      this.lastRandom = this.random;
+      return this.random;
+    }
+  }
+};

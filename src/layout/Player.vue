@@ -24,6 +24,7 @@
       :src="url"
       ref="audio"
       autoplay
+      @ended="ended"
       @durationchange="durationChange"
       @timeupdate="timeUpdate"
     />
@@ -36,9 +37,12 @@
 <script>
 import { checkSongStatus, getSongDetailById, getSongUrlById } from "@/api/song";
 import { Toast } from "vant";
-import { secondToMs } from "@/utils/utils";
+// eslint-disable-next-line no-unused-vars
+import { secondToMs, random } from "@/utils/utils";
 import LargePlayer from "@/pages/player-page/LargePlayer";
 import MiniPlayer from "@/pages/player-page/MiniPlayer";
+import { mapMutations, mapGetters, mapState } from "vuex";
+
 export default {
   name: "Player",
   components: { MiniPlayer, LargePlayer },
@@ -65,18 +69,16 @@ export default {
         let songUrlResult = await getSongUrlById(id);
         if (songUrlResult.status === 200) {
           this.url = songUrlResult.data.data[0].url;
-          this.$store.commit("playStatus/setStatus", true);
+          this.setStatus(true);
         }
       } else {
-        this.$store.commit("playStatus/setStatus", false);
+        this.setStatus(false);
         Toast.fail(statusResult.data.message);
       }
     },
     // 更改播放状态 播放/暂停
     changeStatus() {
-      this.status
-        ? this.$store.commit("playStatus/setStatus", false)
-        : this.$store.commit("playStatus/setStatus", true);
+      this.status ? this.setStatus(false) : this.setStatus(true);
     },
     timeUpdate(e) {
       this.nowTime = Math.floor(e.target.currentTime);
@@ -87,15 +89,30 @@ export default {
     },
     changeProgress(e) {
       this.$refs.audio.currentTime = e * (this.duration / 100);
-    }
+    },
+    ended() {
+      switch (this.mode) {
+        case 0:
+          this.setNextPlayIndex(this.getPlayList.nowPlayIndex);
+          break;
+        case 1:
+          this.$refs.audio.load();
+          break;
+        case 2:
+          this.setNowPlayIndex(random.getRandom(this.getPlayList.playList));
+          break;
+      }
+    },
+    ...mapMutations("playStatus", ["setStatus"]),
+    ...mapMutations("playList", [
+      "setPlayList",
+      "setNextPlayIndex",
+      "setNowPlayIndex"
+    ])
   },
   computed: {
-    playList() {
-      return this.$store.getters["playList/getPlayList"];
-    },
-    status() {
-      return this.$store.getters["playStatus/getStatus"].status;
-    },
+    ...mapGetters("playList", ["getPlayList"]),
+    ...mapState("playStatus", ["status", "mode"]),
     endTime() {
       return secondToMs(this.duration);
     },
@@ -104,10 +121,10 @@ export default {
     }
   },
   watch: {
-    playList: {
+    getPlayList: {
       handler(val) {
         let { playList, nowPlayIndex } = val;
-        this.getSongUrlById(playList[nowPlayIndex]);
+        this.getSongUrlById(playList[nowPlayIndex].id);
       },
       deep: true
     },
