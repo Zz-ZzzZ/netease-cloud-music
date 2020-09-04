@@ -15,10 +15,7 @@
             <div v-if="singerDetail.profile">
               <span>关注 {{ singerDetail.profile.follows }}</span>
               <span> | </span>
-              <span
-                >粉丝
-                {{ playCountFormat(singerDetail.profile.followeds) }}</span
-              >
+              <span>粉丝 {{ playCount }}</span>
             </div>
             <div class="left-desc" v-if="singerDetail.profile">
               {{ singerDetail.profile.mainAuthType.desc }}
@@ -89,48 +86,28 @@ export default {
       mvList: []
     };
   },
-  methods: {
-    playCountFormat(count) {
-      return playCountFormat(count);
+  computed: {
+    playCount() {
+      return playCountFormat(this.singerDetail.profile.followeds);
     }
   },
   async created() {
-    let id = this.$route.query.id;
-    let singerResult = await getSingerDescById(id);
-    let trackIds = [];
-    // 获取歌手信息
-    if (singerResult.status === 200) {
-      singerResult.data.hotSongs.forEach(item => {
-        trackIds.push(item.id);
-      });
-      // 根据歌手有无在网易云有个人账号
-      if (singerResult.data.artist.accountId) {
-        let userResult = await getUserInfoById(
-          singerResult.data.artist.accountId
-        );
-        if (userResult.status === 200) {
-          this.singerDetail = singerResult.data;
-          this.singerDetail.profile = userResult.data.profile;
-        }
-      } else {
-        // 没有就只查询歌手的个人信息
-        this.singerDetail = singerResult.data;
-      }
-      // 根据歌手的热门歌曲查询该歌曲有无SQ音质
-      let songListResult = await getSongDetailById(trackIds.toString());
-      if (songListResult.status === 200) {
-        songListResult.data.privileges.forEach((item, index) => {
-          this.singerDetail.hotSongs[index]["maxbr"] = item.maxbr;
-        });
-      }
-      // 获取歌手专辑信息
-      let albumListResult = await getSingerAlbumById(id);
-      if (albumListResult.status === 200) this.albumList = albumListResult.data;
-
-      // 获取歌手mv信息
-      let mvListResult = await getSingerMvById(id);
-      if (mvListResult.status === 200) this.mvList = mvListResult.data;
+    let id = this.$route.params.id;
+    const result = await getSingerDescById(id);
+    let trackIds = result.hotSongs.map(item => item.id);
+    if (result.artist.accountId) {
+      const { profile } = await getUserInfoById(result.artist.accountId);
+      this.singerDetail = result;
+      this.singerDetail.profile = profile;
+    } else {
+      this.singerDetail = result;
     }
+    const { privileges } = await getSongDetailById(trackIds.toString());
+    privileges.forEach((item, index) => {
+      this.singerDetail.hotSongs[index]["maxbr"] = item.maxbr;
+    });
+    this.albumList = await getSingerAlbumById(id);
+    this.mvList = await getSingerMvById(id);
   }
 };
 </script>
@@ -139,6 +116,7 @@ export default {
 .singer-detail {
   width: 100%;
   height: 100%;
+  background: #747d8c;
 
   .detail-top {
     width: 100%;

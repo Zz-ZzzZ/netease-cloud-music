@@ -57,7 +57,7 @@
           <p>(共{{ playListDetail.trackCount }}首)</p>
         </div>
         <div class="bottom-song-count-right">
-          <p>+ 收藏({{ playCountFormat(playListDetail.subscribedCount) }})</p>
+          <p>+ 收藏({{ playCount }})</p>
         </div>
       </div>
       <div class="bottom-scroll" ref="playListDetailScroll">
@@ -81,13 +81,13 @@
     <TheMoreButtonPopup
       :action-sheet-show="actionSheetShow"
       :song-object="authorInfo"
-      @close="closeMore"
+      @close="actionSheetShow = false"
       @touchstart="setSingerIdOne(authorInfo.ar)"
     />
     <TheSelectSingerPopup
       :singer-list="authorInfo.ar"
       :select-singer-show="selectSingerShow"
-      @close="closeSelectSinger"
+      @close="selectSingerShow = false"
       @touchstart="setSingerId"
     />
   </div>
@@ -119,21 +119,13 @@ export default {
       this.authorInfo = item;
       this.actionSheetShow = true;
     },
-    // 关闭更多操作弹窗时
-    closeMore() {
-      this.actionSheetShow = false;
-    },
-    // 关闭选择更多弹窗时
-    closeSelectSinger() {
-      this.selectSingerShow = false;
-    },
     // 当只有一位歌手的时候，直接跳转至歌手详情，不止一位的时候先选择要看哪个
     setSingerIdOne(item) {
       if (item.length > 1) {
         this.actionSheetShow = false;
         this.selectSingerShow = true;
       } else {
-        this.$router.push({ path: "/singer", query: { id: item[0].id } });
+        this.$router.push({ path: `/singer/${item[0].id}` });
       }
     },
     playSong(playList, index) {
@@ -143,32 +135,24 @@ export default {
       });
     },
     setSingerId(id) {
-      this.$router.push({ path: "/singer", query: { id } });
-    },
-    playCountFormat(count) {
-      return playCountFormat(count);
+      this.$router.push({ path: `/singer/${id}` });
+    }
+  },
+  computed: {
+    playCount() {
+      return playCountFormat(this.playListDetail.subscribedCount);
     }
   },
   async created() {
-    let id = this.$route.params.id;
-    let playlistResult = await getPlayListDetailById(id);
-    let trackIds = [];
-    if (playlistResult.status === 200) {
-      this.playListDetail = playlistResult.data.playlist;
-      trackIds = playlistResult.data.playlist.trackIds.map(item => item.id);
-
-      let playListResult = await getSongDetailById(trackIds.toString());
-      // 把获得到的音质信息添加到 音乐信息里（获取最大音质）
-      if (
-        playListResult.status === 200 &&
-        playListResult.data.songs.length > 0
-      ) {
-        this.playList = playListResult.data.songs;
-        playListResult.data.privileges.forEach((item, index) => {
-          this.playList[index]["maxbr"] = item.maxbr;
-        });
-      }
-    }
+    const { playlist } = await getPlayListDetailById(this.$route.params.id);
+    this.playListDetail = playlist;
+    let trackIds = playlist.trackIds.map(item => item.id);
+    const { songs, privileges } = await getSongDetailById(trackIds.toString());
+    this.playList = songs;
+    // 把获得到的音质信息添加到 音乐信息里（获取最大音质）
+    privileges.forEach((item, index) => {
+      this.playList[index]["maxbr"] = item.maxbr;
+    });
   },
   mounted() {
     initScrollY(this.$refs.playListDetailScroll);

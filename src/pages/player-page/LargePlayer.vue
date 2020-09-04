@@ -12,7 +12,12 @@
       :song-ar="songAr"
       @closePlayer="closePlayer"
     />
-    <LargePlayerCenter :pic-url="picUrl" :status="status" />
+    <LargePlayerCenter
+      :pic-url="picUrl"
+      :status="status"
+      :lyric="lyric"
+      :height-light-index="heightLightIndex"
+    />
     <LargePlayerFooter
       :start-time="startTime"
       :end-time="endTime"
@@ -36,7 +41,9 @@ export default {
     "startTime",
     "endTime",
     "progress",
-    "showMiniPlayer"
+    "showMiniPlayer",
+    "lyric",
+    "heightLightIndex"
   ],
   name: "LargePlayer",
   methods: {

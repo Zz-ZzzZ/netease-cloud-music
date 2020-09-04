@@ -17,8 +17,8 @@ export default {
     };
   },
   async created() {
-    let result = await getBanner();
-    if (result.status === 200) this.banners = result.data.banners;
+    const { banners } = await getBanner();
+    this.banners = banners;
   }
 };
 </script>

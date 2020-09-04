@@ -25,7 +25,7 @@ const routes = [
           import("@/pages/discover-page/child/playlist-detail/PlayListDetail")
       },
       {
-        path: "singer",
+        path: "singer/:id",
         name: "",
         component: () =>
           import("@/pages/discover-page/child/singer-detail/SingerDetail")

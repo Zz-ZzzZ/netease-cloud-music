@@ -70,3 +70,28 @@ export const random = {
     }
   }
 };
+
+/**
+ * 播放模式简单封装
+ * @param mode
+ * @param playListCallBack
+ * @param songSingleCallBack
+ * @param randomCallBack
+ * @returns {function(): void}
+ */
+
+export function playMode(
+  mode,
+  playListCallBack,
+  songSingleCallBack,
+  randomCallBack
+) {
+  switch (mode) {
+    case 0:
+      return playListCallBack();
+    case 1:
+      return songSingleCallBack();
+    case 2:
+      return randomCallBack();
+  }
+}

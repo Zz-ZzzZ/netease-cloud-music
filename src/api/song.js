@@ -17,4 +17,8 @@ export const getSongDetailById = params => get("/song/detail", { ids: params });
 export const getSongUrlById = params => get("/song/url", { id: params });
 
 // 根据歌曲ID检查音乐是否可用
-export const checkSongStatus = params => get("/check/music", { id: params });
+export const checkSongStatusById = params =>
+  get("/check/music", { id: params });
+
+// 获取歌词
+export const getLyricById = params => get("/lyric", { id: params });

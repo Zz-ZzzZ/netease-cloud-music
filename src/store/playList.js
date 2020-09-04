@@ -14,6 +14,7 @@ const mutations = {
     state.nowPlayIndex = data.nowPlayIndex;
   },
   setNextPlayIndex: (state, data) => {
+    console.log("提交的索引值 = " + data);
     data >= state.playList.length - 1
       ? (state.nowPlayIndex = 0)
       : (state.nowPlayIndex += 1);

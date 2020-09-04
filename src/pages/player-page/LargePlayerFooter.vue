@@ -1,10 +1,5 @@
 <template>
   <div class="player-bottom">
-    <div class="bottom-header">
-      <div v-for="item in iconListHeader" :key="item.src" class="icon-item">
-        <BaseIcon :icon="item.src" />
-      </div>
-    </div>
     <div class="bottom-center">
       <span>{{ startTime }}</span>
       <van-slider
@@ -44,7 +39,7 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 import { Toast } from "vant";
-import { random } from "@/utils/utils";
+import { playMode, random } from "@/utils/utils";
 export default {
   props: ["startTime", "endTime", "progress", "status"],
   name: "PlayerFooter",
@@ -91,30 +86,32 @@ export default {
       this.mode === 2 ? this.setMode(0) : this.setMode(this.mode + 1);
     },
     prevSong() {
-      switch (this.mode) {
-        case 0:
+      playMode(
+        this.mode,
+        () => {
           this.setPrevPlayIndex(this.nowPlayIndex);
-          break;
-        case 1:
+        },
+        () => {
           this.$parent.$parent.$refs.audio.load();
-          break;
-        case 2:
+        },
+        () => {
           this.setNowPlayIndex(random.getRandom(this.playList));
-          break;
-      }
+        }
+      );
     },
     nextSong() {
-      switch (this.mode) {
-        case 0:
+      playMode(
+        this.mode,
+        () => {
           this.setNextPlayIndex(this.nowPlayIndex);
-          break;
-        case 1:
+        },
+        () => {
           this.$parent.$parent.$refs.audio.load();
-          break;
-        case 2:
+        },
+        () => {
           this.setNowPlayIndex(random.getRandom(this.playList));
-          break;
-      }
+        }
+      );
     }
   },
   computed: {
@@ -149,7 +146,7 @@ export default {
 <style scoped lang="scss">
 .player-bottom {
   width: 100%;
-  height: 3.5rem;
+  height: 2.5rem;
   position: relative;
 
   top: 0;

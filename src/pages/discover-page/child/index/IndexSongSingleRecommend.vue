@@ -22,8 +22,8 @@ export default {
   },
   components: { TheSongSingleCard },
   async created() {
-    let result = await getSongSingleList();
-    if (result.status === 200) this.songSingleList = result.data.result;
+    const { result } = await getSongSingleList();
+    this.songSingleList = result;
   }
 };
 </script>

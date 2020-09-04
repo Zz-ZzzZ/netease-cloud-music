@@ -30,8 +30,8 @@ export default {
   },
   components: { ThePlayListCard },
   async created() {
-    let result = await getPlayList(10);
-    if (result.status === 200) this.playList = result.data.result;
+    const { result } = await getPlayList(10);
+    this.playList = result;
   }
 };
 </script>

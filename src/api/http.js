@@ -43,7 +43,9 @@ export function get(url, params) {
     axios
       .get(url, { params: params })
       .then(response => {
-        resolve(response);
+        if (response.status === 200) {
+          resolve(response.data);
+        }
       })
       .catch(err => {
         reject(err);
