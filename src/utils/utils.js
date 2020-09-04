@@ -52,6 +52,10 @@ export function secondToMs(second) {
   return `${m}:${s}`;
 }
 
+/**
+ * 获取随机索引，歌曲随机播放逻辑
+ * @type {{random: number, lastRandom: number, getRandom(*=): (*)}}
+ */
 export const random = {
   random: 0,
   lastRandom: -1,

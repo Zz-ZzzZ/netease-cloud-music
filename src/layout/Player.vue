@@ -80,16 +80,20 @@ export default {
     changeStatus() {
       this.status ? this.setStatus(false) : this.setStatus(true);
     },
+    // 获取当前播放时间
     timeUpdate(e) {
       this.nowTime = Math.floor(e.target.currentTime);
       this.progress = Math.floor((this.nowTime / this.duration) * 100);
     },
+    // 获取总时长
     durationChange(e) {
       this.duration = Math.floor(e.target.duration);
     },
+    // 更改进度时间
     changeProgress(e) {
       this.$refs.audio.currentTime = e * (this.duration / 100);
     },
+    // 当歌曲结束的时候根据播放模式判断
     ended() {
       switch (this.mode) {
         case 0:
@@ -121,6 +125,7 @@ export default {
     }
   },
   watch: {
+    // 监听VUEX中的歌单列表和索引，只要其中一个改变将播放该歌曲
     getPlayList: {
       handler(val) {
         let { playList, nowPlayIndex } = val;
@@ -128,6 +133,7 @@ export default {
       },
       deep: true
     },
+    // 监听VUEX中的状态来控制音频播放/暂停
     status(status) {
       !status ? this.$refs.audio.pause() : this.$refs.audio.play();
     }

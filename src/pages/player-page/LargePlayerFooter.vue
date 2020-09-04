@@ -78,12 +78,15 @@ export default {
       "setNowPlayIndex"
     ]),
     ...mapMutations("playStatus", ["setStatus", "setMode"]),
+    // 大播放器的控制音乐播放
     changeStatus() {
       this.status ? this.setStatus(false) : this.setStatus(true);
     },
+    // 更改进度条时间
     change(e) {
       this.$emit("changeProgress", e);
     },
+    // 更改播放模式
     changeMode() {
       this.mode === 2 ? this.setMode(0) : this.setMode(this.mode + 1);
     },
@@ -122,6 +125,7 @@ export default {
     progress(val) {
       this.getProgress = val;
     },
+    // 监听播放模式控制Toast提示
     mode(val) {
       switch (val) {
         case 0:
