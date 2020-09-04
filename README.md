@@ -19,6 +19,11 @@
 ![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/player.jpg)
 
 
+##### 首页
+
+![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/index.jpg)
+
+
 ### 安装依赖包
 ```
 npm install
