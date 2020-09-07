@@ -72,6 +72,7 @@
             :mv="item.mv"
             :key="index"
             :id="item.id"
+            :fee="item.songFee"
             @more="touchMore(item)"
             @playSong="playSong(playList, index)"
           />
@@ -152,6 +153,7 @@ export default {
     // 把获得到的音质信息添加到 音乐信息里（获取最大音质）
     privileges.forEach((item, index) => {
       this.playList[index]["maxbr"] = item.maxbr;
+      this.playList[index]["songFee"] = item.fee;
     });
   },
   mounted() {

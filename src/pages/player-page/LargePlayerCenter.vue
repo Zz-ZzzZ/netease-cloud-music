@@ -1,11 +1,7 @@
 <template>
   <div class="player-center">
     <transition name="player">
-      <div
-        class="player-item"
-        v-show="!showLyric"
-        @touchstart="showLyric = true"
-      >
+      <div class="player-item" v-show="!showLyric" @touchend="showLyric = true">
         <div class="player-img">
           <img src="@/assets/image/disc_default.png" />
           <img
@@ -187,9 +183,11 @@ export default {
       color: $content;
       font-size: 0.27rem;
       line-height: 0.7rem;
+
       .heightLight {
         font-size: 0.3rem;
         color: $white-smoke;
+        transition: all 0.5s;
       }
     }
   }

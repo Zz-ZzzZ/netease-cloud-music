@@ -11,6 +11,7 @@
         :author="item.ar"
         :id="item.id"
         :mv="item.mv"
+        :fee="item.songFee"
         @playSong="playSong(playList, index)"
       />
       <div class="all-song" v-if="more">

@@ -20,10 +20,12 @@ export default {
 .router-view {
   width: 100%;
   height: calc(100% - 2rem);
-  overflow-y: scroll;
-  overflow-x: hidden;
+  //overflow-y: scroll;
+  //overflow-x: hidden;
+  overflow: hidden;
 }
-.view-enter {
+.view-enter,
+.view-leave-to {
   opacity: 0;
 }
 .view-leave-to {
@@ -31,7 +33,7 @@ export default {
 }
 .view-enter-active,
 .view-leave-active {
-  transition: opacity 1.5s;
+  transition: opacity 0.5s;
 }
 .view-enter-to,
 .view-leave {

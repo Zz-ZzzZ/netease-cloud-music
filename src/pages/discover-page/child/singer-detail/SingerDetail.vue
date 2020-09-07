@@ -105,6 +105,7 @@ export default {
     const { privileges } = await getSongDetailById(trackIds.toString());
     privileges.forEach((item, index) => {
       this.singerDetail.hotSongs[index]["maxbr"] = item.maxbr;
+      this.singerDetail.hotSongs[index]["songFee"] = item.fee;
     });
     this.albumList = await getSingerAlbumById(id);
     this.mvList = await getSingerMvById(id);

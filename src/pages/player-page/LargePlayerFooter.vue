@@ -75,7 +75,7 @@ export default {
     ...mapMutations("playStatus", ["setStatus", "setMode"]),
     // 大播放器的控制音乐播放
     changeStatus() {
-      this.status ? this.setStatus(false) : this.setStatus(true);
+      this.$emit("changeStatus");
     },
     // 更改进度条时间
     change(e) {
@@ -116,7 +116,7 @@ export default {
   },
   computed: {
     ...mapState("playList", ["nowPlayIndex", "playList"]),
-    ...mapState("playStatus", ["mode"])
+    ...mapState("playStatus", ["mode", "haveUrl"])
   },
   watch: {
     progress(val) {

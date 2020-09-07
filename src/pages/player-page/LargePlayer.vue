@@ -24,6 +24,7 @@
       :progress="progress"
       :status="status"
       @changeProgress="changeProgress"
+      @changeStatus="changeStatus"
     />
   </div>
 </template>
@@ -52,6 +53,9 @@ export default {
     },
     changeProgress(e) {
       this.$emit("changeProgress", e);
+    },
+    changeStatus() {
+      this.$emit("changeStatus");
     }
   },
   components: { LargePlayerFooter, LargePlayerCenter, LargePlayerHeader }

@@ -4,6 +4,7 @@
     <div class="song-info van-ellipsis" @click="playSong">
       <p class="info-name van-ellipsis">{{ name }}</p>
       <div class="info-author">
+        <span v-if="fee === 1" class="sq-tag">VIP</span>
         <span v-if="maxbr > 320000" class="sq-tag">SQ</span>
         <span v-for="(ar, index) in author" :key="ar.id">
           {{ author.length - index === 1 ? ar.name : `${ar.name} / ` }}
@@ -24,7 +25,7 @@
 
 <script>
 export default {
-  props: ["index", "name", "maxbr", "ablum", "author", "mv", "id"],
+  props: ["index", "name", "maxbr", "ablum", "author", "mv", "id", "fee"],
   name: "BaseSong",
   methods: {
     touchMore() {

@@ -13,6 +13,7 @@
       :height-light-index="heightLightIndex"
       @closePlayer="showMiniPlayer = true"
       @changeProgress="changeProgress"
+      @changeStatus="changeStatus"
     />
     <MiniPlayer
       :pic-url="songInfo.al.picUrl"
@@ -37,18 +38,12 @@
 </template>
 
 <script>
-import {
-  checkSongStatusById,
-  getLyricById,
-  getSongDetailById,
-  getSongUrlById
-} from "@/api/song";
+import { getLyricById, getSongDetailById, getSongUrlById } from "@/api/song";
 import { Toast } from "vant";
 import { secondToMs, random, playMode } from "@/utils/utils";
 import LargePlayer from "@/pages/player-page/LargePlayer";
 import MiniPlayer from "@/pages/player-page/MiniPlayer";
 import { mapMutations, mapGetters, mapState } from "vuex";
-// eslint-disable-next-line no-unused-vars
 import Lyric from "lyric-parser";
 
 export default {
@@ -63,38 +58,59 @@ export default {
       duration: 0,
       nowTime: 0,
       lyricArray: [],
-      lyricString: "",
+      lyricObj: {},
+      playLyricBtnActivate: Boolean,
       heightLightIndex: 0
     };
   },
   methods: {
     async getSongUrlById(id) {
-      const result = await checkSongStatusById(id);
-      try {
-        const { songs } = await getSongDetailById(id);
-        this.songInfo = songs[0];
-        const { lrc } = await getLyricById(id);
-        this.lyricString = new Lyric(lrc.lyric, this.handler);
-        const timeExp = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g;
-        const lines = lrc.lyric.split("\n");
-        let arr = [];
-        for (let i = 0; i < lrc.lyric.length; i++) {
-          if (lines[i]) {
-            arr.push(lines[i].replace(timeExp, "").trim());
-          }
-        }
-        this.lyricArray = arr;
-        const { data } = await getSongUrlById(id);
+      const { songs } = await getSongDetailById(id);
+      this.songInfo = songs[0];
+
+      const { lrc } = await getLyricById(id);
+      this.setLyric(lrc.lyric);
+
+      if (JSON.stringify(this.lyricObj) !== "{}") {
+        this.lyricObj.seek(0);
+        this.lyricObj.stop();
+      }
+
+      const { data } = await getSongUrlById(id);
+      if (data[0].url) {
         this.url = data[0].url;
+        this.lyricObj = new Lyric(lrc.lyric, this.handler);
+        this.lyricObj.play();
+        this.playLyricBtnActivate = false;
+        this.setHaveUrl(true);
         this.setStatus(true);
-      } catch (e) {
-        Toast.fail(result.message);
+      } else {
+        Toast({
+          type: "fail",
+          message: "未能获取到资源,请先开通VIP"
+        });
+        this.url = "";
+        this.duration = this.progress = this.heightLightIndex = 0;
+        this.setHaveUrl(false);
         this.setStatus(false);
       }
     },
-    // 更改播放状态 播放/暂停
+    setLyric(lyric) {
+      const timeExp = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g;
+      const lines = lyric.split("\n");
+      let lyricArray = [];
+      for (let i = 0; i < lyric.length; i++) {
+        if (lines[i] && lines[i].replace(timeExp, "").trim() !== "") {
+          lyricArray.push(lines[i].replace(timeExp, "").trim());
+        }
+      }
+      this.lyricArray = lyricArray;
+    },
+
     changeStatus() {
-      this.status ? this.setStatus(false) : this.setStatus(true);
+      if (this.haveUrl) {
+        this.status ? this.setStatus(false) : this.setStatus(true);
+      }
     },
     // 获取当前播放时间
     timeUpdate(e) {
@@ -114,7 +130,7 @@ export default {
       playMode(
         this.mode,
         () => {
-          this.setNextPlayIndex(this.nowPlayIndex);
+          this.setNextPlayIndex(this.getPlayList.nowPlayIndex);
         },
         () => {
           this.$parent.$parent.$refs.audio.load();
@@ -125,11 +141,10 @@ export default {
       );
     },
     // eslint-disable-next-line no-unused-vars
-    handler({ lineNum, txt }) {
+    handler({ lineNum }) {
       this.heightLightIndex = lineNum;
-      console.log(txt);
     },
-    ...mapMutations("playStatus", ["setStatus"]),
+    ...mapMutations("playStatus", ["setStatus", "setHaveUrl"]),
     ...mapMutations("playList", [
       "setPlayList",
       "setNextPlayIndex",
@@ -138,7 +153,7 @@ export default {
   },
   computed: {
     ...mapGetters("playList", ["getPlayList"]),
-    ...mapState("playStatus", ["status", "mode"]),
+    ...mapState("playStatus", ["status", "mode", "haveUrl"]),
     endTime() {
       return secondToMs(this.duration);
     },
@@ -157,12 +172,21 @@ export default {
     },
     // 监听VUEX中的状态来控制音频播放/暂停
     status(status) {
-      if (status) {
-        this.$refs.audio.play();
-        this.lyricString.play();
-      } else {
-        this.$refs.audio.pause();
-        this.lyricString.stop();
+      if (this.haveUrl) {
+        if (status) {
+          this.$refs.audio.play();
+          // 歌词开始滚动需要由Play()来控制，若在此定义Play()方法则暂停歌曲在继续播放后歌词滚动会重新开始，
+          // 因此需要使用togglePlay来继续/暂停歌词滚动，等待歌词出现暂停后，才可以激活歌词继续滚动，Play方法将在得到Url的时候开始，
+          // 防止Play和togglePlay冲突
+          if (this.playLyricBtnActivate) {
+            this.lyricObj.togglePlay();
+          }
+        } else {
+          this.$refs.audio.pause();
+          this.lyricObj.togglePlay();
+          // 激活继续歌词滚动
+          this.playLyricBtnActivate = true;
+        }
       }
     }
   }
