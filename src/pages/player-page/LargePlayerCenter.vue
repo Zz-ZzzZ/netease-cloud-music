@@ -34,6 +34,7 @@
             v-for="(item, index) in lyric"
             :key="index"
             :class="heightLightIndex === index ? 'heightLight' : ''"
+            ref="lyric"
           >
             {{ item }}
           </p>
@@ -68,11 +69,22 @@ export default {
           src: "more-white"
         }
       ],
-      showLyric: false
+      showLyric: false,
+      scrollObj: {}
     };
   },
   mounted() {
-    initScrollY(".scroll-container");
+    this.scrollObj = initScrollY(".scroll-container");
+    // this.scrollObj.scrollTo(0, 200, 50000);
+  },
+  watch: {
+    heightLightIndex(val) {
+      if (val === 0) {
+        this.scrollObj.scrollTo(0, 0, 500);
+      } else if (val > 5) {
+        this.scrollObj.scrollToElement(this.$refs.lyric[val - 5], 500);
+      }
+    }
   }
 };
 </script>
