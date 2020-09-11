@@ -16,10 +16,10 @@
 ![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/playlist.png)
 
 ## 播放界面
-![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/player.jpg)
+![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/player.png)
 
 ## 歌词滚动显示
-![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/lyric.png)
+![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/lyric.jpg)
 
 ## 歌单/歌曲评论
 ![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/comments.png)
