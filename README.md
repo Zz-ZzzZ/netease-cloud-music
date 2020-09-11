@@ -16,7 +16,7 @@
 ![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/playlist.png)
 
 ## 播放界面
-![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/player.png)
+![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/player.jpg)
 
 ## 歌词滚动显示
 ![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/lyric.png)
