@@ -30,7 +30,7 @@
         <BaseIcon icon="next-song" />
       </div>
       <div class="icon-item">
-        <BaseIcon icon="random-play" />
+        <BaseIcon icon="playlist" />
       </div>
     </div>
   </div>

@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="playlist-more-action">
-            <div>
+            <div @touchstart="setPlayListId(playListDetail.id)">
               <BaseIcon icon="comment" />
               <p>{{ playListDetail.commentCount }}</p>
             </div>
@@ -128,6 +128,9 @@ export default {
       } else {
         this.$router.push({ path: `/singer/${item[0].id}` });
       }
+    },
+    setPlayListId(id) {
+      this.$router.push({ path: `/comments/${id}` });
     },
     playSong(playList, index) {
       this.$store.commit("playList/setPlayList", {

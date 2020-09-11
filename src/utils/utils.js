@@ -10,16 +10,17 @@ export function playCountFormat(playCount) {
     case playCount > 100000000:
       return `${(playCount / 100000000).toFixed(1)}亿`;
     default:
-      return `${playCount}`;
+      return playCount;
   }
 }
 
 /**
  * 根据时间戳返回年月日
  * @param date
+ * @param type 返回日期格式 '-'为 0  'x年x月x日为 1'
  * @returns {string}
  */
-export function dateFormat(date) {
+export function dateFormat(date, type = 0) {
   const dateFormat = new Date(date);
   let year = dateFormat.getFullYear();
   let month =
@@ -31,7 +32,7 @@ export function dateFormat(date) {
       ? `0${dateFormat.getDate() + 1}`
       : dateFormat.getDate() + 1;
 
-  return `${year}-${month}-${day}`;
+  return type === 0 ? `${year}-${month}-${day}` : `${year}年${month}月${day}日`;
 }
 
 /**

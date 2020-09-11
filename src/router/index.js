@@ -29,6 +29,11 @@ const routes = [
         name: "",
         component: () =>
           import("@/pages/discover-page/child/singer-detail/SingerDetail")
+      },
+      {
+        path: "comments/:id",
+        name: "评论",
+        component: () => import("@/pages/discover-page/child/comments/Comments")
       }
     ]
   }

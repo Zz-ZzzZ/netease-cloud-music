@@ -1,5 +1,5 @@
 <template>
-  <div class="song-list-card">
+  <div class="play-list-card">
     <div class="card-top">
       <div class="top-title">{{ title }}</div>
       <div class="top-more">
@@ -54,13 +54,14 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$refs.playListScroll);
     initScrollX(this.$refs.playListScroll);
   }
 };
 </script>
 
 <style scoped lang="scss">
-.song-list-card {
+.play-list-card {
   margin: 0.3rem 0;
   font-size: 0.22rem;
 

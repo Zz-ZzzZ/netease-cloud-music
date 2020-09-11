@@ -75,14 +75,13 @@ export default {
   },
   mounted() {
     this.scrollObj = initScrollY(".scroll-container");
-    // this.scrollObj.scrollTo(0, 200, 50000);
   },
   watch: {
     heightLightIndex(val) {
-      if (val < 5) {
+      if (val < 6) {
         this.scrollObj.scrollTo(0, 0, 500);
       } else {
-        this.scrollObj.scrollToElement(this.$refs.lyric[val - 5], 500);
+        this.scrollObj.scrollToElement(this.$refs.lyric[val - 6], 500);
       }
     }
   }

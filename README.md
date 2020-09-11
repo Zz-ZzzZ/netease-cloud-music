@@ -21,6 +21,9 @@
 ## 歌词滚动显示
 ![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/lyric.png)
 
+## 歌单/歌曲评论
+![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/comments.png)
+
 ### 安装依赖包
 ```
 npm install
