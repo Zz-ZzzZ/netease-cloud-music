@@ -124,6 +124,10 @@ export default {
     // 更改进度时间
     changeProgress(e) {
       this.$refs.audio.currentTime = e * (this.duration / 100);
+      // let lyricTime = `[${secondToMs(e * (this.duration / 100))}.000]`;
+      console.log(e * (this.duration / 100));
+      // console.log(lyricTime);
+      this.lyricObj.seek(e * this.duration * 10);
     },
     // 当歌曲结束的时候根据播放模式判断
     ended() {
@@ -141,8 +145,9 @@ export default {
       );
     },
     // eslint-disable-next-line no-unused-vars
-    handler({ lineNum }) {
+    handler({ lineNum, txt }) {
       this.heightLightIndex = lineNum;
+      console.log(txt);
     },
     ...mapMutations("playStatus", ["setStatus", "setHaveUrl"]),
     ...mapMutations("playList", [

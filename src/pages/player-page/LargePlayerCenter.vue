@@ -79,9 +79,9 @@ export default {
   },
   watch: {
     heightLightIndex(val) {
-      if (val === 0) {
+      if (val < 5) {
         this.scrollObj.scrollTo(0, 0, 500);
-      } else if (val > 5) {
+      } else {
         this.scrollObj.scrollToElement(this.$refs.lyric[val - 5], 500);
       }
     }
@@ -197,9 +197,13 @@ export default {
       line-height: 0.7rem;
 
       .heightLight {
-        font-size: 0.3rem;
+        //font-size: 0.29rem;
         color: $white-smoke;
-        transition: all 0.5s;
+        transition: all 0.3s;
+      }
+
+      p {
+        //@include text-one-ellipsis;
       }
     }
   }

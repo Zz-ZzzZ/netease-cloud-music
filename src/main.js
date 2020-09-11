@@ -11,8 +11,8 @@ import "@/assets/iconfont/iconfont";
 import vconsole from "vconsole";
 const vConsole = new vconsole();
 
+initRem();
 Vue.use(vConsole);
-Vue.use(initRem);
 Vue.use(inobounce);
 Vue.use(plugin);
 Vue.component(BaseIcon.name, BaseIcon);
