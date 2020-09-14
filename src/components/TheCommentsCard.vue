@@ -8,18 +8,14 @@
         <div>最新</div>
       </div>
     </div>
-    <div
-      class="scroll-container"
-      ref="scroll"
-      v-if="JSON.stringify(comments) !== '{}'"
-    >
+    <div class="scroll-container" ref="scroll">
       <div>
-        <div class="comments-hot" v-if="comments.hotComments.length > 0">
-          <h4>精彩评论</h4>
+        <div class="comments-hot" v-if="hotComments && hotComments.length > 0">
+          <h4>精彩评论({{ hotComments.length }})</h4>
           <div
             class="hot-user"
-            v-for="item in comments.hotComments"
-            :key="item.commentId"
+            v-for="(item, index) in hotComments"
+            :key="index"
           >
             <div class="user-header">
               <img v-lazy="item.user.avatarUrl" class="header-img" />
@@ -34,13 +30,9 @@
             <div class="user-footer"></div>
           </div>
         </div>
-        <div class="comments-normal">
-          <h4>评论</h4>
-          <div
-            class="hot-user"
-            v-for="item in comments.comments"
-            :key="item.commentId"
-          >
+        <div class="comments-normal" v-if="comments && comments.length > 0">
+          <h4>评论({{ total - hotComments.length }})</h4>
+          <div class="hot-user" v-for="item in comments" :key="item.commentId">
             <div class="user-header">
               <img v-lazy="item.user.avatarUrl" class="header-img" />
               <div style="flex: 1">
@@ -64,20 +56,28 @@ import { dateFormat } from "@/utils/utils";
 import { initScrollY } from "@/utils/scroll";
 
 export default {
-  props: {
-    comments: {
-      type: Object,
-      default: () => {}
-    }
-  },
+  props: ["hotComments", "comments", "total"],
   name: "TheCommentsCard",
+  data() {
+    return {
+      scrollObj: undefined
+    };
+  },
   methods: {
     dateFormat(date, type) {
       return dateFormat(date, type);
     }
   },
-  updated() {
-    initScrollY(this.$refs.scroll);
+  mounted() {
+    this.scrollObj = initScrollY(this.$refs.scroll, true);
+    this.scrollObj.on("pullingUp", () => {
+      this.$emit("pullingUp");
+    });
+  },
+  watch: {
+    comments() {
+      this.scrollObj.finishPullUp();
+    }
   }
 };
 </script>
@@ -113,7 +113,7 @@ export default {
 
     .comments-hot,
     .comments-normal {
-      margin: 0.2rem 0;
+      padding: 0.2rem 0;
 
       .hot-user {
         width: 100%;

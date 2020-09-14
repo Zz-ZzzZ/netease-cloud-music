@@ -1,5 +1,10 @@
 <template>
-  <TheCommentsCard :comments="comments" />
+  <TheCommentsCard
+    :comments="commentsObj.comments"
+    :hot-comments="commentsObj.hotComments"
+    :total="commentsObj.total"
+    @pullingUp="pullingUp"
+  />
 </template>
 
 <script>
@@ -9,13 +14,27 @@ export default {
   name: "Comments",
   data() {
     return {
-      comments: {}
+      commentsObj: {},
+      offset: 0
     };
   },
+  methods: {
+    async pullingUp() {
+      this.offset += 30;
+      const { comments } = await getPlayListCommentsById(
+        this.$route.params.id,
+        30,
+        this.offset
+      );
+      this.commentsObj.comments.push(...comments);
+    },
+    async initListComments() {
+      this.commentsObj = await getPlayListCommentsById(this.$route.params.id);
+    }
+  },
   components: { TheCommentsCard },
-  async created() {
-    const id = this.$route.params.id;
-    this.comments = await getPlayListCommentsById(id);
+  created() {
+    this.initListComments();
   }
 };
 </script>

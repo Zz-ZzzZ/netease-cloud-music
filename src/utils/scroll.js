@@ -3,8 +3,9 @@ import BScroll from "better-scroll";
 /**
  * 纵向滚动条
  * @param dom
+ * @param pullUpLoad
  */
-export function initScrollY(dom) {
+export function initScrollY(dom, pullUpLoad = false) {
   return new BScroll(dom, {
     scrollY: true,
     eventPassthrough: "horizontal",
@@ -12,11 +13,12 @@ export function initScrollY(dom) {
     bounce: {
       top: false,
       bottom: false
-    }
+    },
+    pullUpLoad: pullUpLoad
   });
 }
 
-export function initScrollX(dom) {
+export function initScrollX(dom, options = {}) {
   return new BScroll(dom, {
     scrollX: true,
     eventPassthrough: "vertical",
@@ -24,6 +26,7 @@ export function initScrollX(dom) {
     bounce: {
       left: false,
       right: false
-    }
+    },
+    options
   });
 }

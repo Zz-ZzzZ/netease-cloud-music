@@ -68,9 +68,10 @@ export default {
       const { songs } = await getSongDetailById(id);
       this.songInfo = songs[0];
 
-      const { lrc } = await getLyricById(id);
-      this.setLyric(lrc.lyric);
+      const result = await getLyricById(id);
+      if (result.nolyric) result["lrc"] = { lyric: "[00:00.000] 暂无歌词" };
 
+      this.setLyric(result.lrc.lyric);
       if (JSON.stringify(this.lyricObj) !== "{}") {
         this.lyricObj.seek(0);
         this.lyricObj.stop();
@@ -79,7 +80,7 @@ export default {
       const { data } = await getSongUrlById(id);
       if (data[0].url) {
         this.url = data[0].url;
-        this.lyricObj = new Lyric(lrc.lyric, this.handler);
+        this.lyricObj = new Lyric(result.lrc.lyric, this.handler);
         this.lyricObj.play();
         this.playLyricBtnActivate = false;
         this.setHaveUrl(true);

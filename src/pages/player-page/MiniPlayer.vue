@@ -1,7 +1,8 @@
 <template>
   <div class="mini-player">
     <div class="mini-img">
-      <img v-lazy="picUrl" />
+      <img v-lazy="picUrl" v-show="picUrl" />
+      <img src="@/assets/image/disc_default.png" v-show="!picUrl" />
     </div>
     <div class="mini-info" @touchstart="changeShowVideo">
       <div class="info-name">{{ name }}</div>

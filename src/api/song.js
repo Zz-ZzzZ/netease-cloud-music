@@ -22,6 +22,6 @@ export const getLyricById = params => get("/lyric", { id: params });
 // 获取歌单评论
 export const getPlayListCommentsById = (
   params,
-  limit = 20,
+  limit = 30,
   offset = (1 - 1) * limit
 ) => get("/comment/playlist", { id: params, limit, offset });
