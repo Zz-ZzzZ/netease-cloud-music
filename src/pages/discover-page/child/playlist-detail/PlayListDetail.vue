@@ -130,7 +130,7 @@ export default {
       }
     },
     setPlayListId(id) {
-      this.$router.push({ path: `/comments/${id}` });
+      this.$router.push({ path: `/playlist-comments/${id}` });
     },
     playSong(playList, index) {
       this.$store.commit("playList/setPlayList", {

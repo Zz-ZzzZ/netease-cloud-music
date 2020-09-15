@@ -1,24 +1,41 @@
 <template>
   <div class="player-center">
     <transition name="player">
-      <div class="player-item" v-show="!showLyric" @touchend="showLyric = true">
-        <div class="player-img">
-          <img src="@/assets/image/disc_default.png" />
+      <div class="player-item" v-show="!showLyric">
+        <div class="player-top-bar" @touchend="showLyric = true">
+          <div class="player-img">
+            <img src="@/assets/image/disc_default.png" />
+            <img
+              v-lazy="picUrl"
+              :class="status ? 'play-status' : 'pause-status'"
+              class="desc"
+            />
+          </div>
           <img
-            v-lazy="picUrl"
-            :class="status ? 'play-status' : 'pause-status'"
-            class="desc"
+            src="@/assets/image/play-bar.png"
+            class="player-bar"
+            :class="status ? '' : 'pause-status'"
+          />
+          <img
+            src="@/assets/image/play-bar-support.png"
+            class="player-support"
           />
         </div>
-        <img
-          src="@/assets/image/play-bar.png"
-          class="player-bar"
-          :class="status ? '' : 'pause-status'"
-        />
-        <img src="@/assets/image/play-bar-support.png" class="player-support" />
         <div class="player-bottom-bar">
-          <div v-for="item in iconListHeader" :key="item.src" class="icon-item">
-            <BaseIcon :icon="item.src" />
+          <div class="icon-item">
+            <BaseIcon icon="like" />
+          </div>
+          <div class="icon-item">
+            <BaseIcon icon="download" />
+          </div>
+          <div class="icon-item">
+            <BaseIcon icon="microphone" />
+          </div>
+          <div class="icon-item" @touchend="setSongId(songId)">
+            <BaseIcon icon="comment" />
+          </div>
+          <div class="icon-item">
+            <BaseIcon icon="more-white" />
           </div>
         </div>
       </div>
@@ -48,30 +65,19 @@
 import { initScrollY } from "@/utils/scroll";
 
 export default {
-  props: ["picUrl", "status", "lyric", "heightLightIndex"],
+  props: ["picUrl", "status", "lyric", "heightLightIndex", "songId"],
   name: "PlayerCenter",
   data() {
     return {
-      iconListHeader: [
-        {
-          src: "like"
-        },
-        {
-          src: "download"
-        },
-        {
-          src: "microphone"
-        },
-        {
-          src: "comment"
-        },
-        {
-          src: "more-white"
-        }
-      ],
       showLyric: false,
       scrollObj: {}
     };
+  },
+  methods: {
+    setSongId(songId) {
+      this.$router.push({ path: `/song-comments/${songId}` }).catch(e => e);
+      this.$emit("closePlayer");
+    }
   },
   mounted() {
     this.scrollObj = initScrollY(".scroll-container");
@@ -97,70 +103,75 @@ export default {
   .player-item {
     width: 100%;
     height: 100%;
-    position: relative;
-    top: 0;
-    left: 0;
-    @include flex-box(column, space-between, center);
 
-    .player-support {
-      width: 0.5rem;
-      position: absolute;
-      top: 0.1rem;
-      left: calc(50% - 0.25rem);
-    }
-
-    .player-bar {
-      width: 1.8rem;
-      position: absolute;
-      top: 0.3rem;
-      left: calc(50% - 0.14rem);
-      transform: rotate(0);
-      transform-origin: 0 0;
-      transition: transform 0.5s;
-    }
-
-    .pause-status {
-      transform: rotate(-20deg);
-    }
-
-    .player-img {
-      width: 5.2rem;
-      height: 5.2rem;
+    .player-top-bar {
+      width: 100%;
+      height: calc(100% - 1rem);
       position: relative;
-      top: 1.8rem;
+      top: 0;
       left: 0;
-      border: 0.15rem solid rgba(200, 200, 200, 0.2);
-      border-radius: 100%;
+      @include flex-box(column, space-between, center);
 
-      .desc {
+      .player-support {
+        width: 0.5rem;
         position: absolute;
-        top: 17.5%;
-        left: 17.5%;
-        width: 65%;
-        height: 65%;
+        top: 0.1rem;
+        left: calc(50% - 0.25rem);
       }
 
-      img {
-        width: 5.2rem;
-        height: 5.2rem;
-        border-radius: 100%;
+      .player-bar {
+        width: 1.8rem;
+        position: absolute;
+        top: 0.3rem;
+        left: calc(50% - 0.14rem);
         transform: rotate(0);
-        animation: img-rotate 20s linear infinite;
-        -webkit-animation: img-rotate 20s linear infinite;
-        animation-play-state: paused;
-      }
-
-      .play-status {
-        animation-play-state: running;
+        transform-origin: 0 0;
+        transition: transform 0.5s;
       }
 
       .pause-status {
-        animation-play-state: paused;
+        transform: rotate(-20deg);
       }
 
-      @keyframes img-rotate {
-        to {
-          transform: rotate(360deg);
+      .player-img {
+        width: 5.2rem;
+        height: 5.2rem;
+        position: relative;
+        top: 1.8rem;
+        left: 0;
+        border: 0.15rem solid rgba(200, 200, 200, 0.2);
+        border-radius: 100%;
+
+        .desc {
+          position: absolute;
+          top: 17.5%;
+          left: 17.5%;
+          width: 65%;
+          height: 65%;
+        }
+
+        img {
+          width: 5.2rem;
+          height: 5.2rem;
+          border-radius: 100%;
+          transform: rotate(0);
+          animation: img-rotate 20s linear infinite;
+          -webkit-animation: img-rotate 20s linear infinite;
+          animation-play-state: paused;
+        }
+
+        .play-status {
+          animation-play-state: running;
+        }
+
+        .pause-status {
+          animation-play-state: paused;
+        }
+
+        @keyframes img-rotate {
+          to {
+            transform: rotate(360deg);
+          }
         }
       }
     }
@@ -170,7 +181,7 @@ export default {
       height: 1rem;
       position: relative;
       bottom: 0;
-      left: 0;
+      left: 3%;
       @include flex-box(row, center, center);
 
       .icon-item {
@@ -196,13 +207,8 @@ export default {
       line-height: 0.7rem;
 
       .heightLight {
-        //font-size: 0.29rem;
         color: $white-smoke;
         transition: all 0.3s;
-      }
-
-      p {
-        //@include text-one-ellipsis;
       }
     }
   }

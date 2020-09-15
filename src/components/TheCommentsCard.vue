@@ -1,43 +1,18 @@
 <template>
   <div class="comments-card">
-    <div class="comments-zone-title">
-      <h2></h2>
-      <div class="select-comments-sort">
-        <div class="comments-checked">推荐</div>
-        <div>最热</div>
-        <div>最新</div>
-      </div>
-    </div>
     <div class="scroll-container" ref="scroll">
       <div>
-        <div class="comments-hot" v-if="hotComments && hotComments.length > 0">
-          <h4>精彩评论({{ hotComments.length }})</h4>
-          <div
-            class="hot-user"
-            v-for="(item, index) in hotComments"
-            :key="index"
-          >
-            <div class="user-header">
-              <img v-lazy="item.user.avatarUrl" class="header-img" />
-              <div style="flex: 1">
-                <div class="header-name">{{ item.user.nickname }}</div>
-                <div class="header-date">{{ dateFormat(item.time, 1) }}</div>
-              </div>
-              <div style="color: #9295a1">{{ item.likedCount }}</div>
-              <BaseIcon icon="good" class="good-icon" />
-            </div>
-            <div class="user-center">{{ item.content }}</div>
-            <div class="user-footer"></div>
-          </div>
-        </div>
         <div class="comments-normal" v-if="comments && comments.length > 0">
-          <h4>评论({{ total - hotComments.length }})</h4>
+          <h4>评论({{ total }})</h4>
           <div class="hot-user" v-for="item in comments" :key="item.commentId">
             <div class="user-header">
               <img v-lazy="item.user.avatarUrl" class="header-img" />
               <div style="flex: 1">
                 <div class="header-name">{{ item.user.nickname }}</div>
-                <div class="header-date">{{ dateFormat(item.time, 1) }}</div>
+                <div class="header-date">
+                  <span>{{ dateFormat(item.time, 1) }}</span>
+                  <span v-if="item.isHot"> · 精彩评论</span>
+                </div>
               </div>
               <div style="color: #9295a1">{{ item.likedCount }}</div>
               <BaseIcon icon="good" class="good-icon" />
@@ -54,13 +29,25 @@
 <script>
 import { dateFormat } from "@/utils/utils";
 import { initScrollY } from "@/utils/scroll";
-
 export default {
-  props: ["hotComments", "comments", "total"],
+  props: ["comments", "total"],
   name: "TheCommentsCard",
   data() {
     return {
-      scrollObj: undefined
+      scrollObj: undefined,
+      selectComments: [
+        {
+          name: "推荐"
+        },
+        {
+          name: "最新"
+        },
+        {
+          name: "最热"
+        }
+      ],
+      selectCommentsCheckIndex: 0,
+      commentsDefault: this.comments
     };
   },
   methods: {
@@ -89,26 +76,9 @@ export default {
   margin: 0 auto;
   color: $title;
 
-  .comments-zone-title {
-    width: 100%;
-    height: 0.35rem;
-    background: #ffffff;
-    overflow: hidden;
-    @include flex-box(row, space-between, center);
-
-    .select-comments-sort {
-      width: 2rem;
-      @include flex-box(row, space-between, center);
-
-      .comments-checked {
-        font-weight: bold;
-      }
-    }
-  }
-
   .scroll-container {
     width: 100%;
-    height: calc(100% - 0.35rem);
+    height: 100%;
     overflow: hidden;
 
     .comments-hot,
@@ -135,7 +105,7 @@ export default {
 
           .header-date {
             color: #bfbebe;
-            font-size: 0.2rem;
+            font-size: 0.18rem;
             margin-top: 0.02rem;
           }
 
@@ -151,8 +121,9 @@ export default {
           margin-top: 0.15rem;
           margin-left: 0.9rem;
           font-size: 0.25rem;
+          line-height: 0.5rem;
           padding-bottom: 0.2rem;
-          border-bottom: 0.5px solid $white-smoke;
+          border-bottom: 0.1px solid $white-smoke;
           color: #000000;
         }
       }

@@ -40,7 +40,7 @@ export default {
   height: 100%;
   margin: 0 auto;
   background: #ffffff;
-  border-top: 1px solid $divider;
+  border-top: 0.1px solid $white-smoke;
   @include flex-box(row, flex-start, center);
 
   .mini-img {

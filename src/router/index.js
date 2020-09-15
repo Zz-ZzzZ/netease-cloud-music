@@ -31,9 +31,16 @@ const routes = [
           import("@/pages/discover-page/child/singer-detail/SingerDetail")
       },
       {
-        path: "comments/:id",
+        path: "playlist-comments/:id",
         name: "评论",
-        component: () => import("@/pages/discover-page/child/comments/Comments")
+        component: () =>
+          import("@/pages/discover-page/child/comments/PlayListComments")
+      },
+      {
+        path: "song-comments/:id",
+        name: "评论",
+        component: () =>
+          import("@/pages/discover-page/child/comments/SongComments")
       }
     ]
   }

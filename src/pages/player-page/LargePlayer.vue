@@ -17,6 +17,8 @@
       :status="status"
       :lyric="lyric"
       :height-light-index="heightLightIndex"
+      :song-id="songId"
+      @closePlayer="closePlayer"
     />
     <LargePlayerFooter
       :start-time="startTime"
@@ -44,7 +46,8 @@ export default {
     "progress",
     "showMiniPlayer",
     "lyric",
-    "heightLightIndex"
+    "heightLightIndex",
+    "songId"
   ],
   name: "LargePlayer",
   methods: {

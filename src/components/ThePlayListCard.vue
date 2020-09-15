@@ -54,7 +54,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$refs.playListScroll);
     initScrollX(this.$refs.playListScroll);
   }
 };

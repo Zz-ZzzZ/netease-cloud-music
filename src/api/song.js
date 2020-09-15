@@ -25,3 +25,10 @@ export const getPlayListCommentsById = (
   limit = 30,
   offset = (1 - 1) * limit
 ) => get("/comment/playlist", { id: params, limit, offset });
+
+// 获取歌曲评论
+export const getSongCommentsById = (
+  params,
+  limit = 30,
+  offset = (1 - 1) * limit
+) => get("/comment/music", { id: params, limit, offset });

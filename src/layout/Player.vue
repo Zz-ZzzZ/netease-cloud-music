@@ -11,6 +11,7 @@
       :progress="progress"
       :lyric="lyricArray"
       :height-light-index="heightLightIndex"
+      :song-id="songInfo.id"
       @closePlayer="showMiniPlayer = true"
       @changeProgress="changeProgress"
       @changeStatus="changeStatus"
@@ -209,9 +210,9 @@ export default {
   left: 3%;
   height: 1rem;
   background: #ffffff;
-  border-top: 1px solid $divider;
+  border-top: 0.1px solid $white-smoke;
   color: $content;
-  font-size: 0.3rem;
+  font-size: 0.25rem;
   @include flex-box(row, center, center);
 }
 </style>
