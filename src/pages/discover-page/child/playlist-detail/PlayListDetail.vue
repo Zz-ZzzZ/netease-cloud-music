@@ -80,14 +80,14 @@
       </div>
     </div>
     <TheMoreButtonPopup
-      :action-sheet-show="actionSheetShow"
+      :more-button-popup-show="moreButtonShow"
       :song-object="authorInfo"
-      @close="actionSheetShow = false"
+      @close="moreButtonShow = false"
       @touchstart="setSingerIdOne(authorInfo.ar)"
     />
     <TheSelectSingerPopup
       :singer-list="authorInfo.ar"
-      :select-singer-show="selectSingerShow"
+      :select-singer-popup-show="selectSingerShow"
       @close="selectSingerShow = false"
       @touchstart="setSingerId"
     />
@@ -107,7 +107,7 @@ export default {
   name: "PlayListDetailInfo",
   data() {
     return {
-      actionSheetShow: false,
+      moreButtonShow: false,
       selectSingerShow: false,
       authorInfo: {},
       playListDetail: {},
@@ -118,12 +118,12 @@ export default {
     // BaseSong的更多操作按钮
     touchMore(item) {
       this.authorInfo = item;
-      this.actionSheetShow = true;
+      this.moreButtonShow = true;
     },
     // 当只有一位歌手的时候，直接跳转至歌手详情，不止一位的时候先选择要看哪个
     setSingerIdOne(item) {
       if (item.length > 1) {
-        this.actionSheetShow = false;
+        this.moreButtonShow = false;
         this.selectSingerShow = true;
       } else {
         this.$router.push({ path: `/singer/${item[0].id}` });

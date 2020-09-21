@@ -6,7 +6,7 @@
           <div class="player-img">
             <img src="@/assets/image/disc_default.png" />
             <img
-              v-lazy="picUrl"
+              :src="picUrl"
               :class="status ? 'play-status' : 'pause-status'"
               class="desc"
             />
@@ -84,11 +84,7 @@ export default {
   },
   watch: {
     heightLightIndex(val) {
-      if (val < 6) {
-        this.scrollObj.scrollTo(0, 0, 500);
-      } else {
-        this.scrollObj.scrollToElement(this.$refs.lyric[val - 6], 500);
-      }
+      this.scrollObj.scrollToElement(this.$refs.lyric[val], 500, false, true);
     }
   }
 };

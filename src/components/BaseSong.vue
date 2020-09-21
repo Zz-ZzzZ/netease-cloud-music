@@ -1,6 +1,8 @@
 <template>
   <div class="base-song">
-    <div class="song-index">{{ index }}</div>
+    <div class="song-index">
+      {{ index }}
+    </div>
     <div class="song-info van-ellipsis" @click="playSong">
       <p class="info-name van-ellipsis">{{ name }}</p>
       <div class="info-author">
@@ -33,6 +35,11 @@ export default {
     },
     playSong() {
       this.$emit("playSong");
+    }
+  },
+  computed: {
+    nowPlayIndex() {
+      return this.$store.state.playList.nowPlayIndex + 1;
     }
   }
 };

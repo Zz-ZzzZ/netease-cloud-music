@@ -29,10 +29,17 @@
       <div class="icon-item" @touchstart="nextSong">
         <BaseIcon icon="next-song" />
       </div>
-      <div class="icon-item">
+      <div class="icon-item" @click="popupShow = true">
         <BaseIcon icon="playlist" />
       </div>
     </div>
+    <PlayerPlayListPopup
+      :popup-show="popupShow"
+      :play-list="playList"
+      :now-play-index="nowPlayIndex"
+      @closePlayerPlayListPopup="popupShow = false"
+      @setNowPlayIndex="setNowPlayIndexPopup"
+    />
   </div>
 </template>
 
@@ -40,7 +47,9 @@
 import { mapMutations, mapState } from "vuex";
 import { Toast } from "vant";
 import { playMode, random } from "@/utils/utils";
+import PlayerPlayListPopup from "@/pages/player-page/PlayerPlayListPopup";
 export default {
+  components: { PlayerPlayListPopup },
   props: ["startTime", "endTime", "progress", "status"],
   name: "PlayerFooter",
   data() {
@@ -63,7 +72,8 @@ export default {
         }
       ],
       getProgress: this.progress,
-      playMode: "playlist-circulation"
+      playMode: "playlist-circulation",
+      popupShow: false
     };
   },
   methods: {
@@ -112,6 +122,10 @@ export default {
           this.setNowPlayIndex(random.getRandom(this.playList));
         }
       );
+    },
+    setNowPlayIndexPopup(index) {
+      this.setNowPlayIndex(index);
+      this.popupShow = false;
     }
   },
   computed: {

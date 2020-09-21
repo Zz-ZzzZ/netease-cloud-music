@@ -32,13 +32,13 @@ const routes = [
       },
       {
         path: "playlist-comments/:id",
-        name: "评论",
+        name: "歌单评论",
         component: () =>
           import("@/pages/discover-page/child/comments/PlayListComments")
       },
       {
         path: "song-comments/:id",
-        name: "评论",
+        name: "歌曲评论",
         component: () =>
           import("@/pages/discover-page/child/comments/SongComments")
       }

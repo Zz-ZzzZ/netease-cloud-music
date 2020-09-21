@@ -1,6 +1,6 @@
 const state = {
   playList: [],
-  nowPlayIndex: 0
+  nowPlayIndex: undefined
 };
 
 const getters = {

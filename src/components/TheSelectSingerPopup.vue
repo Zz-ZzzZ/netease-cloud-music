@@ -24,7 +24,7 @@ export default {
       type: Array,
       default: () => []
     },
-    selectSingerShow: {
+    selectSingerPopupShow: {
       type: Boolean,
       default: false
     }
@@ -32,7 +32,7 @@ export default {
   name: "TheSelectSingerPopup",
   data() {
     return {
-      show: this.selectSingerShow
+      show: this.selectSingerPopupShow
     };
   },
   methods: {
@@ -44,7 +44,7 @@ export default {
     }
   },
   watch: {
-    selectSingerShow(val) {
+    selectSingerPopupShow(val) {
       this.show = val;
     }
   }
@@ -53,18 +53,19 @@ export default {
 
 <style scoped lang="scss">
 .container-main {
-  //width: 100%;
   margin: 0.3rem;
+
   .singer-info {
-    //width: 100%;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     @include flex-box(row, flex-start, center);
+
     img {
       width: 0.8rem;
       height: 0.8rem;
       margin-right: 0.2rem;
     }
+
     p {
       padding-bottom: 0.05rem;
       font-size: 0.35rem;

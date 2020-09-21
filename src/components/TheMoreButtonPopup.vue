@@ -1,7 +1,6 @@
 <template>
   <van-popup
     v-model="show"
-    title="请选择"
     :close-on-click-overlay="false"
     position="bottom"
     round
@@ -58,10 +57,10 @@
 
 <script>
 export default {
-  props: ["actionSheetShow", "songObject"],
+  props: ["moreButtonPopupShow", "songObject"],
   data() {
     return {
-      show: false
+      show: this.moreButtonPopupShow
     };
   },
   name: "TheMoreButtonPopup",
@@ -74,7 +73,7 @@ export default {
     }
   },
   watch: {
-    actionSheetShow(val) {
+    moreButtonPopupShow(val) {
       this.show = val;
     }
   }
