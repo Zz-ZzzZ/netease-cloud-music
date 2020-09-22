@@ -8,14 +8,14 @@
         <div
           v-for="(item, index) in navbarList"
           :key="item.path"
-          @touchstart="changeTab(index)"
+          @touchstart="changeTab(index, item.path)"
           :class="checkedIndex === index ? 'checked' : ''"
           class="center-tabs"
         >
           {{ item.name }}
         </div>
       </div>
-      <div class="navbar-right">
+      <div class="navbar-right" @touchstart="$router.push({ path: '/search' })">
         <van-icon name="search" size="0.4rem" color="#2d3436" />
       </div>
     </div>
@@ -36,12 +36,12 @@ export default {
     return {
       navbarList: [
         {
-          name: "我的"
-          // path: "/myself"
+          name: "我的",
+          path: "/myself"
         },
         {
-          name: "发现"
-          // path: "/myself"
+          name: "发现",
+          path: "/"
         },
         {
           name: "云村"
@@ -56,8 +56,9 @@ export default {
     };
   },
   methods: {
-    changeTab(index) {
+    changeTab(index, path) {
       this.checkedIndex = index;
+      this.$router.push({ path });
     },
     onClickLeft() {
       this.$router.back();

@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="detail-bottom">
-      <van-tabs v-model="active" animated>
+      <van-tabs v-model="active" animated lazy-render>
         <van-tab title="主页">
           <SingerDetailTabsIndex :desc="singerDetail.artist.briefDesc" />
         </van-tab>

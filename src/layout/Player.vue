@@ -41,6 +41,7 @@
 <script>
 import { getLyricById, getSongDetailById, getSongUrlById } from "@/api/song";
 import { Toast } from "vant";
+// eslint-disable-next-line no-unused-vars
 import { secondToMs, random, playMode } from "@/utils/utils";
 import LargePlayer from "@/pages/player-page/LargePlayer";
 import MiniPlayer from "@/pages/player-page/MiniPlayer";
@@ -139,7 +140,7 @@ export default {
           this.$parent.$parent.$refs.audio.load();
         },
         () => {
-          this.setNowPlayIndex(random.getRandom(this.playList));
+          this.setNowPlayIndex(random.getRandom(this.getPlayList.playList));
         }
       );
     },

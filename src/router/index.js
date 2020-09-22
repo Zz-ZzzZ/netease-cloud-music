@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Discover from "../pages/discover-page/Discover";
+import Myself from "@/pages/myself-page/Myself";
+import Search from "@/pages/search-page/Search";
 
 Vue.use(VueRouter);
 
@@ -52,6 +54,31 @@ const routes = [
         path: "top-list",
         name: "排行榜",
         component: () => import("@/pages/discover-page/child/top-list/TopList")
+      }
+    ]
+  },
+  {
+    path: "/myself",
+    component: Myself,
+    children: [
+      {
+        path: "/myself",
+        name: "我的",
+        component: () => import("@/pages/myself-page/child/index/Index"),
+        meta: {
+          showBackBar: false
+        }
+      }
+    ]
+  },
+  {
+    path: "/search",
+    component: Search,
+    children: [
+      {
+        path: "/search",
+        name: "搜索",
+        component: () => import("@/pages/search-page/child/SearchIndex")
       }
     ]
   }

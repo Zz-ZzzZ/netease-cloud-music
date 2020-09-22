@@ -20,8 +20,6 @@ export default {
 .router-view {
   width: 100%;
   height: calc(100% - 2rem);
-  //overflow-y: scroll;
-  //overflow-x: hidden;
   overflow: hidden;
 }
 .view-enter,

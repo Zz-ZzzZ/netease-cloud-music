@@ -1,5 +1,5 @@
 <template>
-  <van-tabs v-model="active" sticky>
+  <van-tabs v-model="active" sticky swipeable animated>
     <van-tab :title="item" v-for="(item, index) in tabList" :key="index">
       <ThePlayListPlaceTabsItem :tag="item" />
     </van-tab>
@@ -20,11 +20,9 @@ export default {
     };
   },
   async created() {
-    // eslint-disable-next-line no-unused-vars
-    const DEFAULT_TAG = ["全部"];
     const { tags } = await getPlayListFromHot();
     this.tabList = this.tabList.concat(
-      DEFAULT_TAG,
+      ["全部"],
       tags.map(item => item.name)
     );
   }
@@ -46,5 +44,8 @@ export default {
 /deep/.van-tab__pane,
 .van-tabs {
   height: 100%;
+}
+/deep/.van-hairline--top-bottom::after {
+  border: 0;
 }
 </style>

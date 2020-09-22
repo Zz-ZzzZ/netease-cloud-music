@@ -147,8 +147,9 @@ export default {
 
       .container-name {
         width: 2.1rem;
-        margin: 0.2rem 0;
-        @include text-one-ellipsis;
+        height: 0.7rem;
+        margin: 0.1rem 0;
+        @include text-more-ellipsis(2);
       }
     }
   }

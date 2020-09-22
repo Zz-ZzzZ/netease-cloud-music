@@ -10,7 +10,8 @@ import {
   Cell,
   Tab,
   Tabs,
-  Slider
+  Slider,
+  Search
 } from "vant";
 export default {
   install(Vue) {
@@ -26,5 +27,6 @@ export default {
     Vue.use(Tab);
     Vue.use(Tabs);
     Vue.use(Slider);
+    Vue.use(Search);
   }
 };
