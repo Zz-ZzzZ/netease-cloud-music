@@ -24,6 +24,12 @@
 ## 歌单/歌曲评论
 ![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/comments.png)
 
+## 歌单广场
+![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/playlist_place.png)
+
+## 歌单排行榜
+![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/top_list.png)
+
 ### 安装依赖包
 ```
 npm install

@@ -1,6 +1,11 @@
 <template>
   <div class="nav-grid">
-    <div v-for="(icon, index) in icons" :key="index" class="grid-box">
+    <div
+      v-for="(icon, index) in icons"
+      :key="index"
+      class="grid-box"
+      @touchend="navTo(icon.path)"
+    >
       <BaseIcon :icon="icon.name" class="grid-icon" />
       <div class="grid-text">{{ icon.text }}</div>
     </div>
@@ -19,11 +24,13 @@ export default {
         },
         {
           name: "play-list",
-          text: "歌单"
+          text: "歌单",
+          path: "/playlist-place"
         },
         {
           name: "rank",
-          text: "排行榜"
+          text: "排行榜",
+          path: "/top-list"
         },
         {
           name: "radio",
@@ -35,7 +42,13 @@ export default {
         }
       ]
     };
-  }
+  },
+  methods: {
+    navTo(path) {
+      this.$router.push({ path });
+    }
+  },
+  created() {}
 };
 </script>
 

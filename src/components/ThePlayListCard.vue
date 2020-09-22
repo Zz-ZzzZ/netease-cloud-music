@@ -15,7 +15,7 @@
           :play-count="item.playCount"
           :name="item.name"
           :key="item.id"
-          @click="setPlayListId(item.id)"
+          @setPlayListId="setPlayListId(item.id)"
           :class="playList.length - index !== 1 ? 'play-list-margin' : ''"
         />
       </div>
@@ -50,7 +50,7 @@ export default {
       return playCountFormat(playCount);
     },
     setPlayListId(id) {
-      this.$emit("click", id);
+      this.$emit("setPlayListId", id);
     }
   },
   mounted() {

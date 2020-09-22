@@ -32,3 +32,17 @@ export const getSongCommentsById = (
   limit = 30,
   offset = (1 - 1) * limit
 ) => get("/comment/music", { id: params, limit, offset });
+
+// 歌单 ( 网友精选碟 )
+export const getPlayListFromNetFriend = (
+  order = "hot",
+  cat,
+  limit = 30,
+  offset = (1 - 1) * limit
+) => get("/top/playlist", { order, cat, limit, offset });
+
+// 热门歌单分类
+export const getPlayListFromHot = () => get("/playlist/hot");
+
+// 所有榜单内容摘要
+export const getTopList = () => get("/toplist/detail");

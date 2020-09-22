@@ -27,7 +27,7 @@
             />
             <span class="is-vip" v-if="item.fee === 1">VIP</span>
             <div class="song-name">{{ item.name }}</div>
-            <span class="song-divider"> - </span>
+            <span class="song-divider" v-if="item.ar"> - </span>
             <div class="song-ar">
               <span v-for="(ar, index) in item.ar" :key="ar.id">
                 {{ item.ar.length - index === 1 ? ar.name : `${ar.name} / ` }}
@@ -65,7 +65,6 @@ export default {
       false,
       true
     );
-    console.log(this.$refs);
   }
 };
 </script>

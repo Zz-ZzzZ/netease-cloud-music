@@ -41,6 +41,17 @@ const routes = [
         name: "歌曲评论",
         component: () =>
           import("@/pages/discover-page/child/comments/SongComments")
+      },
+      {
+        path: "playlist-place",
+        name: "歌单广场",
+        component: () =>
+          import("@/pages/discover-page/child/playlist-place/PlayListPlace")
+      },
+      {
+        path: "top-list",
+        name: "排行榜",
+        component: () => import("@/pages/discover-page/child/top-list/TopList")
       }
     ]
   }

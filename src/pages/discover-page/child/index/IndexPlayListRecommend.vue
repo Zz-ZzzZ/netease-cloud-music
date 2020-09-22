@@ -3,7 +3,7 @@
     class="index-song-list"
     :play-list="playList"
     title="发现好歌单"
-    @click="getPlayListId"
+    @setPlayListId="setPlayListId"
   >
     <BaseButton>
       查看更多
@@ -24,7 +24,7 @@ export default {
     };
   },
   methods: {
-    getPlayListId(id) {
+    setPlayListId(id) {
       this.$router.push({ path: `/play-list/${id}` });
     }
   },

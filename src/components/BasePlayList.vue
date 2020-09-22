@@ -16,7 +16,7 @@ export default {
   name: "BasePlayList",
   methods: {
     setPlayListId() {
-      this.$emit("click");
+      this.$emit("setPlayListId");
     },
     playCountFormat(id) {
       return playCountFormat(id);
@@ -42,7 +42,7 @@ export default {
   .playlist-name {
     margin-top: 0.1rem;
     color: $title;
-    font-weight: 610;
+    font-size: 0.21rem;
     line-height: 0.33rem;
   }
 
