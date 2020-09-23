@@ -80,7 +80,6 @@ export const random = {
  * @param randomCallBack
  * @returns {function(): void}
  */
-
 export function playMode(
   mode,
   playListCallBack,
@@ -95,4 +94,33 @@ export function playMode(
     case 2:
       return randomCallBack();
   }
+}
+
+/**
+ * 去除首位空格的正则表达式
+ * @param str
+ * @returns {*}
+ */
+export function trim(str) {
+  return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+/**
+ * 函数节流
+ * @param func
+ * @param delay
+ * @returns {function(): void}
+ */
+export function throttle(func, delay) {
+  let timer = null;
+  return function() {
+    let context = this;
+    let arg = arguments;
+    if (!timer) {
+      timer = setTimeout(() => {
+        func.call(context, arg);
+        timer = null;
+      }, delay);
+    }
+  };
 }

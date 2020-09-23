@@ -30,6 +30,10 @@
 ## 歌单排行榜
 ![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/top_list.png)
 
+## 搜索
+![image](https://github.com/ZhangJianChengZzz/netease-cloud-music/blob/master/src/assets/screen/search.png)
+
+
 ### 安装依赖包
 ```
 npm install
