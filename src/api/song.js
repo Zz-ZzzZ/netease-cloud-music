@@ -20,26 +20,20 @@ export const getSongUrlById = params => get("/song/url", { id: params });
 export const getLyricById = params => get("/lyric", { id: params });
 
 // 获取歌单评论
-export const getPlayListCommentsById = (
-  params,
-  limit = 30,
-  offset = (1 - 1) * limit
-) => get("/comment/playlist", { id: params, limit, offset });
+export const getPlayListCommentsById = (params, limit = 30, offset = 1) =>
+  get("/comment/playlist", { id: params, limit, offset: (offset - 1) * 30 });
 
 // 获取歌曲评论
-export const getSongCommentsById = (
-  params,
-  limit = 30,
-  offset = (1 - 1) * limit
-) => get("/comment/music", { id: params, limit, offset });
+export const getSongCommentsById = (params, limit = 30, offset = 1) =>
+  get("/comment/music", { id: params, limit, offset: (offset - 1) * 30 });
 
 // 歌单 ( 网友精选碟 )
 export const getPlayListFromNetFriend = (
   order = "hot",
   cat,
   limit = 30,
-  offset = (1 - 1) * limit
-) => get("/top/playlist", { order, cat, limit, offset });
+  offset = 1
+) => get("/top/playlist", { order, cat, limit, offset: (offset - 1) * 30 });
 
 // 热门歌单分类
 export const getPlayListFromHot = () => get("/playlist/hot");

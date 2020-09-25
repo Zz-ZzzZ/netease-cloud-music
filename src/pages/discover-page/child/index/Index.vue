@@ -3,7 +3,7 @@
   <div class="index">
     <IndexSwipe />
     <IndexNavGrid />
-    <IndexPlayListRecommend />
+    <!--    <IndexPlayListRecommend />-->
     <IndexSongSingleRecommend />
   </div>
 </template>
@@ -17,6 +17,7 @@ export default {
   name: "Index",
   components: {
     IndexSongSingleRecommend,
+    // eslint-disable-next-line vue/no-unused-components
     IndexPlayListRecommend,
     IndexNavGrid,
     IndexSwipe

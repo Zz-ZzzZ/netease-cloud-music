@@ -1,25 +1,29 @@
 <template>
   <div id="app">
-    <NavBar />
     <transition name="view">
       <router-view class="router-view" />
     </transition>
-    <Player />
+    <Player v-show="playList.length > 0" />
   </div>
 </template>
 
 <script>
-import NavBar from "./layout/NavBar";
 import Player from "./layout/Player";
 export default {
-  components: { Player, NavBar }
+  // eslint-disable-next-line vue/no-unused-components
+  components: { Player },
+  computed: {
+    playList() {
+      return this.$store.state.playList.playList;
+    }
+  }
 };
 </script>
 <style lang="scss">
 @import "style/base";
 .router-view {
   width: 100%;
-  height: calc(100% - 2rem);
+  height: 100%;
   overflow: hidden;
 }
 .view-enter,

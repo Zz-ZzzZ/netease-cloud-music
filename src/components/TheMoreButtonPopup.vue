@@ -69,7 +69,7 @@ export default {
       this.$emit("close");
     },
     setSingerId() {
-      this.$emit("touchstart");
+      this.$emit("setSingerId");
     }
   },
   watch: {

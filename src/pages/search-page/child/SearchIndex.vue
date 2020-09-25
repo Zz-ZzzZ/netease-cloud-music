@@ -19,6 +19,7 @@
             class="suggest-container"
             v-for="(item, index) in suggestList"
             :key="index"
+            @touchstart="setKeyWord(item.keyword)"
           >
             <van-icon name="search" size="0.35rem" color="#9295a1" />
             <div class="container-keyword">{{ item.keyword }}</div>
@@ -30,10 +31,16 @@
       <div class="container-history" v-if="historyKeywordsList.length > 0">
         <div class="history-delete">
           <h3>搜索历史</h3>
-          <BaseIcon icon="delete" />
+          <div @touchstart="clearHistoryKeyword">
+            <BaseIcon icon="delete" />
+          </div>
         </div>
         <div class="history-label">
-          <p v-for="(item, index) in historyKeywordsList" :key="index">
+          <p
+            v-for="(item, index) in historyKeywordsList"
+            :key="index"
+            @click="$router.push({ path: `search-result/${item}` })"
+          >
             {{ item }}
           </p>
         </div>
@@ -71,7 +78,6 @@ import {
   getHotSearch,
   getSuggestByKeyword
 } from "@/api/search";
-// eslint-disable-next-line no-unused-vars
 import { throttle, trim } from "@/utils/utils";
 
 export default {
@@ -101,15 +107,35 @@ export default {
         this.suggestList = allMatch;
       }
     }, 500),
-    searchConfirm() {
-      let keyword = JSON.parse(localStorage.getItem("keyword"));
-      console.log(keyword);
-      if (keyword) {
-        keyword.push(this.value);
-        localStorage.setItem("keyword", JSON.stringify(keyword));
+    searchConfirm(keyword) {
+      this.setKeyWord(keyword);
+    },
+    setKeyWord(keyword) {
+      this.addHistoryKeyword(keyword);
+      this.$router.push({ path: `/search-result/${keyword}` });
+    },
+    addHistoryKeyword(keyword) {
+      let historyKeywords = JSON.parse(localStorage.getItem("historyKeywords"));
+      if (historyKeywords) {
+        historyKeywords.unshift(keyword);
+        localStorage.setItem(
+          "historyKeywords",
+          JSON.stringify(historyKeywords)
+        );
       } else {
-        localStorage.setItem("keyword", JSON.stringify([this.value]));
+        localStorage.setItem("historyKeywords", JSON.stringify([keyword]));
       }
+    },
+    clearHistoryKeyword() {
+      this.$dialog
+        .confirm({
+          message: "确定清空全部历史记录?",
+          confirmButtonColor: "#ff4757"
+        })
+        .then(() => {
+          localStorage.removeItem("historyKeywords");
+          this.$router.go(0);
+        });
     }
   },
   async created() {
@@ -119,7 +145,7 @@ export default {
     this.defaultKeyword = realkeyword;
     const { data } = await getHotSearch();
     this.hotList = data;
-    let historyKeywords = JSON.parse(localStorage.getItem("keyword"));
+    let historyKeywords = JSON.parse(localStorage.getItem("historyKeywords"));
     if (historyKeywords) this.historyKeywordsList = historyKeywords;
   }
 };
@@ -180,7 +206,9 @@ export default {
         @include flex-box(row, flex-start, center);
 
         p {
+          flex: none;
           font-size: 0.28rem;
+          line-height: 0.28rem;
           background-color: #f3f3f3;
           margin-right: 0.2rem;
           padding: 0.12rem 0.22rem;
@@ -217,8 +245,6 @@ export default {
           margin-left: 0.2rem;
 
           .keyword1 {
-            //line-height: 0.35rem;
-            //line-height: 0.29rem;
             height: 0.5rem;
             @include flex-box(row, flex-start, center);
 
@@ -238,6 +264,7 @@ export default {
           }
 
           .keyword2 {
+            height: 0.3rem;
             color: $content;
           }
         }

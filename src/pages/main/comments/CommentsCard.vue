@@ -31,7 +31,7 @@ import { dateFormat } from "@/utils/utils";
 import { initScrollY } from "@/utils/scroll";
 export default {
   props: ["comments", "total"],
-  name: "TheCommentsCard",
+  name: "CommentsCard",
   data() {
     return {
       scrollObj: undefined,

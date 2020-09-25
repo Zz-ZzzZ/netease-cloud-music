@@ -40,7 +40,7 @@ export default {
       this.$emit("close");
     },
     setSingerId(id) {
-      this.$emit("touchstart", id);
+      this.$emit("setSingerId", id);
     }
   },
   watch: {

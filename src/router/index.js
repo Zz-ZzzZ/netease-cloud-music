@@ -1,87 +1,130 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Discover from "../pages/discover-page/Discover";
-import Myself from "@/pages/myself-page/Myself";
-import Search from "@/pages/search-page/Search";
+import Index from "@/pages/home/Index";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    component: Discover,
-    redirect: "/discover",
+    component: Index,
     children: [
       {
         path: "/",
         name: "发现",
-        component: () => import("@/pages/discover-page/child/index/Index"),
-        meta: {
-          showBackBar: false
-        }
-      },
-      {
-        path: "play-list/:id",
-        name: "歌单",
-        component: () =>
-          import("@/pages/discover-page/child/playlist-detail/PlayListDetail")
-      },
-      {
-        path: "singer/:id",
-        name: "",
-        component: () =>
-          import("@/pages/discover-page/child/singer-detail/SingerDetail")
-      },
-      {
-        path: "playlist-comments/:id",
-        name: "歌单评论",
-        component: () =>
-          import("@/pages/discover-page/child/comments/PlayListComments")
-      },
-      {
-        path: "song-comments/:id",
-        name: "歌曲评论",
-        component: () =>
-          import("@/pages/discover-page/child/comments/SongComments")
-      },
-      {
-        path: "playlist-place",
-        name: "歌单广场",
-        component: () =>
-          import("@/pages/discover-page/child/playlist-place/PlayListPlace")
-      },
-      {
-        path: "top-list",
-        name: "排行榜",
-        component: () => import("@/pages/discover-page/child/top-list/TopList")
+        component: () => import("@/pages/home/discover/index/Index")
       }
     ]
   },
   {
-    path: "/myself",
-    component: Myself,
-    children: [
-      {
-        path: "/myself",
-        name: "我的",
-        component: () => import("@/pages/myself-page/child/index/Index"),
-        meta: {
-          showBackBar: false
-        }
-      }
-    ]
+    path: "/play-list/:id",
+    name: "歌单",
+    component: () => import("@/pages/main/playlist-detail/PlayListDetail")
   },
   {
-    path: "/search",
-    component: Search,
-    children: [
-      {
-        path: "/search",
-        name: "搜索",
-        component: () => import("@/pages/search-page/child/SearchIndex")
-      }
-    ]
+    path: "/singer/:id",
+    name: "歌手详情",
+    component: () =>
+      import("@/pages/discover-page/child/singer-detail/SingerDetail")
+  },
+  {
+    path: "/playlist-comments/:id",
+    name: "歌单评论",
+    component: () =>
+      import("@/pages/discover-page/child/comments/PlayListComments")
+  },
+  {
+    path: "/playlist-place",
+    name: "歌单广场",
+    component: () =>
+      import("@/pages/discover-page/child/playlist-place/PlayListPlace")
+  },
+  {
+    path: "/top-list",
+    name: "排行榜",
+    component: () => import("@/pages/discover-page/child/top-list/TopList")
   }
+
+  // {
+  //   path: "/",
+  //   component: Discover,
+  //   redirect: "/discover",
+  //   children: [
+  //     {
+  //       path: "/",
+  //       name: "发现",
+  //       component: () => import("@/pages/discover-page/child/index/Index"),
+  //       meta: {
+  //         showBackBar: false
+  //       }
+  //     },
+  //     {
+  //       path: "play-list/:id",
+  //       name: "歌单",
+  //       component: () =>
+  //         import("@/pages/discover-page/child/playlist-detail/PlayListDetail")
+  //     },
+  //     {
+  //       path: "singer/:id",
+  //       name: "",
+  //       component: () =>
+  //         import("@/pages/discover-page/child/singer-detail/SingerDetail")
+  //     },
+  //     {
+  //       path: "playlist-comments/:id",
+  //       name: "歌单评论",
+  //       component: () =>
+  //         import("@/pages/discover-page/child/comments/PlayListComments")
+  //     },
+  //     {
+  //       path: "song-comments/:id",
+  //       name: "歌曲评论",
+  //       component: () =>
+  //         import("@/pages/discover-page/child/comments/SongComments")
+  //     },
+  //     {
+  //       path: "playlist-place",
+  //       name: "歌单广场",
+  //       component: () =>
+  //         import("@/pages/discover-page/child/playlist-place/PlayListPlace")
+  //     },
+  //     {
+  //       path: "top-list",
+  //       name: "排行榜",
+  //       component: () => import("@/pages/discover-page/child/top-list/TopList")
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "/myself",
+  //   component: Myself,
+  //   children: [
+  //     {
+  //       path: "/myself",
+  //       name: "我的",
+  //       component: () => import("@/pages/myself-page/child/index/Index"),
+  //       meta: {
+  //         showBackBar: false
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "/search",
+  //   component: Search,
+  //   children: [
+  //     {
+  //       path: "/search",
+  //       name: "搜索",
+  //       component: () => import("@/pages/search-page/child/SearchIndex")
+  //     },
+  //     {
+  //       path: "/search-result/:keyword",
+  //       name: "",
+  //       component: () => import("@/pages/search-page/child/SearchResult")
+  //     }
+  //   ]
+  // }
 ];
 
 const router = new VueRouter({

@@ -26,12 +26,12 @@ export default {
       default: ""
     }
   },
-  name: "ThePlayListPlaceTabsItem",
+  name: "PlayListPlaceTabsItem",
   components: { BasePlayList },
   data() {
     return {
       playList: [],
-      offset: 0
+      offset: 1
     };
   },
   async created() {
@@ -41,7 +41,7 @@ export default {
   mounted() {
     const scroll = initScrollY(this.$refs.scroll, true);
     scroll.on("pullingUp", async () => {
-      this.offset += 30;
+      this.offset += 1;
       const { playlists } = await getPlayListFromNetFriend(
         "hot",
         this.tag,
