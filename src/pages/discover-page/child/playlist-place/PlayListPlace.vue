@@ -1,18 +1,18 @@
 <template>
   <van-tabs v-model="active" sticky swipeable animated>
     <van-tab :title="item" v-for="(item, index) in tabList" :key="index">
-      <ThePlayListPlaceTabsItem :tag="item" />
+      <PlayListPlaceTabsItem :tag="item" />
     </van-tab>
   </van-tabs>
 </template>
 
 <script>
 import { getPlayListFromHot } from "@/api/song";
-import ThePlayListPlaceTabsItem from "@/components/ThePlayListPlaceTabsItem";
+import PlayListPlaceTabsItem from "@/pages/discover-page/child/playlist-place/PlayListPlaceTabsItem";
 
 export default {
   name: "PlayListPlace",
-  components: { ThePlayListPlaceTabsItem },
+  components: { PlayListPlaceTabsItem },
   data() {
     return {
       active: 0,

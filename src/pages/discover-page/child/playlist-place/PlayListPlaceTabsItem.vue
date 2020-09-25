@@ -26,7 +26,7 @@ export default {
       default: ""
     }
   },
-  name: "ThePlayListPlaceTabsItem",
+  name: "PlayListPlaceTabsItem",
   components: { BasePlayList },
   data() {
     return {
