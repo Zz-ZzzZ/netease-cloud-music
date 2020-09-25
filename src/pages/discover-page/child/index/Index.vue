@@ -29,6 +29,6 @@ export default {
   width: $container-width;
   height: 100%;
   margin: 0 auto 0 auto;
-  @include flex-box(column, flex-start, flex-start);
+  overflow-y: auto;
 }
 </style>

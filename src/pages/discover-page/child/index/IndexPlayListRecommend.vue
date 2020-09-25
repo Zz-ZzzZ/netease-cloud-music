@@ -1,26 +1,37 @@
 <template>
-  <ThePlayListCard
-    class="index-song-list"
-    :play-list="playList"
-    title="发现好歌单"
-    @setPlayListId="setPlayListId"
-  >
-    <BaseButton>
-      查看更多
-    </BaseButton>
-  </ThePlayListCard>
+  <TheDiscoverContentCard title="推荐歌单">
+    <template v-slot:top-left>
+      推荐歌单
+    </template>
+    <template v-slot:top-right>
+      <BaseButton>
+        查看更多
+      </BaseButton>
+    </template>
+    <template v-slot:bottom>
+      <BasePlayList
+        v-for="(item, index) in playList"
+        :pic-url="item.picUrl"
+        :play-count="item.playCount"
+        :name="item.name"
+        :key="item.id"
+        @setPlayListId="setPlayListId(item.id)"
+        :class="playList.length - index !== 1 ? 'play-list-margin' : ''"
+      />
+    </template>
+  </TheDiscoverContentCard>
 </template>
 
 <script>
 import { getPlayList } from "@/api/song";
-import ThePlayListCard from "@/components/ThePlayListCard";
+import TheDiscoverContentCard from "@/components/TheDiscoverContentCard";
+import BasePlayList from "@/components/BasePlayList";
 
 export default {
   name: "IndexPlayListRecommend",
   data() {
     return {
-      playList: [],
-      show: false
+      playList: []
     };
   },
   methods: {
@@ -28,7 +39,7 @@ export default {
       this.$router.push({ path: `/play-list/${id}` });
     }
   },
-  components: { ThePlayListCard },
+  components: { BasePlayList, TheDiscoverContentCard },
   async created() {
     const { result } = await getPlayList(10);
     this.playList = result;
@@ -37,8 +48,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.index-song-list {
-  width: 100%;
-  height: 3.6rem;
+.play-list-margin {
+  margin-right: 0.2rem;
+}
+/deep/.card-bottom {
+  height: 2.8rem;
+  @include flex-box(row, flex-start, center);
 }
 </style>
