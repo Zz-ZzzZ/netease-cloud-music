@@ -1,19 +1,21 @@
 <template>
   <div class="base-song">
     <div class="song-index">
-      {{ index }}
+      {{ index + 1 }}
     </div>
     <div class="song-info van-ellipsis" @click="playSong">
       <p class="info-name van-ellipsis">{{ name }}</p>
       <div class="info-author">
-        <span v-if="fee === 1" class="sq-tag">VIP</span>
-        <span v-if="maxbr > 320000" class="sq-tag">SQ</span>
-        <span v-for="(ar, index) in author" :key="ar.id">
-          {{ author.length - index === 1 ? ar.name : `${ar.name} / ` }}
-        </span>
-        <span>
-          {{ ` - ${ablum}` }}
-        </span>
+        <BaseSongTag v-if="fee === 1">VIP</BaseSongTag>
+        <BaseSongTag v-if="maxbr > 320000">SQ</BaseSongTag>
+        <div class="author-span">
+          <span v-for="(ar, index) in author" :key="ar.id">
+            {{ author.length - index === 1 ? ar.name : `${ar.name} / ` }}
+          </span>
+          <span>
+            {{ ` - ${ablum}` }}
+          </span>
+        </div>
       </div>
     </div>
     <div class="song-mv">
@@ -26,7 +28,9 @@
 </template>
 
 <script>
+import BaseSongTag from "@/components/BaseSongTag";
 export default {
+  components: { BaseSongTag },
   props: ["index", "name", "maxbr", "ablum", "author", "mv", "id", "fee"],
   name: "BaseSong",
   methods: {
@@ -71,21 +75,22 @@ export default {
     .info-author {
       margin-top: 0.05rem;
       color: $content;
-      line-height: 0.4rem;
+      line-height: 0.3rem;
       vertical-align: middle;
-      @include text-one-ellipsis;
+      font-size: 0.22rem;
+      @include flex-box(row, flex-start, center);
 
-      .sq-tag {
-        color: $red;
-        border: 0.75px solid $red;
-        border-radius: 0.05rem;
-        padding: 0 0.1rem;
-        font-weight: bold;
-        margin-right: 0.1rem;
+      .author-span {
+        flex: 1;
+        @include text-one-ellipsis;
       }
 
       p:last-child {
         margin-left: 0.1rem;
+      }
+
+      p {
+        font-size: 0.1rem;
       }
     }
   }

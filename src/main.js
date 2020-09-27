@@ -10,6 +10,7 @@ import BaseButton from "@/components/BaseButton";
 import "@/assets/iconfont/iconfont";
 import vconsole from "vconsole";
 const vConsole = new vconsole();
+import { Dialog } from "vant";
 
 initRem();
 Vue.use(vConsole);
@@ -18,6 +19,7 @@ Vue.use(plugin);
 Vue.component(BaseIcon.name, BaseIcon);
 Vue.component(BaseButton.name, BaseButton);
 Vue.config.productionTip = false;
+Vue.prototype.$dialog = Dialog;
 
 new Vue({
   router,

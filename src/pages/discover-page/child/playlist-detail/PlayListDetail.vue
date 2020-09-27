@@ -1,7 +1,7 @@
 <template>
-  <div class="play-list-detail">
+  <div class="play-list-detail" v-if="playListDetail">
     <div class="detail-top">
-      <div class="top-box" v-if="JSON.stringify(playListDetail) !== '{}'">
+      <div class="top-box">
         <img v-lazy="playListDetail.coverImgUrl" class="top-bg" />
         <div class="top-playlist">
           <div class="playlist-flex">
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div class="detail-bottom play-list-detail-scroll">
+    <div>
       <div class="bottom-song-count">
         <div class="bottom-song-count-left">
           <BaseIcon icon="play-black" class="play-icon" />
@@ -60,24 +60,22 @@
           <p>+ 收藏({{ playCount }})</p>
         </div>
       </div>
-      <div class="bottom-scroll" ref="playListDetailScroll">
-        <div class="play-list-detail-scroll">
-          <BaseSong
-            v-for="(item, index) in playList"
-            :index="index + 1"
-            :name="item.name"
-            :maxbr="item.maxbr"
-            :ablum="item.al.name"
-            :author="item.ar"
-            :mv="item.mv"
-            :key="index"
-            :id="item.id"
-            :fee="item.songFee"
-            @more="touchMore(item)"
-            @playSong="playSong(playList, index)"
-          />
-        </div>
-      </div>
+    </div>
+    <div class="bottom-scroll" ref="playListDetailScroll">
+      <BaseSong
+        v-for="(item, index) in playList"
+        :index="index"
+        :name="item.name"
+        :maxbr="item.maxbr"
+        :ablum="item.al.name"
+        :author="item.ar"
+        :mv="item.mv"
+        :key="index"
+        :id="item.id"
+        :fee="item.songFee"
+        @more="touchMore(item)"
+        @playSong="playSong(playList, index)"
+      />
     </div>
     <TheMoreButtonPopup
       :more-button-popup-show="moreButtonShow"
@@ -100,9 +98,9 @@ import TheMoreButtonPopup from "@/components/TheMoreButtonPopup";
 import TheSelectSingerPopup from "@/components/TheSelectSingerPopup";
 import { playCountFormat } from "@/utils/utils";
 import { getPlayListDetailById, getSongDetailById } from "@/api/song";
-import { initScrollY } from "@/utils/scroll";
 
 export default {
+  // eslint-disable-next-line vue/no-unused-components
   components: { TheSelectSingerPopup, TheMoreButtonPopup, BaseSong },
   name: "PlayListDetailInfo",
   data() {
@@ -110,8 +108,9 @@ export default {
       moreButtonShow: false,
       selectSingerShow: false,
       authorInfo: {},
-      playListDetail: {},
-      playList: []
+      playListDetail: undefined,
+      playList: [],
+      isTop: false
     };
   },
   methods: {
@@ -158,9 +157,6 @@ export default {
       this.playList[index]["maxbr"] = item.maxbr;
       this.playList[index]["songFee"] = item.fee;
     });
-  },
-  mounted() {
-    initScrollY(this.$refs.playListDetailScroll);
   }
 };
 </script>
@@ -169,6 +165,7 @@ export default {
 .play-list-detail {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 
   .detail-top {
     height: 5rem;
@@ -182,11 +179,10 @@ export default {
       .top-bg {
         width: 100%;
         height: 100%;
-        -webkit-filter: blur(20px);
-        -moz-filter: blur(20px);
-        -ms-filter: blur(20px);
+        -webkit-filter: blur(50px);
+        -moz-filter: blur(50px);
+        -ms-filter: blur(50px);
         filter: blur(50px);
-        transform: scale(3);
       }
 
       .top-playlist {
@@ -271,74 +267,55 @@ export default {
     }
   }
 
-  .detail-bottom {
+  .bottom-song-count {
+    padding: 0.2rem 0;
     width: 100%;
-    height: calc(100% - 4.45rem);
+    height: 0.6rem;
     background: #ffffff;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     position: relative;
     top: -0.55rem;
     overflow: hidden;
-    .bottom-song-count {
-      padding: 0.2rem 0;
-      width: 100%;
-      height: 0.6rem;
-      @include flex-box(row, space-between, center);
+    @include flex-box(row, space-between, center);
 
-      .bottom-song-count-left {
-        margin-left: 0.35rem;
-        @include flex-box(row, flex-start, center);
+    .bottom-song-count-left {
+      margin-left: 0.35rem;
+      @include flex-box(row, flex-start, center);
 
-        .play-icon {
-          border: 1px solid $title;
-          border-radius: 50%;
-          padding: 0.1rem;
-          width: 0.15rem;
-          height: 0.15rem;
-        }
-
-        p:nth-child(2) {
-          font-size: 0.28rem;
-          margin-left: 0.28rem;
-          margin-right: 0.1rem;
-          font-weight: bold;
-        }
-
-        p:nth-child(3) {
-          color: $content;
-        }
+      .play-icon {
+        border: 1px solid $title;
+        border-radius: 50%;
+        padding: 0.1rem;
+        width: 0.15rem;
+        height: 0.15rem;
       }
 
-      .bottom-song-count-right {
-        margin-right: 0.35rem;
-        //height: 0.7rem;
-        color: #ffffff;
-        padding: 0.13rem 0.15rem;
-        background: $red;
-        border-radius: 0.3rem;
+      p:nth-child(2) {
+        font-size: 0.28rem;
+        margin-left: 0.28rem;
+        margin-right: 0.1rem;
+        font-weight: bold;
+      }
+
+      p:nth-child(3) {
+        color: $content;
       }
     }
 
-    .bottom-scroll {
-      width: 100%;
-      height: 100%;
-      margin: 0 3%;
-      overflow: hidden;
-      position: relative;
-      top: 0;
-      left: 0;
-      @include flex-box(column, center, flex-start);
-
-      // 这里加一个paddingBottom的原因是scroll只计算了整个滚动条的高度，
-      // 没有计算滚动条上面全部播放的那一栏，因此要增加间距
-      .play-list-detail-scroll {
-        padding-bottom: 1rem;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
+    .bottom-song-count-right {
+      margin-right: 0.35rem;
+      color: #ffffff;
+      padding: 0.13rem 0.15rem;
+      background: $red;
+      border-radius: 0.3rem;
     }
+  }
+
+  .bottom-scroll {
+    position: relative;
+    top: -0.55rem;
+    margin: 0 3% -0.55rem;
   }
 }
 </style>

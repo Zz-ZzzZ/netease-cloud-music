@@ -41,7 +41,7 @@ axios.interceptors.response.use(
 export function get(url, params) {
   return new Promise((resolve, reject) => {
     axios
-      .get(url, { params: params })
+      .get(url, { params })
       .then(response => {
         if (response.status === 200) {
           resolve(response.data);

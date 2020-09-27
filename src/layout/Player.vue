@@ -1,5 +1,5 @@
 <template>
-  <div class="player" v-if="JSON.stringify(songInfo) !== '{}'">
+  <div class="player" v-if="songInfo">
     <LargePlayer
       :show-mini-player="showMiniPlayer"
       :pic-url="songInfo.al.picUrl"
@@ -33,7 +33,7 @@
       @timeupdate="timeUpdate"
     />
   </div>
-  <div class="mini-player-empty" v-else-if="JSON.stringify(songInfo) === '{}'">
+  <div class="mini-player-empty" v-else-if="!songInfo">
     请选择音乐播放
   </div>
 </template>
@@ -41,7 +41,6 @@
 <script>
 import { getLyricById, getSongDetailById, getSongUrlById } from "@/api/song";
 import { Toast } from "vant";
-// eslint-disable-next-line no-unused-vars
 import { secondToMs, random, playMode } from "@/utils/utils";
 import LargePlayer from "@/pages/player-page/LargePlayer";
 import MiniPlayer from "@/pages/player-page/MiniPlayer";
@@ -55,7 +54,7 @@ export default {
     return {
       showMiniPlayer: true,
       url: "",
-      songInfo: {},
+      songInfo: undefined,
       progress: 0,
       duration: 0,
       nowTime: 0,

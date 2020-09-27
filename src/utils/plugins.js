@@ -11,7 +11,8 @@ import {
   Tab,
   Tabs,
   Slider,
-  Search
+  Search,
+  Sticky
 } from "vant";
 export default {
   install(Vue) {
@@ -28,5 +29,6 @@ export default {
     Vue.use(Tabs);
     Vue.use(Slider);
     Vue.use(Search);
+    Vue.use(Sticky);
   }
 };

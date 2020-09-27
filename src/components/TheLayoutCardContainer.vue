@@ -1,9 +1,9 @@
 <template>
   <div class="content-card">
     <div class="card-top">
-      <div class="top-title">
+      <h2>
         <slot name="top-left"></slot>
-      </div>
+      </h2>
       <div class="top-more">
         <slot name="top-right"></slot>
       </div>
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: "TheDiscoverContentCard"
+  name: "TheLayoutCardContainer"
 };
 </script>
 
@@ -41,7 +41,6 @@ export default {
   .card-bottom {
     width: 100%;
     margin-top: 0.2rem;
-    overflow-x: auto;
   }
 }
 </style>

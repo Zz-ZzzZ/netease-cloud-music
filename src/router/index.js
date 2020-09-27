@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Discover from "../pages/discover-page/Discover";
 import Myself from "@/pages/myself-page/Myself";
-import Search from "@/pages/search-page/Search";
 
 Vue.use(VueRouter);
 
@@ -73,14 +72,13 @@ const routes = [
   },
   {
     path: "/search",
-    component: Search,
-    children: [
-      {
-        path: "/search",
-        name: "搜索",
-        component: () => import("@/pages/search-page/child/SearchIndex")
-      }
-    ]
+    name: "",
+    component: () => import("@/pages/search-page/SearchHot")
+  },
+  {
+    path: "/search/result/:keyword",
+    name: "",
+    component: () => import("@/pages/search-page/SearchResult")
   }
 ];
 

@@ -2,9 +2,15 @@
   <div id="app">
     <NavBar />
     <transition name="view">
-      <router-view class="router-view" />
+      <router-view
+        class="router-view"
+        :style="{
+          height:
+            playList.length > 0 ? 'calc(100% - 2rem)' : 'calc(100% - 1rem)'
+        }"
+      />
     </transition>
-    <Player />
+    <Player v-show="playList.length > 0" />
   </div>
 </template>
 
@@ -12,14 +18,19 @@
 import NavBar from "./layout/NavBar";
 import Player from "./layout/Player";
 export default {
-  components: { Player, NavBar }
+  components: { Player, NavBar },
+  computed: {
+    playList() {
+      return this.$store.state.playList.playList;
+    }
+  }
 };
 </script>
 <style lang="scss">
 @import "style/base";
 .router-view {
   width: 100%;
-  height: calc(100% - 2rem);
+  //height: calc(100% - 2rem);
   overflow: hidden;
 }
 .view-enter,

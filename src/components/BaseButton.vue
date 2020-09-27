@@ -34,18 +34,18 @@ export default {
   height: 100%;
   border: 1px solid $border;
   border-radius: 20px;
-  padding: 0.03rem 0.15rem;
+  padding: 0.04rem 0.13rem;
   box-sizing: border-box;
   @include flex-box(row, center, center);
 
   .button-icon {
-    width: 0.25rem;
-    height: 0.25rem;
+    width: 0.23rem;
+    height: 0.23rem;
   }
 
   .button-label {
     color: $title;
-    margin-left: 0.05rem;
+    margin-left: 0.07rem;
   }
 }
 </style>

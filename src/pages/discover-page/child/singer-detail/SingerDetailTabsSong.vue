@@ -4,7 +4,7 @@
       <BaseSong
         v-for="(item, index) in playList"
         :key="item.id"
-        :index="index + 1"
+        :index="index"
         :name="item.name"
         :maxbr="item.maxbr"
         :ablum="item.al.name"
@@ -24,7 +24,6 @@
 
 <script>
 import BaseSong from "@/components/BaseSong";
-import { initScrollY } from "@/utils/scroll";
 export default {
   props: {
     playList: {
@@ -45,9 +44,7 @@ export default {
       });
     }
   },
-  mounted() {
-    initScrollY(this.$refs.songScroll);
-  },
+  mounted() {},
   components: { BaseSong }
 };
 </script>
@@ -63,7 +60,7 @@ export default {
       color: $content;
       font-size: 0.3rem;
       line-height: 0.3rem;
-      padding-bottom: 0.1rem;
+      padding-bottom: 0.2rem;
 
       @include flex-box(row, center, center);
     }

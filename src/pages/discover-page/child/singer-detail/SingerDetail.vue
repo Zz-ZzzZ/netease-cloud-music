@@ -1,5 +1,5 @@
 <template>
-  <div class="singer-detail" v-if="JSON.stringify(singerDetail) !== '{}'">
+  <div class="singer-detail" v-if="singerDetail">
     <div class="detail-top">
       <div class="top-bg">
         <img v-lazy="singerDetail.artist.picUrl" />
@@ -80,7 +80,7 @@ export default {
   },
   data() {
     return {
-      singerDetail: {},
+      singerDetail: undefined,
       active: 0,
       albumList: [],
       mvList: []
@@ -117,7 +117,8 @@ export default {
 .singer-detail {
   width: 100%;
   height: 100%;
-  background: #747d8c;
+  //background: #747d8c;
+  overflow-y: auto;
 
   .detail-top {
     width: 100%;
@@ -189,13 +190,13 @@ export default {
 
   .detail-bottom {
     width: 100%;
-    height: calc(100% - 5.45rem);
     background: #ffffff;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     position: relative;
     top: -0.55rem;
-    overflow: hidden;
+    margin-bottom: -0.55rem;
+
     /deep/.van-tabs {
       width: $container-width;
       height: 100%;
@@ -214,6 +215,9 @@ export default {
     }
     /deep/.van-tab__pane {
       height: 100%;
+    }
+    /deep/.van-tabs--line .van-tabs__wrap {
+      border-radius: 0.3rem;
     }
   }
 }

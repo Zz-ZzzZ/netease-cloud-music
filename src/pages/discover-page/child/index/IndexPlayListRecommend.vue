@@ -1,5 +1,5 @@
 <template>
-  <TheDiscoverContentCard title="推荐歌单">
+  <TheLayoutCardContainer title="推荐歌单">
     <template v-slot:top-left>
       推荐歌单
     </template>
@@ -19,12 +19,12 @@
         :class="playList.length - index !== 1 ? 'play-list-margin' : ''"
       />
     </template>
-  </TheDiscoverContentCard>
+  </TheLayoutCardContainer>
 </template>
 
 <script>
 import { getPlayList } from "@/api/song";
-import TheDiscoverContentCard from "@/components/TheDiscoverContentCard";
+import TheLayoutCardContainer from "@/components/TheLayoutCardContainer";
 import BasePlayList from "@/components/BasePlayList";
 
 export default {
@@ -39,7 +39,7 @@ export default {
       this.$router.push({ path: `/play-list/${id}` });
     }
   },
-  components: { BasePlayList, TheDiscoverContentCard },
+  components: { BasePlayList, TheLayoutCardContainer },
   async created() {
     const { result } = await getPlayList(10);
     this.playList = result;
@@ -53,6 +53,7 @@ export default {
 }
 /deep/.card-bottom {
   height: 2.8rem;
+  overflow-x: auto;
   @include flex-box(row, flex-start, center);
 }
 </style>

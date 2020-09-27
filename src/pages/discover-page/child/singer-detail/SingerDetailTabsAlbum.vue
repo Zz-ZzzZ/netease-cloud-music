@@ -28,7 +28,6 @@
 
 <script>
 import { dateFormat } from "@/utils/utils";
-import { initScrollY } from "@/utils/scroll";
 
 export default {
   props: {
@@ -47,9 +46,7 @@ export default {
       return dateFormat(date);
     }
   },
-  mounted() {
-    initScrollY(this.$refs.albumScroll);
-  }
+  mounted() {}
 };
 </script>
 

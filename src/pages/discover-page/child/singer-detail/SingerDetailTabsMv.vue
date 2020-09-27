@@ -1,24 +1,23 @@
 <template>
   <div class="tabs-mv" ref="mvScroll" v-if="mvList.length > 0">
     <div class="mv-scroll">
-      <div class="mv-item" v-for="item in mvList" :key="item.id">
-        <div class="item-img">
-          <img v-lazy="item.imgurl" />
-        </div>
-        <div class="item-text">
-          <div class="mv-name">{{ item.name }}</div>
-          <div class="mv-date">{{ item.publishTime }}</div>
-        </div>
-      </div>
+      <BaseMv
+        v-for="item in mvList"
+        :key="item.id"
+        :imgUrl="item.imgurl"
+        :name="item.name"
+        :publish-time="item.publishTime"
+        :play-count="item.playCount"
+      />
     </div>
   </div>
   <div v-else class="no-mv">暂无视频</div>
 </template>
 
 <script>
-import { initScrollY } from "@/utils/scroll";
-
+import BaseMv from "@/components/BaseMv";
 export default {
+  components: { BaseMv },
   props: {
     mvList: {
       type: Array,
@@ -26,9 +25,7 @@ export default {
     }
   },
   name: "SingerDetailTabsMv",
-  mounted() {
-    initScrollY(this.$refs.mvScroll);
-  }
+  mounted() {}
 };
 </script>
 
@@ -40,41 +37,6 @@ export default {
 
   .mv-scroll {
     padding-top: 0.2rem;
-
-    .mv-item {
-      overflow: hidden;
-      flex-wrap: nowrap;
-      flex: none;
-      padding-bottom: 0.2rem;
-      height: 1.5rem;
-      @include flex-box(row, flex-start, center);
-
-      .item-img {
-        width: 2.5rem;
-        height: 1.5rem;
-
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: $default-radius;
-        }
-      }
-
-      .item-text {
-        width: calc(100% - 2.8rem);
-        margin-left: 0.3rem;
-        .mv-name {
-          font-size: 0.27rem;
-          font-weight: bold;
-          margin-bottom: 0.2rem;
-          @include text-one-ellipsis;
-        }
-
-        .mv-date {
-          color: $content;
-        }
-      }
-    }
 
     .all-album {
       margin-top: 0.1rem;

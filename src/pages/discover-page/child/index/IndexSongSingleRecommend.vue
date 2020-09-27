@@ -1,5 +1,5 @@
 <template>
-  <TheDiscoverContentCard>
+  <TheLayoutCardContainer>
     <template v-slot:top-left>推荐歌曲</template>
     <template v-slot:top-right>
       <BaseButton :show-icon="true" icon="play-black">
@@ -16,12 +16,12 @@
         :artists="item.song.artists"
       />
     </template>
-  </TheDiscoverContentCard>
+  </TheLayoutCardContainer>
 </template>
 
 <script>
 import { getSongSingleList } from "@/api/song";
-import TheDiscoverContentCard from "@/components/TheDiscoverContentCard";
+import TheLayoutCardContainer from "@/components/TheLayoutCardContainer";
 import BaseSongSingle from "@/components/BaseSongSingle";
 export default {
   name: "IndexSongSingleRecommend",
@@ -30,7 +30,7 @@ export default {
       songSingleList: []
     };
   },
-  components: { BaseSongSingle, TheDiscoverContentCard },
+  components: { BaseSongSingle, TheLayoutCardContainer },
   async created() {
     const { result } = await getSongSingleList();
     this.songSingleList = result;
@@ -43,6 +43,7 @@ export default {
   width: 100%;
   height: 4.2rem;
   flex-wrap: wrap;
+  overflow-x: auto;
   @include flex-box(column, flex-start, flex-start);
 }
 </style>
