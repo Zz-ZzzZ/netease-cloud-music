@@ -9,7 +9,7 @@
       @setKeyword="setKeyword"
     />
     <div class="search-hot-container">
-      <div class="container-history" v-if="historyKeywordsList.length > 0">
+      <div class="container-history" v-if="showHistory">
         <div class="history-delete">
           <h3>搜索历史</h3>
           <div @touchstart="clearKeyword">
@@ -71,7 +71,8 @@ export default {
       historyKeywordsList: [],
       defaultKeyword: "",
       suggestList: [],
-      searchValue: ""
+      searchValue: "",
+      showHistory: false
     };
   },
   methods: {
@@ -82,8 +83,8 @@ export default {
           confirmButtonColor: "#ff4757"
         })
         .then(() => {
+          this.historyKeywordsList = [];
           localStorage.removeItem("keyword");
-          this.$router.go(0);
         });
     },
     searchInput(keyword) {
@@ -121,11 +122,16 @@ export default {
       }
     }
   },
+  watch: {
+    historyKeywordsList(list) {
+      this.showHistory = list.length > 0;
+    }
+  },
   async created() {
     const {
-      data: { realkeyword }
+      data: { showKeyword }
     } = await getSearchDefaultKeyword();
-    this.defaultKeyword = realkeyword;
+    this.defaultKeyword = showKeyword;
     const { data } = await getHotSearch();
     this.hotList = data;
     let historyKeywords = JSON.parse(localStorage.getItem("keyword"));

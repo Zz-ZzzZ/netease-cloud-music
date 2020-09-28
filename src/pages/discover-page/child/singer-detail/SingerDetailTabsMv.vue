@@ -6,9 +6,10 @@
         :key="item.id"
         :imgUrl="item.imgurl"
         :name="item.name"
-        :publish-time="item.publishTime"
         :play-count="item.playCount"
-      />
+      >
+        {{ item.publishTime }}
+      </BaseMv>
     </div>
   </div>
   <div v-else class="no-mv">暂无视频</div>

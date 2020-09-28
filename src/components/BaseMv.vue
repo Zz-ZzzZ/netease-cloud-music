@@ -8,8 +8,12 @@
       </div>
     </div>
     <div class="mv-info">
-      <div class="mv-name">{{ name }}</div>
-      <div class="mv-date">{{ publishTime }}</div>
+      <div class="mv-name">
+        {{ name }}
+      </div>
+      <div class="mv-slot">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -74,9 +78,10 @@ export default {
       @include text-more-ellipsis(2);
     }
 
-    .mv-date {
+    .mv-slot {
       font-size: 0.22rem;
       color: $content;
+      @include text-more-ellipsis(2);
     }
   }
 }

@@ -44,4 +44,8 @@ export default {
   height: calc(100% - 88px);
   overflow-y: auto;
 }
+/deep/.van-tab--active {
+  color: $red;
+  font-weight: bold;
+}
 </style>

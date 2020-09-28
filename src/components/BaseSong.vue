@@ -1,6 +1,6 @@
 <template>
   <div class="base-song">
-    <div class="song-index">
+    <div class="song-index" v-if="!hideIndex">
       {{ index + 1 }}
     </div>
     <div class="song-info van-ellipsis" @click="playSong">
@@ -31,7 +31,17 @@
 import BaseSongTag from "@/components/BaseSongTag";
 export default {
   components: { BaseSongTag },
-  props: ["index", "name", "maxbr", "ablum", "author", "mv", "id", "fee"],
+  props: [
+    "index",
+    "name",
+    "maxbr",
+    "ablum",
+    "author",
+    "mv",
+    "id",
+    "fee",
+    "hideIndex"
+  ],
   name: "BaseSong",
   methods: {
     touchMore() {
@@ -58,12 +68,13 @@ export default {
   .song-index {
     width: 0.6rem;
     text-align: center;
+    margin-right: 0.2rem;
     font-size: 0.28rem;
     color: $content;
   }
 
   .song-info {
-    margin-left: 0.2rem;
+    flex: 1;
     width: 4.8rem;
 
     .info-name {

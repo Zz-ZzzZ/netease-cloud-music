@@ -32,7 +32,14 @@ export function dateFormat(date, type = 0) {
       ? `0${dateFormat.getDate() + 1}`
       : dateFormat.getDate() + 1;
 
-  return type === 0 ? `${year}-${month}-${day}` : `${year}年${month}月${day}日`;
+  switch (type) {
+    case 0:
+      return `${year}-${month}-${day}`;
+    case 1:
+      return `${year}年${month}月${day}日`;
+    case 2:
+      return `${year}.${month}.${day}`;
+  }
 }
 
 /**
