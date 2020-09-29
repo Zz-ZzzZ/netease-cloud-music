@@ -9,10 +9,10 @@
     </div>
     <div class="mv-info">
       <div class="mv-name">
-        {{ name }}
+        <slot name="name"></slot>
       </div>
-      <div class="mv-slot">
-        <slot></slot>
+      <div class="mv-other">
+        <slot name="other"></slot>
       </div>
     </div>
   </div>
@@ -22,7 +22,7 @@
 import { playCountFormat } from "@/utils/utils";
 
 export default {
-  props: ["imgUrl", "name", "publishTime", "playCount"],
+  props: ["imgUrl", "publishTime", "playCount"],
   name: "BaseMv",
   methods: {
     playCountFormat(count) {
@@ -78,10 +78,10 @@ export default {
       @include text-more-ellipsis(2);
     }
 
-    .mv-slot {
+    .mv-other {
       font-size: 0.22rem;
       color: $content;
-      @include text-more-ellipsis(2);
+      @include text-one-ellipsis;
     }
   }
 }

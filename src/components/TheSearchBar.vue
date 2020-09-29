@@ -2,8 +2,6 @@
   <div class="search-bar">
     <van-search
       v-model.trim="value"
-      shape="round"
-      background="#ff4757"
       :placeholder="defaultKeyword"
       clearable
       autofocus
@@ -87,6 +85,9 @@ export default {
   }
 }
 
+/deep/.van-search__content {
+  box-shadow: $shadow;
+}
 .suggest-enter,
 .suggest-leave-to {
   opacity: 0;

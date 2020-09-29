@@ -4,28 +4,20 @@
       <img :src="imgUrl" class="img-main" />
     </div>
     <div class="album-main">
-      <div class="album-main-top">{{ name }}</div>
+      <div class="album-main-top">
+        <slot name="name"></slot>
+      </div>
       <div class="album-main-bottom">
-        <span v-for="(item, index) in artist" :key="item.id">{{
-          artist.length - index === 1 ? item.name : `${item.name} / `
-        }}</span>
-        <span class="date">{{ dateFormat(date, 2) }}</span>
+        <slot name="other"></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { dateFormat } from "@/utils/utils";
-
 export default {
-  props: ["imgUrl", "name", "artist", "date"],
-  name: "BaseAlbum",
-  methods: {
-    dateFormat(data, type) {
-      return dateFormat(data, type);
-    }
-  }
+  props: ["imgUrl", "name", "artist", "date", "highText"],
+  name: "BaseAlbum"
 };
 </script>
 
@@ -48,15 +40,17 @@ export default {
   }
 
   .album-main {
+    * {
+      @include text-one-ellipsis;
+    }
+
     &-top {
       font-size: 0.28rem;
-      @include text-one-ellipsis;
     }
 
     &-bottom {
       color: $content;
       margin-top: 0.2rem;
-      @include text-one-ellipsis;
 
       .date {
         margin-left: 0.15rem;

@@ -22,7 +22,23 @@
             :maxbr="item.privilege.maxbr"
             :mv="item.mv"
             :hide-index="true"
-          />
+          >
+            <template v-slot:name>
+              <BaseHighLight :text="item.name" :high-text="keyword" />
+            </template>
+            <template v-slot:author>
+              <BaseHighLight
+                v-for="(ar, index) in item.ar"
+                :key="ar.id"
+                :text="item.ar.length - index === 1 ? ar.name : `${ar.name} / `"
+                :high-text="keyword"
+              />
+              <BaseHighLight
+                :text="` - ${item.al.name}`"
+                :high-text="keyword"
+              />
+            </template>
+          </BaseSong>
           <BaseCheckMore
             v-if="allDataObj.song.more"
             :text="allDataObj.song.moreText"
@@ -43,7 +59,9 @@
           >
             <img :src="item.coverImgUrl" />
             <div class="play-list-container">
-              <div class="name">{{ item.name }}</div>
+              <div class="name">
+                <BaseHighLight :text="item.name" :high-text="keyword" />
+              </div>
               <div class="other">
                 <span>{{ item.trackCount }}首 </span>
                 <span> by {{ item.creator.nickname }} , </span>
@@ -71,18 +89,25 @@
             v-for="item in allDataObj.video.videos"
             :key="item.vid"
             :img-url="item.coverUrl"
-            :name="item.title"
             :play-count="item.playTime"
           >
-            <span>{{ secondToMs(item.durationms / 1000) }} </span>
-            <span v-if="item.type"> by </span>
-            <span v-for="(user, index) in item.creator" :key="user.userId">
-              {{
-                item.creator.length - index === 1
-                  ? user.userName
-                  : `${user.userName} / `
-              }}</span
-            >
+            <template v-slot:name>
+              <BaseHighLight :text="item.title" :high-text="keyword" />
+            </template>
+            <template v-slot:other>
+              <span>{{ secondToMs(item.durationms / 1000) }} </span>
+              <span v-if="item.type"> by </span>
+              <BaseHighLight
+                v-for="(user, index) in item.creator"
+                :key="user.userId"
+                :text="
+                  item.creator.length - index === 1
+                    ? user.userName
+                    : `${user.userName} / `
+                "
+                :high-text="keyword"
+              />
+            </template>
           </BaseMv>
           <BaseCheckMore
             v-if="allDataObj.video.more"
@@ -147,9 +172,12 @@
             v-for="item in allDataObj.artist.artists"
             :key="item.id"
             :img-url="item.picUrl"
-            :name="item.name"
             :account="item.accountId"
-          />
+          >
+            <template>
+              <BaseHighLight :text="item.name" :high-text="keyword" />
+            </template>
+          </BaseSinger>
           <BaseCheckMore
             v-if="allDataObj.artist.more"
             :text="allDataObj.artist.moreText"
@@ -167,13 +195,71 @@
             v-for="item in allDataObj.album.albums"
             :key="item.id"
             :img-url="item.picUrl"
-            :name="item.name"
-            :artist="item.artists"
-            :date="item.publishTime"
-          />
+          >
+            <template v-slot:name>
+              <BaseHighLight :text="item.name" :high-text="keyword" />
+            </template>
+            <template v-slot:other>
+              <BaseHighLight
+                v-for="(ar, index) in item.artists"
+                :key="ar.id"
+                :text="
+                  item.artists.length - index === 1 ? ar.name : `${ar.name} / `
+                "
+                :high-text="keyword"
+              />
+              <span class="date">{{ dateFormat(item.publishTime, 2) }}</span>
+            </template>
+          </BaseAlbum>
           <BaseCheckMore
             v-if="allDataObj.album.more"
             :text="allDataObj.album.moreText"
+          />
+        </template>
+      </TheLayoutCardContainer>
+    </div>
+
+    <!--  电台  -->
+    <div v-if="allDataObj.djRadio">
+      <TheLayoutCardContainer>
+        <template v-slot:top-left>电台</template>
+        <template v-slot:bottom>
+          <BaseRadio
+            v-for="item in allDataObj.djRadio.djRadios"
+            :key="item.id"
+            :img-url="item.picUrl"
+          >
+            <template v-slot:name
+              ><BaseHighLight :text="item.name" :high-text="keyword"
+            /></template>
+            <template v-slot:ar>
+              <BaseHighLight :text="item.dj.nickname" :high-text="keyword" />
+            </template>
+          </BaseRadio>
+          <BaseCheckMore
+            v-if="allDataObj.djRadio.more"
+            :text="allDataObj.djRadio.moreText"
+          />
+        </template>
+      </TheLayoutCardContainer>
+    </div>
+
+    <!--  用户  -->
+    <div v-if="allDataObj.user">
+      <TheLayoutCardContainer>
+        <template v-slot:top-left>用户</template>
+        <template v-slot:bottom>
+          <BaseUser
+            v-for="item in allDataObj.user.users"
+            :key="item.id"
+            :img-url="item.avatarUrl"
+            :name="item.nickname"
+            :followed="item.followed"
+            :description="item.description"
+          />
+          <BaseCheckMore
+            v-if="allDataObj.user.more"
+            :text="allDataObj.user.moreText"
           />
         </template>
       </TheLayoutCardContainer>
@@ -183,19 +269,25 @@
 
 <script>
 import TheLayoutCardContainer from "@/components/TheLayoutCardContainer";
-import BaseSong from "@/components/BaseSong";
-import { playCountFormat, secondToMs } from "@/utils/utils";
+import { dateFormat, playCountFormat, secondToMs } from "@/utils/utils";
 import BaseMv from "@/components/BaseMv";
 import BaseMlog from "@/components/BaseMlog";
 import BaseTalk from "@/components/BaseTalk";
 import BaseSinger from "@/components/BaseSinger";
 import BaseAlbum from "@/components/BaseAlbum";
 import BaseCheckMore from "@/components/BaseCheckMore";
+import BaseHighLight from "@/components/BaseHighLight";
+import BaseSong from "@/components/BaseSong";
+import BaseRadio from "@/components/BaseRadio";
+import BaseUser from "@/components/BaseUser";
 export default {
   props: {
     allDataObj: {
       type: Object,
       default: () => {}
+    },
+    keyword: {
+      type: String
     }
   },
   name: "SearchResultAll",
@@ -211,16 +303,22 @@ export default {
     },
     secondToMs(second) {
       return secondToMs(second);
+    },
+    dateFormat(data, type) {
+      return dateFormat(data, type);
     }
   },
   components: {
+    BaseUser,
+    BaseRadio,
+    BaseSong,
+    BaseHighLight,
     BaseCheckMore,
     BaseAlbum,
     BaseSinger,
     BaseTalk,
     BaseMlog,
     BaseMv,
-    BaseSong,
     TheLayoutCardContainer
   }
 };

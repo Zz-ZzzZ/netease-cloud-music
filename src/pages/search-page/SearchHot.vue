@@ -20,7 +20,7 @@
           <p
             v-for="(item, index) in historyKeywordsList"
             :key="index"
-            @click="navToResult(item)"
+            @click="setKeyword(item)"
           >
             {{ item }}
           </p>
@@ -101,8 +101,7 @@ export default {
     },
     searchConfirm(keyword) {
       if (trim(keyword)) {
-        this.addLocalStorage(keyword);
-        this.navToResult(keyword);
+        this.setKeyword(keyword);
       }
     },
     setKeyword(keyword) {
@@ -115,7 +114,12 @@ export default {
     addLocalStorage(keyword) {
       let keywordArr = JSON.parse(localStorage.getItem("keyword"));
       if (keywordArr) {
-        keywordArr.push(keyword);
+        // 检查关键词是否已存在历史中，若存在则先移除此关键词
+        const haveKeywordIndex = keywordArr.indexOf(keyword);
+        if (haveKeywordIndex > -1) {
+          keywordArr.splice(haveKeywordIndex, 1);
+        }
+        keywordArr.unshift(keyword);
         localStorage.setItem("keyword", JSON.stringify(keywordArr));
       } else {
         localStorage.setItem("keyword", JSON.stringify([keyword]));

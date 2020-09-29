@@ -1,12 +1,12 @@
 <template>
-  <div class="bass-talk">
+  <div class="base-radio">
     <img :src="imgUrl" />
-    <div class="talk-main">
-      <div class="title"># {{ title }}</div>
-      <div class="count">
-        <span>{{ follow }}人关注</span>
-        <span class="divider"> | </span>
-        <span>{{ join }}参与</span>
+    <div class="radio-main">
+      <div class="name">
+        <slot name="name"></slot>
+      </div>
+      <div class="ar">
+        <slot name="ar"></slot>
       </div>
     </div>
   </div>
@@ -14,13 +14,13 @@
 
 <script>
 export default {
-  props: ["imgUrl", "title", "follow", "join"],
-  name: "BaseTalk"
+  props: ["imgUrl"],
+  name: "BaseRadio"
 };
 </script>
 
 <style scoped lang="scss">
-.bass-talk {
+.base-radio {
   margin-bottom: 0.2rem;
   @include flex-box(row, flex-start, center);
 
@@ -32,20 +32,18 @@ export default {
     margin-right: 0.2rem;
   }
 
-  .talk-main {
-    .title {
-      font-size: 0.3rem;
+  .radio-main {
+    * {
       @include text-one-ellipsis;
     }
-    .count {
+
+    .name {
+      font-size: 0.27rem;
+    }
+    .ar {
       color: $content;
       margin-top: 0.15rem;
       @include flex-box(row, flex-start, center);
-    }
-    .divider {
-      color: $divider;
-      margin-left: 0.1rem;
-      margin-right: 0.1rem;
     }
   }
 }

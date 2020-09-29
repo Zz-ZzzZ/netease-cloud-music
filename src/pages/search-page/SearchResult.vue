@@ -3,7 +3,7 @@
     <TheSearchBar :search-value="searchValue" />
     <van-tabs v-model="active">
       <van-tab title="综合">
-        <SearchResultAll :all-data-obj="searchResult" />
+        <SearchResultAll :all-data-obj="searchResult" :keyword="searchValue" />
       </van-tab>
       <van-tab title="单曲">内容 2</van-tab>
       <van-tab title="云村">内容 3</van-tab>

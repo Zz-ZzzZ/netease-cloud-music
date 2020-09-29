@@ -4,17 +4,20 @@
       {{ index + 1 }}
     </div>
     <div class="song-info van-ellipsis" @click="playSong">
-      <p class="info-name van-ellipsis">{{ name }}</p>
+      <p class="info-name van-ellipsis">
+        <slot name="name"></slot>
+      </p>
       <div class="info-author">
         <BaseSongTag v-if="fee === 1">VIP</BaseSongTag>
         <BaseSongTag v-if="maxbr > 320000">SQ</BaseSongTag>
         <div class="author-span">
-          <span v-for="(ar, index) in author" :key="ar.id">
-            {{ author.length - index === 1 ? ar.name : `${ar.name} / ` }}
-          </span>
-          <span>
-            {{ ` - ${ablum}` }}
-          </span>
+          <slot name="author"></slot>
+          <!--          <span v-for="(ar, index) in author" :key="ar.id">-->
+          <!--            {{ author.length - index === 1 ? ar.name : `${ar.name} / ` }}-->
+          <!--          </span>-->
+          <!--          <span>-->
+          <!--            {{ ` - ${ablum}` }}-->
+          <!--          </span>-->
         </div>
       </div>
     </div>
@@ -31,17 +34,7 @@
 import BaseSongTag from "@/components/BaseSongTag";
 export default {
   components: { BaseSongTag },
-  props: [
-    "index",
-    "name",
-    "maxbr",
-    "ablum",
-    "author",
-    "mv",
-    "id",
-    "fee",
-    "hideIndex"
-  ],
+  props: ["index", "maxbr", "mv", "id", "fee", "hideIndex"],
   name: "BaseSong",
   methods: {
     touchMore() {

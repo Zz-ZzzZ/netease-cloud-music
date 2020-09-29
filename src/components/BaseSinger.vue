@@ -1,14 +1,16 @@
 <template>
   <div class="base-singer">
     <img :src="imgUrl" />
-    <div class="name">{{ name }}</div>
+    <div class="name">
+      <slot></slot>
+    </div>
     <div class="account" v-if="account">已入驻</div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["imgUrl", "name", "account"],
+  props: ["imgUrl", "account"],
   name: "BaseSinger"
 };
 </script>
@@ -29,6 +31,7 @@ export default {
   .name {
     flex: 1;
     font-size: 0.27rem;
+    @include text-one-ellipsis;
   }
 
   .account {

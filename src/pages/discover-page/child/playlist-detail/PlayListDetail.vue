@@ -65,17 +65,26 @@
       <BaseSong
         v-for="(item, index) in playList"
         :index="index"
-        :name="item.name"
         :maxbr="item.maxbr"
-        :ablum="item.al.name"
-        :author="item.ar"
         :mv="item.mv"
         :key="index"
         :id="item.id"
         :fee="item.songFee"
         @more="touchMore(item)"
         @playSong="playSong(playList, index)"
-      />
+      >
+        <template v-slot:name>
+          <span>{{ item.name }}</span>
+        </template>
+        <template v-slot:author>
+          <span v-for="(ar, index) in item.ar" :key="ar.id">
+            {{ item.ar.length - index === 1 ? ar.name : `${ar.name} / ` }}
+          </span>
+          <span>
+            {{ ` - ${item.al.name}` }}
+          </span>
+        </template>
+      </BaseSong>
     </div>
     <TheMoreButtonPopup
       :more-button-popup-show="moreButtonShow"

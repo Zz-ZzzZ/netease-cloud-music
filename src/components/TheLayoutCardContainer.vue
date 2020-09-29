@@ -24,7 +24,7 @@ export default {
 <style scoped lang="scss">
 .content-card {
   width: 100%;
-  margin: 0.3rem 0;
+  margin: 0.4rem 0;
   font-size: 0.22rem;
 
   .card-top {
