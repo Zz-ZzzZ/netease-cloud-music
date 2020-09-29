@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .is-highText {
   color: #517eaf;
 }

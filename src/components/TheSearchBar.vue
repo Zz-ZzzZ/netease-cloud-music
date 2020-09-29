@@ -9,6 +9,7 @@
       left-icon=""
       @input="searchInput"
       @search="searchConfirm"
+      @clear="searchClear"
     />
     <transition name="suggest">
       <div
@@ -51,6 +52,9 @@ export default {
     },
     searchConfirm(keyword) {
       this.$emit("searchConfirm", keyword);
+    },
+    searchClear(keyword) {
+      this.$emit("searchClear", keyword);
     }
   }
 };
@@ -66,7 +70,9 @@ export default {
     width: 90%;
     background: #ffffff;
     margin: 0 auto;
-    box-shadow: 1px 1px 15px $content;
+    box-shadow: $shadow;
+    position: relative;
+    z-index: 10;
 
     .suggest-container {
       height: 0.9rem;

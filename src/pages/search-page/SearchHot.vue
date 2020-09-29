@@ -167,6 +167,7 @@ export default {
       p {
         flex: none;
         font-size: 0.28rem;
+        line-height: 0.28rem;
         background-color: #f3f3f3;
         margin-right: 0.2rem;
         padding: 0.12rem 0.22rem;
