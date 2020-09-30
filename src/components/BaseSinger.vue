@@ -1,10 +1,14 @@
 <template>
   <div class="base-singer">
-    <img :src="imgUrl" />
+    <img :src="imgUrl" v-if="imgUrl" />
+    <img src="../assets/image/empty_img.jpg" v-else />
     <div class="name">
       <slot></slot>
     </div>
-    <div class="account" v-if="account">已入驻</div>
+    <div class="account" v-if="account">
+      <BaseIcon icon="geren" class="person" />
+      已入驻
+    </div>
   </div>
 </template>
 
@@ -22,8 +26,8 @@ export default {
 
   img {
     object-fit: cover;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.4rem;
+    height: 1.4rem;
     border-radius: 100%;
     margin-right: 0.2rem;
   }
@@ -36,6 +40,13 @@ export default {
 
   .account {
     color: $content;
+
+    .person {
+      width: 0.35rem;
+      height: 0.35rem;
+      background-color: $red;
+      border-radius: 100%;
+    }
   }
 }
 </style>

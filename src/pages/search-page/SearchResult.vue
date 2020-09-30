@@ -8,35 +8,45 @@
       @setKeyword="setKeyword"
       @searchClear="searchClear"
     />
-    <van-tabs v-model="active">
+    <van-tabs v-model="active" animated lazy-render swipeable>
       <van-tab title="综合">
-        <SearchResultAll :all-data-obj="searchResult" :keyword="highText" />
+        <SearchResultAll :keyword="$route.params.keyword" />
       </van-tab>
-      <van-tab title="单曲">内容 2</van-tab>
-      <van-tab title="云村">内容 3</van-tab>
-      <van-tab title="视频">内容 4</van-tab>
-      <van-tab title="歌手">内容 4</van-tab>
+      <van-tab title="单曲">
+        <SearchResultSongSingle :keyword="$route.params.keyword" />
+      </van-tab>
+      <van-tab title="视频">
+        <SearchResultVideo :keyword="$route.params.keyword" />
+      </van-tab>
+      <van-tab title="歌手">
+        <SearchResultSinger :keyword="$route.params.keyword" />
+      </van-tab>
+      <van-tab title="专辑">
+        <SearchResultAlbum :keyword="$route.params.keyword" />
+      </van-tab>
+      <van-tab title="歌单">内容 4</van-tab>
+      <van-tab title="主播电台">内容 4</van-tab>
+      <van-tab title="用户">内容 4</van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
 import TheSearchBar from "@/components/TheSearchBar";
-import {
-  getSearchResultByKeyword,
-  getSearchSuggestByKeyword
-} from "@/api/search";
+import { getSearchSuggestByKeyword } from "@/api/search";
 import SearchResultAll from "@/pages/search-page/SearchResultAll";
 import { throttle, trim } from "@/utils/utils";
+import SearchResultSongSingle from "@/pages/search-page/SearchResultSongSingle";
+import SearchResultVideo from "@/pages/search-page/SearchResultVideo";
+import SearchResultSinger from "@/pages/search-page/SearchResultSinger";
+import SearchResultAlbum from "@/pages/search-page/SearchResultAlbum";
 
 export default {
   name: "SearchResult",
   data() {
     return {
-      searchValue: "",
-      searchResult: {},
+      searchValue: this.$route.params.keyword,
       suggestList: [],
-      highText: "",
       active: 0
     };
   },
@@ -63,6 +73,7 @@ export default {
       this.navToResult(keyword);
     },
     navToResult(keyword) {
+      // 替换当前路由触发watch
       this.$router.replace({ path: `/search/result/${keyword}` });
     },
     addLocalStorage(keyword) {
@@ -79,26 +90,23 @@ export default {
         localStorage.setItem("keyword", JSON.stringify([keyword]));
       }
     },
-    async getSearchResult(keyword) {
-      this.searchValue = keyword;
-      this.highText = keyword;
-      const { result } = await getSearchResultByKeyword(this.searchValue);
-      this.searchResult = result;
-    },
     searchClear() {
       this.searchValue = "";
     }
   },
-  created() {
-    this.getSearchResult(this.$route.params.keyword);
-  },
   watch: {
     $route() {
-      console.log(this.$router);
       this.$router.go(0);
     }
   },
-  components: { SearchResultAll, TheSearchBar }
+  components: {
+    SearchResultAlbum,
+    SearchResultSinger,
+    SearchResultVideo,
+    SearchResultSongSingle,
+    SearchResultAll,
+    TheSearchBar
+  }
 };
 </script>
 
@@ -109,10 +117,13 @@ export default {
 }
 /deep/.van-tabs__content {
   height: calc(100% - 88px);
-  overflow-y: auto;
 }
 /deep/.van-tab--active {
   color: $red;
   font-weight: bold;
+}
+/deep/.van-tab__pane,
+.van-tab__pane-wrapper {
+  overflow-y: auto;
 }
 </style>

@@ -13,12 +13,13 @@ export default {
 <style scoped lang="scss">
 .tag {
   font-size: 0.13rem;
-  line-height: 0.16rem;
+  line-height: 0.14rem;
   color: $red;
   border: 0.75px solid $red;
   border-radius: 0.01rem;
   padding: 0 0.05rem 0 0.05rem;
   font-weight: bold;
   margin-right: 0.1rem;
+  vertical-align: middle;
 }
 </style>

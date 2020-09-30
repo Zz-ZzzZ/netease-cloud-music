@@ -40,6 +40,9 @@ export default {
   }
 
   .album-main {
+    flex: 1;
+    overflow-x: hidden;
+
     * {
       @include text-one-ellipsis;
     }

@@ -1,7 +1,7 @@
 <template>
-  <div class="result-all">
+  <div class="result-all" v-if="searchResult">
     <!--  单曲  -->
-    <div v-if="allDataObj.song">
+    <div v-if="searchResult.song">
       <TheLayoutCardContainer>
         <template v-slot:top-left>单曲</template>
         <template v-slot:top-right>
@@ -11,7 +11,7 @@
         </template>
         <template v-slot:bottom>
           <BaseSong
-            v-for="(item, index) in filterIndex(allDataObj.song.songs, 5)"
+            v-for="(item, index) in filterIndex(searchResult.song.songs, 5)"
             :key="item.id"
             :name="item.name"
             :fee="item.fee"
@@ -40,21 +40,21 @@
             </template>
           </BaseSong>
           <BaseCheckMore
-            v-if="allDataObj.song.more"
-            :text="allDataObj.song.moreText"
+            v-if="searchResult.song.more"
+            :text="searchResult.song.moreText"
           />
         </template>
       </TheLayoutCardContainer>
     </div>
 
     <!--  歌单  -->
-    <div v-if="allDataObj.playList">
+    <div v-if="searchResult.playList">
       <TheLayoutCardContainer>
         <template v-slot:top-left>歌单</template>
         <template v-slot:bottom>
           <div
             class="play-list"
-            v-for="item in filterIndex(allDataObj.playList.playLists, 5)"
+            v-for="item in filterIndex(searchResult.playList.playLists, 5)"
             :key="item.userId"
           >
             <img :src="item.coverImgUrl" />
@@ -73,25 +73,26 @@
             </div>
           </div>
           <BaseCheckMore
-            v-if="allDataObj.playList.more"
-            :text="allDataObj.playList.moreText"
+            v-if="searchResult.playList.more"
+            :text="searchResult.playList.moreText"
           />
         </template>
       </TheLayoutCardContainer>
     </div>
 
     <!-- 视频 -->
-    <div v-if="allDataObj.video">
+    <div v-if="searchResult.video">
       <TheLayoutCardContainer>
         <template v-slot:top-left>视频</template>
         <template v-slot:bottom>
-          <BaseMv
-            v-for="item in allDataObj.video.videos"
+          <BaseVideo
+            v-for="item in searchResult.video.videos"
             :key="item.vid"
             :img-url="item.coverUrl"
             :play-count="item.playTime"
           >
             <template v-slot:name>
+              <BaseSongTag v-if="!item.type">MV</BaseSongTag>
               <BaseHighLight :text="item.title" :high-text="keyword" />
             </template>
             <template v-slot:other>
@@ -108,23 +109,23 @@
                 :high-text="keyword"
               />
             </template>
-          </BaseMv>
+          </BaseVideo>
           <BaseCheckMore
-            v-if="allDataObj.video.more"
-            :text="allDataObj.video.moreText"
+            v-if="searchResult.video.more"
+            :text="searchResult.video.moreText"
           />
         </template>
       </TheLayoutCardContainer>
     </div>
 
     <!-- Mlog -->
-    <div v-if="allDataObj.mlog">
+    <div v-if="searchResult.mlog">
       <TheLayoutCardContainer>
         <template v-slot:top-left>Mlog</template>
         <template v-slot:bottom>
           <div class="flex-mlog">
             <BaseMlog
-              v-for="item in allDataObj.mlog.mlogs"
+              v-for="item in searchResult.mlog.mlogs"
               :key="item.id"
               :img-url="item.resource.mlogBaseData.coverUrl"
               :title="item.resource.mlogBaseData.text"
@@ -135,20 +136,20 @@
             />
           </div>
           <BaseCheckMore
-            v-if="allDataObj.mlog.more"
-            :text="allDataObj.mlog.moreText"
+            v-if="searchResult.mlog.more"
+            :text="searchResult.mlog.moreText"
           />
         </template>
       </TheLayoutCardContainer>
     </div>
 
     <!--  主题  -->
-    <div v-if="allDataObj.talk">
+    <div v-if="searchResult.talk">
       <TheLayoutCardContainer>
         <template v-slot:top-left>主题</template>
         <template v-slot:bottom>
           <BaseTalk
-            v-for="item in allDataObj.talk.talks"
+            v-for="item in searchResult.talk.talks"
             :key="item.talkId"
             :img-url="item.showCover.url"
             :title="item.talkName"
@@ -156,20 +157,20 @@
             :join="item.participations"
           />
           <BaseCheckMore
-            v-if="allDataObj.talk.more"
-            :text="allDataObj.talk.moreText"
+            v-if="searchResult.talk.more"
+            :text="searchResult.talk.moreText"
           />
         </template>
       </TheLayoutCardContainer>
     </div>
 
     <!--  歌手  -->
-    <div v-if="allDataObj.artist">
+    <div v-if="searchResult.artist">
       <TheLayoutCardContainer>
         <template v-slot:top-left>歌手</template>
         <template v-slot:bottom>
           <BaseSinger
-            v-for="item in allDataObj.artist.artists"
+            v-for="item in searchResult.artist.artists"
             :key="item.id"
             :img-url="item.picUrl"
             :account="item.accountId"
@@ -179,20 +180,20 @@
             </template>
           </BaseSinger>
           <BaseCheckMore
-            v-if="allDataObj.artist.more"
-            :text="allDataObj.artist.moreText"
+            v-if="searchResult.artist.more"
+            :text="searchResult.artist.moreText"
           />
         </template>
       </TheLayoutCardContainer>
     </div>
 
     <!--  专辑  -->
-    <div v-if="allDataObj.album">
+    <div v-if="searchResult.album">
       <TheLayoutCardContainer>
         <template v-slot:top-left>专辑</template>
         <template v-slot:bottom>
           <BaseAlbum
-            v-for="item in allDataObj.album.albums"
+            v-for="item in searchResult.album.albums"
             :key="item.id"
             :img-url="item.picUrl"
           >
@@ -212,20 +213,20 @@
             </template>
           </BaseAlbum>
           <BaseCheckMore
-            v-if="allDataObj.album.more"
-            :text="allDataObj.album.moreText"
+            v-if="searchResult.album.more"
+            :text="searchResult.album.moreText"
           />
         </template>
       </TheLayoutCardContainer>
     </div>
 
     <!--  电台  -->
-    <div v-if="allDataObj.djRadio">
+    <div v-if="searchResult.djRadio">
       <TheLayoutCardContainer>
         <template v-slot:top-left>电台</template>
         <template v-slot:bottom>
           <BaseRadio
-            v-for="item in allDataObj.djRadio.djRadios"
+            v-for="item in searchResult.djRadio.djRadios"
             :key="item.id"
             :img-url="item.picUrl"
           >
@@ -237,20 +238,20 @@
             </template>
           </BaseRadio>
           <BaseCheckMore
-            v-if="allDataObj.djRadio.more"
-            :text="allDataObj.djRadio.moreText"
+            v-if="searchResult.djRadio.more"
+            :text="searchResult.djRadio.moreText"
           />
         </template>
       </TheLayoutCardContainer>
     </div>
 
     <!--  用户  -->
-    <div v-if="allDataObj.user">
+    <div v-if="searchResult.user">
       <TheLayoutCardContainer>
         <template v-slot:top-left>用户</template>
         <template v-slot:bottom>
           <BaseUser
-            v-for="item in allDataObj.user.users"
+            v-for="item in searchResult.user.users"
             :key="item.id"
             :img-url="item.avatarUrl"
             :name="item.nickname"
@@ -258,8 +259,8 @@
             :description="item.description"
           />
           <BaseCheckMore
-            v-if="allDataObj.user.more"
-            :text="allDataObj.user.moreText"
+            v-if="searchResult.user.more"
+            :text="searchResult.user.moreText"
           />
         </template>
       </TheLayoutCardContainer>
@@ -270,7 +271,7 @@
 <script>
 import TheLayoutCardContainer from "@/components/TheLayoutCardContainer";
 import { dateFormat, playCountFormat, secondToMs } from "@/utils/utils";
-import BaseMv from "@/components/BaseMv";
+import BaseVideo from "@/components/BaseVideo";
 import BaseMlog from "@/components/BaseMlog";
 import BaseTalk from "@/components/BaseTalk";
 import BaseSinger from "@/components/BaseSinger";
@@ -280,19 +281,19 @@ import BaseHighLight from "@/components/BaseHighLight";
 import BaseSong from "@/components/BaseSong";
 import BaseRadio from "@/components/BaseRadio";
 import BaseUser from "@/components/BaseUser";
+import { getSearchResultByKeyword } from "@/api/search";
+import BaseSongTag from "@/components/BaseSongTag";
 export default {
   props: {
-    allDataObj: {
-      type: Object,
-      default: () => {}
-    },
     keyword: {
       type: String
     }
   },
   name: "SearchResultAll",
   data() {
-    return {};
+    return {
+      searchResult: undefined
+    };
   },
   methods: {
     filterIndex(array, filterIndex) {
@@ -308,7 +309,12 @@ export default {
       return dateFormat(data, type);
     }
   },
+  async created() {
+    const { result } = await getSearchResultByKeyword(this.keyword);
+    this.searchResult = result;
+  },
   components: {
+    BaseSongTag,
     BaseUser,
     BaseRadio,
     BaseSong,
@@ -318,7 +324,7 @@ export default {
     BaseSinger,
     BaseTalk,
     BaseMlog,
-    BaseMv,
+    BaseVideo,
     TheLayoutCardContainer
   }
 };

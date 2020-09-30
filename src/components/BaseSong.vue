@@ -9,15 +9,9 @@
       </p>
       <div class="info-author">
         <BaseSongTag v-if="fee === 1">VIP</BaseSongTag>
-        <BaseSongTag v-if="maxbr > 320000">SQ</BaseSongTag>
+        <BaseSongTag v-if="maxbr >= 320000">SQ</BaseSongTag>
         <div class="author-span">
           <slot name="author"></slot>
-          <!--          <span v-for="(ar, index) in author" :key="ar.id">-->
-          <!--            {{ author.length - index === 1 ? ar.name : `${ar.name} / ` }}-->
-          <!--          </span>-->
-          <!--          <span>-->
-          <!--            {{ ` - ${ablum}` }}-->
-          <!--          </span>-->
         </div>
       </div>
     </div>

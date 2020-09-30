@@ -23,7 +23,7 @@ import { playCountFormat } from "@/utils/utils";
 
 export default {
   props: ["imgUrl", "publishTime", "playCount"],
-  name: "BaseMv",
+  name: "BaseVideo",
   methods: {
     playCountFormat(count) {
       return playCountFormat(count);
@@ -34,10 +34,7 @@ export default {
 
 <style scoped lang="scss">
 .base-mv {
-  overflow: hidden;
-  flex-wrap: nowrap;
-  flex: none;
-  padding-bottom: 0.2rem;
+  margin-bottom: 0.2rem;
   height: 1.5rem;
   @include flex-box(row, flex-start, center);
 
@@ -73,7 +70,8 @@ export default {
     margin-left: 0.2rem;
 
     .mv-name {
-      font-size: 0.28rem;
+      font-size: 0.27rem;
+      line-height: 0.4rem;
       margin-bottom: 0.15rem;
       @include text-more-ellipsis(2);
     }

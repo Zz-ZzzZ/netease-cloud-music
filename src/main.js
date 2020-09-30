@@ -8,12 +8,12 @@ import plugin from "./utils/plugins";
 import BaseIcon from "@/components/BaseIcon";
 import BaseButton from "@/components/BaseButton";
 import "@/assets/iconfont/iconfont";
-import vconsole from "vconsole";
-const vConsole = new vconsole();
+// import vconsole from "vconsole";
+// const vConsole = new vconsole();
 import { Dialog } from "vant";
 
 initRem();
-Vue.use(vConsole);
+// Vue.use(vConsole);
 Vue.use(inobounce);
 Vue.use(plugin);
 Vue.component(BaseIcon.name, BaseIcon);

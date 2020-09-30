@@ -1,24 +1,24 @@
 <template>
   <div class="tabs-mv" ref="mvScroll" v-if="mvList.length > 0">
     <div class="mv-scroll">
-      <BaseMv
+      <BaseVideo
         v-for="item in mvList"
         :key="item.id"
         :imgUrl="item.imgurl"
-        :name="item.name"
         :play-count="item.playCount"
       >
-        {{ item.publishTime }}
-      </BaseMv>
+        <template v-slot:name>{{ item.name }}</template>
+        <template v-slot:other>{{ item.publishTime }}</template>
+      </BaseVideo>
     </div>
   </div>
   <div v-else class="no-mv">暂无视频</div>
 </template>
 
 <script>
-import BaseMv from "@/components/BaseMv";
+import BaseVideo from "@/components/BaseVideo";
 export default {
-  components: { BaseMv },
+  components: { BaseVideo },
   props: {
     mvList: {
       type: Array,
