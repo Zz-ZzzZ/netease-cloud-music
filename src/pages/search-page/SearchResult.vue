@@ -24,9 +24,15 @@
       <van-tab title="专辑">
         <SearchResultAlbum :keyword="$route.params.keyword" />
       </van-tab>
-      <van-tab title="歌单">内容 4</van-tab>
-      <van-tab title="主播电台">内容 4</van-tab>
-      <van-tab title="用户">内容 4</van-tab>
+      <van-tab title="歌单">
+        <SearchResultPlayList :keyword="$route.params.keyword" />
+      </van-tab>
+      <van-tab title="主播电台">
+        <SearchResultRadio :keyword="$route.params.keyword" />
+      </van-tab>
+      <van-tab title="用户">
+        <SearchResultUser :keyword="$route.params.keyword" />
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -35,11 +41,14 @@
 import TheSearchBar from "@/components/TheSearchBar";
 import { getSearchSuggestByKeyword } from "@/api/search";
 import SearchResultAll from "@/pages/search-page/SearchResultAll";
-import { throttle, trim } from "@/utils/utils";
+import { debounce, trim } from "@/utils/utils";
 import SearchResultSongSingle from "@/pages/search-page/SearchResultSongSingle";
 import SearchResultVideo from "@/pages/search-page/SearchResultVideo";
 import SearchResultSinger from "@/pages/search-page/SearchResultSinger";
 import SearchResultAlbum from "@/pages/search-page/SearchResultAlbum";
+import SearchResultPlayList from "@/pages/search-page/SearchResultPlayList";
+import SearchResultRadio from "@/pages/search-page/SearchResultRadio";
+import SearchResultUser from "@/pages/search-page/SearchResultUser";
 
 export default {
   name: "SearchResult",
@@ -51,18 +60,16 @@ export default {
     };
   },
   methods: {
-    searchInput(keyword) {
-      this.searchValue = keyword;
-      throttle(async function() {
-        let str = trim(keyword);
-        if (str) {
-          const {
-            result: { allMatch }
-          } = await getSearchSuggestByKeyword(str);
-          this.suggestList = allMatch;
-        }
-      }, 500).call(this);
-    },
+    searchInput: debounce(async function(e) {
+      this.searchValue = e[0];
+      let str = trim(e[0]);
+      if (str) {
+        const {
+          result: { allMatch }
+        } = await getSearchSuggestByKeyword(str);
+        this.suggestList = allMatch;
+      }
+    }, 500),
     searchConfirm(keyword) {
       if (trim(keyword)) {
         this.setKeyword(keyword);
@@ -100,6 +107,9 @@ export default {
     }
   },
   components: {
+    SearchResultUser,
+    SearchResultRadio,
+    SearchResultPlayList,
     SearchResultAlbum,
     SearchResultSinger,
     SearchResultVideo,
@@ -117,6 +127,8 @@ export default {
 }
 /deep/.van-tabs__content {
   height: calc(100% - 88px);
+  width: $container-width;
+  margin: $margin-center;
 }
 /deep/.van-tab--active {
   color: $red;
@@ -125,5 +137,6 @@ export default {
 /deep/.van-tab__pane,
 .van-tab__pane-wrapper {
   overflow-y: auto;
+  padding: 0.1rem 0;
 }
 </style>

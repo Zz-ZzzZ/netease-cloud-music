@@ -60,7 +60,7 @@ import {
   getSearchSuggestByKeyword
 } from "@/api/search";
 import TheSearchBar from "@/components/TheSearchBar";
-import { throttle, trim } from "@/utils/utils";
+import { debounce, trim } from "@/utils/utils";
 
 export default {
   name: "SearchHot",
@@ -87,18 +87,16 @@ export default {
           localStorage.removeItem("keyword");
         });
     },
-    searchInput(keyword) {
-      this.searchValue = keyword;
-      throttle(async function() {
-        let str = trim(keyword);
-        if (str) {
-          const {
-            result: { allMatch }
-          } = await getSearchSuggestByKeyword(str);
-          this.suggestList = allMatch;
-        }
-      }, 500).call(this);
-    },
+    searchInput: debounce(async function(e) {
+      this.searchValue = e[0];
+      let str = trim(e[0]);
+      if (str) {
+        const {
+          result: { allMatch }
+        } = await getSearchSuggestByKeyword(str);
+        this.suggestList = allMatch;
+      }
+    }, 500),
     searchConfirm(keyword) {
       if (trim(keyword)) {
         this.setKeyword(keyword);

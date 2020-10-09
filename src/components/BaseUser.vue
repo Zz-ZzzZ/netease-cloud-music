@@ -21,13 +21,13 @@ export default {
 
 <style scoped lang="scss">
 .base-user {
+  height: 1.5rem;
   margin-bottom: 0.2rem;
   @include flex-box(row, flex-start, center);
 
   img {
     object-fit: cover;
     width: 1.5rem;
-    height: 1.5rem;
     border-radius: 100%;
     margin-right: 0.2rem;
   }

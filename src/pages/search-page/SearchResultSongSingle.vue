@@ -51,9 +51,5 @@ export default {
 
 <style scoped lang="scss">
 .result-song-single {
-  width: $container-width;
-  height: 100%;
-  overflow: auto;
-  margin: $margin-center;
 }
 </style>

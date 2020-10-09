@@ -121,13 +121,31 @@ export function trim(str) {
 export function throttle(func, delay) {
   let timer = null;
   return function() {
-    let context = this;
-    let arg = arguments;
     if (!timer) {
       timer = setTimeout(() => {
-        func.call(context, arg);
+        func.call(this, arguments);
         timer = null;
       }, delay);
     }
+  };
+}
+
+/**
+ * 函数防抖
+ * @param func
+ * @param delay
+ * @returns {function(): void}
+ */
+export function debounce(func, delay) {
+  let timer = null;
+  return function() {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    timer = setTimeout(() => {
+      func.call(this, arguments);
+      console.log(arguments);
+    }, delay);
   };
 }

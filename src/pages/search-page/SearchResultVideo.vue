@@ -52,8 +52,5 @@ export default {
 
 <style scoped lang="scss">
 .search-video {
-  width: $container-width;
-  margin: $margin-center;
-  padding: 0.2rem 0;
 }
 </style>

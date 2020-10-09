@@ -30,8 +30,5 @@ export default {
 
 <style scoped lang="scss">
 .result-singer {
-  width: $container-width;
-  margin: $margin-center;
-  padding: 0.2rem 0;
 }
 </style>

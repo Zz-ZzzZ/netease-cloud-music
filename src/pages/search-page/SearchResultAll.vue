@@ -332,13 +332,10 @@ export default {
 
 <style scoped lang="scss">
 .result-all {
-  width: $container-width;
-  height: 100%;
-  margin: $margin-center;
   color: $title;
-  overflow-y: auto;
 
   .play-list {
+    height: 1.5rem;
     margin-bottom: 0.15rem;
     @include flex-box(row, flex-start, center);
 

@@ -22,11 +22,11 @@ export default {
 <style scoped lang="scss">
 .base-radio {
   margin-bottom: 0.2rem;
+  height: 1.5rem;
   @include flex-box(row, flex-start, center);
 
   img {
     width: 1.5rem;
-    height: 1.5rem;
     object-fit: cover;
     border-radius: $default-radius;
     margin-right: 0.2rem;

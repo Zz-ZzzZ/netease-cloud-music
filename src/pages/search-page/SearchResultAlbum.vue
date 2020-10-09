@@ -43,9 +43,6 @@ export default {
 
 <style scoped lang="scss">
 .result-album {
-  width: $container-width;
-  margin: $margin-center;
-  padding: 0.2rem 0;
 }
 /deep/.album-img {
   width: 1.5rem !important;
