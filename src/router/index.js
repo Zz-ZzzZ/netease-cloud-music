@@ -23,7 +23,7 @@ const routes = [
         path: "play-list/:id",
         name: "歌单",
         component: () =>
-          import("@/pages/discover-page/child/playlist-detail/PlayListDetail")
+          import("@/pages/discover-page/child/detail/PlayListDetail")
       },
       {
         path: "singer/:id",
@@ -79,6 +79,11 @@ const routes = [
     path: "/search/result/:keyword",
     name: "",
     component: () => import("@/pages/search-page/SearchResult")
+  },
+  {
+    path: "/video/:id",
+    name: "",
+    component: () => import("@/pages/video-page/Video")
   }
 ];
 

@@ -3,7 +3,7 @@
     <img :src="imgUrl" />
     <div class="user-main">
       <div class="name">{{ name }}</div>
-      <div class="desc">{{ description }}</div>
+      <div class="desc" v-if="description">{{ description }}</div>
     </div>
     <div class="followed">
       <BaseIcon icon="add2" class="add" />
@@ -43,7 +43,7 @@ export default {
 
     .desc {
       color: $content;
-      margin-top: 0.2rem;
+      margin-top: 0.15rem;
     }
   }
   .followed {

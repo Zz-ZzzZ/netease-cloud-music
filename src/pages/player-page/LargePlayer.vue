@@ -76,6 +76,7 @@ export default {
   background: $content;
   transform: translateY(100%);
   transition: transform 0.3s linear;
+  z-index: 999;
 
   .player-bg {
     position: absolute;

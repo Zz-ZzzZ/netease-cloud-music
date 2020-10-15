@@ -6,6 +6,7 @@
         :key="item.id"
         :imgUrl="item.imgurl"
         :play-count="item.playCount"
+        @setVideoId="$router.push({ path: `/video/${item.id}` })"
       >
         <template v-slot:name>{{ item.name }}</template>
         <template v-slot:other>{{ item.publishTime }}</template>

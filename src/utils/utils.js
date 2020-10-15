@@ -145,7 +145,6 @@ export function debounce(func, delay) {
     }
     timer = setTimeout(() => {
       func.call(this, arguments);
-      console.log(arguments);
     }, delay);
   };
 }

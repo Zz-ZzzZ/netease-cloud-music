@@ -1,5 +1,5 @@
 <template>
-  <div class="song-single">
+  <div class="song-single" @click="$emit('setSongId')">
     <div class="song-img">
       <img v-lazy="imgUrl" class="song-img" />
     </div>

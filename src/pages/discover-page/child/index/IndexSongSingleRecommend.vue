@@ -14,6 +14,7 @@
         :song-name="item.name"
         :album-name="item.song.album.name"
         :artists="item.song.artists"
+        @setSongId="setSongId(item.id)"
       />
     </template>
   </TheLayoutCardContainer>
@@ -29,6 +30,9 @@ export default {
     return {
       songSingleList: []
     };
+  },
+  methods: {
+    // setSongId(id) {}
   },
   components: { BaseSongSingle, TheLayoutCardContainer },
   async created() {

@@ -1,5 +1,5 @@
 <template>
-  <div class="base-mv">
+  <div class="base-mv" @click="$emit('setVideoId')">
     <div class="mv-img">
       <img v-lazy="imgUrl" />
       <div class="mv-play-count">
