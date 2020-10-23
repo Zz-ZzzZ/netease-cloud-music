@@ -64,7 +64,7 @@ import { getSingerDescById } from "@/api/singer";
 import { getUserInfoById } from "@/api/user";
 import { getSongDetailById } from "@/api/song";
 import { getSingerAlbumById } from "@/api/album";
-import { getSingerMvById } from "@/api/mv";
+import { getSingerVideoById } from "@/api/video";
 import SingerDetailTabsIndex from "@/pages/discover-page/child/singer-detail/SingerDetailTabsIndex";
 import SingerDetailTabsSong from "@/pages/discover-page/child/singer-detail/SingerDetailTabsSong";
 import SingerDetailTabsAlbum from "@/pages/discover-page/child/singer-detail/SingerDetailTabsAlbum";
@@ -108,7 +108,7 @@ export default {
       this.singerDetail.hotSongs[index]["songFee"] = item.fee;
     });
     this.albumList = await getSingerAlbumById(id);
-    this.mvList = await getSingerMvById(id);
+    this.mvList = await getSingerVideoById(id);
   }
 };
 </script>

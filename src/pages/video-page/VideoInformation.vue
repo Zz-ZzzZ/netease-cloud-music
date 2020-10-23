@@ -78,6 +78,7 @@ export default {
       line-height: 0.45rem;
     }
   }
+
   .singer {
     width: $container-width;
     margin: 0 auto 0 auto;
@@ -94,7 +95,7 @@ export default {
     .singer-name {
       flex: 1;
       font-size: 0.27rem;
-      margin-left: 0.3rem;
+      margin-left: 0.2rem;
     }
   }
 }

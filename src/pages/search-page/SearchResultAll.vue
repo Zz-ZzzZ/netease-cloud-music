@@ -42,6 +42,7 @@
           <BaseCheckMore
             v-if="searchResult.song.more"
             :text="searchResult.song.moreText"
+            @click="checkMore(1)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -307,11 +308,17 @@ export default {
     },
     dateFormat(data, type) {
       return dateFormat(data, type);
+    },
+    checkMore(index) {
+      this.$parent.$parent.active = index;
     }
   },
   async created() {
     const { result } = await getSearchResultByKeyword(this.keyword);
     this.searchResult = result;
+  },
+  mounted() {
+    console.log(this.$parent);
   },
   components: {
     BaseSongTag,
