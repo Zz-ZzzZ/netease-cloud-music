@@ -22,6 +22,12 @@
             :maxbr="item.privilege.maxbr"
             :mv="item.mv"
             :hide-index="true"
+            @playSong="
+              $store.commit('playList/setPlayList', {
+                playList: filterIndex(searchResult.song.songs, 5),
+                nowPlayIndex: index
+              })
+            "
           >
             <template v-slot:name>
               <BaseHighLight :text="item.name" :high-text="keyword" />
@@ -42,7 +48,7 @@
           <BaseCheckMore
             v-if="searchResult.song.more"
             :text="searchResult.song.moreText"
-            @click="checkMore(1)"
+            @checkMore="checkMore(1)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -76,6 +82,7 @@
           <BaseCheckMore
             v-if="searchResult.playList.more"
             :text="searchResult.playList.moreText"
+            @checkMore="checkMore(5)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -114,6 +121,7 @@
           <BaseCheckMore
             v-if="searchResult.video.more"
             :text="searchResult.video.moreText"
+            @checkMore="checkMore(2)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -139,6 +147,7 @@
           <BaseCheckMore
             v-if="searchResult.mlog.more"
             :text="searchResult.mlog.moreText"
+            @checkMore="checkMore(1)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -183,6 +192,7 @@
           <BaseCheckMore
             v-if="searchResult.artist.more"
             :text="searchResult.artist.moreText"
+            @checkMore="checkMore(3)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -216,6 +226,7 @@
           <BaseCheckMore
             v-if="searchResult.album.more"
             :text="searchResult.album.moreText"
+            @checkMore="checkMore(4)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -241,6 +252,7 @@
           <BaseCheckMore
             v-if="searchResult.djRadio.more"
             :text="searchResult.djRadio.moreText"
+            @checkMore="checkMore(6)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -262,6 +274,7 @@
           <BaseCheckMore
             v-if="searchResult.user.more"
             :text="searchResult.user.moreText"
+            @checkMore="checkMore(7)"
           />
         </template>
       </TheLayoutCardContainer>
@@ -310,15 +323,12 @@ export default {
       return dateFormat(data, type);
     },
     checkMore(index) {
-      this.$parent.$parent.active = index;
+      this.$emit("checkMore", index);
     }
   },
   async created() {
     const { result } = await getSearchResultByKeyword(this.keyword);
     this.searchResult = result;
-  },
-  mounted() {
-    console.log(this.$parent);
   },
   components: {
     BaseSongTag,

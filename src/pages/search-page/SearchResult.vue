@@ -10,7 +10,10 @@
     />
     <van-tabs v-model="active" animated lazy-render swipeable>
       <van-tab title="综合">
-        <SearchResultAll :keyword="$route.params.keyword" />
+        <SearchResultAll
+          :keyword="$route.params.keyword"
+          @checkMore="checkMore"
+        />
       </van-tab>
       <van-tab title="单曲">
         <SearchResultSongSingle :keyword="$route.params.keyword" />
@@ -99,6 +102,9 @@ export default {
     },
     searchClear() {
       this.searchValue = "";
+    },
+    checkMore(index) {
+      this.active = index;
     }
   },
   watch: {

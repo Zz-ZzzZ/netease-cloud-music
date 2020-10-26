@@ -3,7 +3,7 @@
     <div class="main-container">
       <div class="title">{{ videoInfo.name }}</div>
       <div class="count-tag">
-        <div>{{ playCountFormat(videoInfo.playCount) }}次观看</div>
+        <p>{{ playCountFormat(videoInfo.playCount) }}次观看</p>
         <div v-for="item in videoInfo.videoGroup" :key="item.id" class="tag">
           {{ item.name }}
         </div>
@@ -52,12 +52,19 @@ export default {
     }
 
     .count-tag {
+      width: 100%;
       margin-top: 0.2rem;
       color: $content;
       line-height: 0.23rem;
+      overflow: auto;
       @include flex-box(row, flex-start, center);
 
+      p {
+        flex: none;
+      }
+
       .tag {
+        flex: none;
         margin-left: 0.2rem;
         color: $gray;
         background: $white-smoke;

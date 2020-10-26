@@ -5,6 +5,7 @@
       :key="item.id"
       :img-url="item.picUrl"
       :account="item.accountId"
+      @setSingerId="$router.push({ path: `/singer/${item.id}` })"
     >
       <template>
         <BaseHighLight :text="item.name" :high-text="keyword" />

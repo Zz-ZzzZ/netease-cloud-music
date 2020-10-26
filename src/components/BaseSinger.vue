@@ -1,5 +1,5 @@
 <template>
-  <div class="base-singer">
+  <div class="base-singer" @click="$emit('setSingerId')">
     <img :src="imgUrl" v-if="imgUrl" />
     <img src="../assets/image/empty_img.jpg" v-else />
     <div class="name">

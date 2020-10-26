@@ -1,5 +1,5 @@
 <template>
-  <div class="check-more">
+  <div class="check-more" @click="$emit('checkMore')">
     <div>{{ text }}</div>
     <BaseIcon icon="arrow-gray" />
   </div>

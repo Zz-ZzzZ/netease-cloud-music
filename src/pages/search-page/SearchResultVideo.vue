@@ -5,6 +5,7 @@
       :key="item.vid"
       :img-url="item.coverUrl"
       :play-count="item.playTime"
+      @setVideoId="$router.push({ path: `/video/${item.vid}` })"
     >
       <template v-slot:name>
         <BaseSongTag v-if="!item.type">MV</BaseSongTag>
@@ -50,7 +51,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.search-video {
-}
-</style>
+<style scoped lang="scss"></style>

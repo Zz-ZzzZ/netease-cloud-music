@@ -9,6 +9,12 @@
       :mv="item.mvid"
       :maxbr="item.maxbr"
       :hide-index="true"
+      @playSong="
+        $store.commit('playList/setPlayList', {
+          playList: searchResult.songs,
+          nowPlayIndex: index
+        })
+      "
     >
       <template v-slot:name>
         <BaseHighLight :text="item.name" :high-text="keyword" />

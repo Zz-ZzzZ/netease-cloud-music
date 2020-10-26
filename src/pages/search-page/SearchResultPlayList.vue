@@ -4,6 +4,7 @@
       class="play-list"
       v-for="item in searchResult.playlists"
       :key="item.id"
+      @click="$router.push({ path: `/play-list/${item.id}` })"
     >
       <img :src="item.coverImgUrl" />
       <div class="play-list-container">
