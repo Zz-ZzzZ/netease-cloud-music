@@ -10,7 +10,8 @@ let requestNum = 0;
 axios.interceptors.request.use(
   config => {
     config.headers = {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
+      withCredentials: true
     };
     Toast.loading({
       message: "加载中...",

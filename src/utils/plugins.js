@@ -12,7 +12,10 @@ import {
   Tabs,
   Slider,
   Search,
-  Sticky
+  Sticky,
+  Image,
+  Dialog,
+  Field
 } from "vant";
 export default {
   install(Vue) {
@@ -30,5 +33,8 @@ export default {
     Vue.use(Slider);
     Vue.use(Search);
     Vue.use(Sticky);
+    Vue.use(Image);
+    Vue.use(Dialog);
+    Vue.use(Field);
   }
 };
